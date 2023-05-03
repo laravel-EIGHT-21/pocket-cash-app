@@ -3,18 +3,34 @@
 @section('admin')
 
 
+
+
+
+@php 
+
+$students= App\Models\SchoolStudent::where('status',1)->get();
+
+
+$schools= App\Models\Schools::where('status',1)->get();
+
+
+$allData = App\Models\SchoolTransactions::latest()->get();
+
+
+@endphp
+
 <div class="page-content">
 				<div class="row row-cols-md-4 row-cols-xl-4">
                    <div class="col">
 					 <div class="card radius-5 border-start border-0 border-3 border-info">
 						<div class="card-body">
-							<div class="d-flex align-items-center">
+						<div class="d-flex align-items-center">
 								<div>
-									<p class="mb-0 text-secondary">Total Orders</p>
-									<h5 class="my-1 text-info">4805</h5>
-									<p class="mb-0 font-13">+2.5% from last week</p>
+									<p class="mb-0 text-dark">Active Accounts</p>
+									<h5 class="my-1 text-info">{{ count($students) }}</h5>
+									
 								</div>
-								<div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class='bx bxs-cart'></i>
+								<div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class='bx bxs-group'></i>
 								</div>
 							</div>
 						</div>
@@ -23,15 +39,15 @@
 				   <div class="col">
 					<div class="card radius-10 border-start border-0 border-4 border-danger">
 					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Total Revenue</p>
-								   <h4 class="my-1 text-danger">$84,245</h4>
-								   <p class="mb-0 font-13">+5.4% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto"><i class='bx bxs-wallet'></i>
-							   </div>
-						   </div>
+					   <div class="d-flex align-items-center">
+								<div>
+									<p class="mb-0 text-dark">Active Schools</p>
+									<h5 class="my-1 text-success">{{ count($schools) }}</h5>
+									
+								</div>
+								<div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class='bx bx-home-smile'></i>
+								</div>
+							</div>
 					   </div>
 					</div>
 				  </div>

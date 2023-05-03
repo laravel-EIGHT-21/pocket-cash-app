@@ -11,10 +11,55 @@ use App\Models\SchoolStudent;
 use App\Models\SchoolTransactions;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use App\Models\questions;
 
 class SchoolsController extends Controller
 {
     
+/*
+
+public function ViewQuestions(){
+
+  $data['allData'] = questions::all();
+  return view('Admin_section.admin_view.questions_api',$data);
+}
+*/
+
+
+
+
+
+  public function ViewQuestions()
+    {
+        $response = Http::get('https://quizapi.io/api/v1/questions', [
+            'apiKey' => 'anPs9BgDdDx0CnV0wQQeXks5UBHrSZVk3SRYm5KR',
+            'limit' => 10,
+        ]);
+        $quizzes = json_decode($response->body());
+        foreach($quizzes as $quiz){
+                $question = new questions;
+                $question->question = $quiz->question;
+                $question->answer_a = $quiz->answers->answer_a;
+                $question->answer_b = $quiz->answers->answer_b;
+                $question->answer_c = $quiz->answers->answer_c;
+                $question->answer_d = $quiz->answers->answer_d;
+                $question->save();
+        }
+        $data['allData'] = questions::all();
+  return view('Admin_section.admins_view.questions_api',$data);
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

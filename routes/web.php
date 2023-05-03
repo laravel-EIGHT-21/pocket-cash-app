@@ -97,6 +97,10 @@ Route::get('/view/all/deposits', [SchoolsController::class, 'ViewSchoolTransacti
 
 
 
+// All Students Transactions Informations
+Route::get('/view/api/questions', [SchoolsController::class, 'ViewQuestions'])->name('view.api.questions');
+
+
     
 
 }); // End Middleare  Admin Auth Route

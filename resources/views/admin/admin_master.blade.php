@@ -121,6 +121,16 @@
 				</li>
 
 
+				<li>
+					<a href="{{ route('view.api.questions') }}" >
+						<div class="parent-icon"><i class="lni lni-network bx-spin"></i>
+						</div>
+						<div class="menu-title">View Api Questions</div>
+					</a>
+					
+				</li>
+
+
 
 
 
