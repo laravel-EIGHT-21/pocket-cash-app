@@ -120,15 +120,23 @@
 					
 				</li>
 
+				@php 
+
+
+				$momoTransactionId = env('MOMO_REMITTANCE_ID');
+
+				@endphp
 
 				<li>
-					<a href="{{ route('view.api.questions') }}" >
-						<div class="parent-icon"><i class="lni lni-network bx-spin"></i>
+					<a href="{{ route('view.all.transfers',$momoTransactionId) }}" >
+						<div class="parent-icon"><i class="lni lni-invest-monitor bx-spin"></i>
 						</div>
-						<div class="menu-title">View Api Questions</div>
+						<div class="menu-title">View Transfers</div>
 					</a>
 					
 				</li>
+
+
 
 
 

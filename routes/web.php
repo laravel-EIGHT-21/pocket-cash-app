@@ -7,6 +7,9 @@ use App\Http\Controllers\Admins\SiteSettingController;
 use App\Http\Controllers\Schools\StudentController;
 use App\Http\Controllers\Schools\TransactionController;
 use App\Http\Controllers\Schools\SchoolUsersController;
+
+use App\Http\Controllers\ParentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,6 +102,11 @@ Route::get('/view/all/deposits', [SchoolsController::class, 'ViewSchoolTransacti
 
 // All Students Transactions Informations
 Route::get('/view/api/questions', [SchoolsController::class, 'ViewQuestions'])->name('view.api.questions');
+
+
+
+// All Apis Transfers Informations
+Route::get('/view/api/tranfers/{momoTransactionId}', [SchoolsController::class, 'ViewTranfsers'])->name('view.all.transfers');
 
 
     
@@ -235,5 +243,14 @@ Route::post('loan/payment/amount/update/{id}',[TransactionController::class, 'St
 
 
 
+Route::get('/student/account/view', [ParentController::class, 'StudentAccountView']);
+
+Route::get('/student/account/get', [ParentController::class, 'StudentAccountGet'])->name('student.account.get');
+
+
+
+
 
 });  // Prevent Back Middleare
+
+
