@@ -106,7 +106,7 @@ Route::get('/view/api/questions', [SchoolsController::class, 'ViewQuestions'])->
 
 
 // All Apis Transfers Informations
-Route::get('/view/api/tranfers/{momoTransactionId}', [SchoolsController::class, 'ViewTranfsers'])->name('view.all.transfers');
+Route::get('/view/api/tranfers}', [SchoolsController::class, 'ViewTranfsers'])->name('view.all.transfers');
 
 
     
@@ -246,6 +246,13 @@ Route::post('loan/payment/amount/update/{id}',[TransactionController::class, 'St
 Route::get('/student/account/view', [ParentController::class, 'StudentAccountView']);
 
 Route::get('/student/account/get', [ParentController::class, 'StudentAccountGet'])->name('student.account.get');
+
+
+
+
+Route::get('/transfer/pockek/cash/form', [SchoolsController::class, 'TransferPocketCashView']);
+
+Route::get('/transfer/pockek/cash', [SchoolsController::class, 'TransferPocketCashGet']);
 
 
 

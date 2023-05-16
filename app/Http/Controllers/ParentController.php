@@ -8,6 +8,7 @@ use App\Models\SchoolStudent;
 use App\Models\SchoolTransactions;
 use App\Models\loan;
 use App\Models\withdrawal;
+use App\Models\apiTransfers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +46,7 @@ class ParentController extends Controller
 
 
             
-    $acct = SchoolTransactions::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('acct_amount');
+    $acct = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('amount');
 
 
     $withdrawal = withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('withdrawal_amount');
@@ -56,10 +57,10 @@ class ParentController extends Controller
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
 
-    $details = SchoolTransactions::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->get();
+    $details = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->get();
 
     
-   $student_deposite = SchoolTransactions::where('student_acct_no',$acct_id)->get();
+   $student_deposite = apiTransfers::where('student_acct_no',$acct_id)->get();
    $student_withdrawal = withdrawal::where('student_acct_no',$acct_id)->get();
    $student_loans = loan::where('student_acct_no',$acct_id)->get();
 

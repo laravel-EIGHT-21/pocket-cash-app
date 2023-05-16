@@ -7,11 +7,13 @@
 
 
 @php 
+$id = Auth::user()->id;
 
-$students= App\Models\SchoolStudent::with(['school'])->where('school_id',Auth::id())->where('status',1)->get();
+$school_user_id = App\Models\Schools::find($id);
 
+$students= App\Models\SchoolStudent::with(['school'])->where('school_id',$id)->where('status',1)->get();
 
-$allData = App\Models\SchoolTransactions::latest()->get();
+$allData = App\Models\apiTransfers::latest()->get();
 
 
 @endphp
@@ -92,35 +94,41 @@ $allData = App\Models\SchoolTransactions::latest()->get();
                   </div>
 
         <div class="table-responsive">
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead class="table-light">
-                    <tr>
-                        <th>Students Account No#</th>
-                        <th>Amount Deposited (UGX)</th>
-                        <th>Deposite Date</th>
+		<table id="example" class="table table-striped table-bordered" style="width:100%">
+								<thead>
+									<tr>
+									
+									<th width=5%>SL</th> 
 
-                    </tr>
-                </thead>
-                <tbody>
-				@foreach($allData as $key => $value )
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
+									<th>Student Account </th>
+                                        <th>Deposits (UGX)</th>
+                                    
+                                        <th>Parent Tel.</th>
 
-                                <div class="ms-2">
-                                    <h6 class="mb-0 font-14">{{ $value->student_acct_no}}</h6>
-                                </div>
-                            </div>
-                        </td>
-                        
-                        <td>{{ $value->acct_amount}}</td>
-                        <td>{{ $value->deposite_date}}</td>
+                                        <th>Transfer Date</th>
+										
+
+									</tr>
+								</thead>
+								<tbody>
+								@foreach($allData as $key => $value )
+								<tr>
+<td>{{ $key+1 }}</td>
+
+<td> {{ $value->student_acct_no}}</td>
+<td> {{ $value->amount}}</td>
+
+<td> {{ $value->payer_number}}</td>
+<td> {{ $value->transfer_date}}</td>
 
 
-                    </tr>
-					@endforeach
-                                    </tbody>
-            </table>
+
+
+</tr>
+@endforeach
+								</tbody>
+
+							</table>
         </div>
     </div>
 </div>

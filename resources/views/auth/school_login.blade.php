@@ -21,7 +21,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/icons.css')}}" rel="stylesheet">
-	<title>Akilibit - Student-Pocket-Cash-App</title>
+	<title>Akilibit-Pocket-Cash App</title>
 </head>
 
 <body class="">
@@ -38,7 +38,7 @@
 										<img src="{{asset('upload/Akilibit.png')}}" width="200" alt="" />
 									</div>
 									<div class="text-center mb-6">
-										<h5 class=""><b>Akilibit Student Pocket Cash App</b></h5>
+										<h5 class=""><b>Akilibit-Pocket-Cash App</b></h5>
 										<p class="mb-0">Please log in to your account</p>
 									</div>
 									<div class="form-body">

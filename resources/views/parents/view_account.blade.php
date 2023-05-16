@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/dark-theme.css')}}" />
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/semi-dark.css')}}" />
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/header-colors.css')}}" />
-	<title>Akilibit - Student-Pocket-Cash-App</title>
+	<title>Akilibit-Pocket-Cash App</title>
 </head>
 
 <body>
@@ -134,7 +134,7 @@
                                                             <tr>
                                         
                                                                 <th>Amount Deposited (UGX)</th>
-                                                                <th>Deposite Date</th>
+                                                                <th>Transfer Date</th>
                                         
                                                             </tr>
                                                         </thead>
@@ -143,8 +143,8 @@
                                                             <tr>
                                                               
                                                                 
-                                                                <td>{{ $value->acct_amount}}</td>
-                                                                <td>{{ $value->deposite_date}}</td>
+                                                                <td>{{ $value->amount}}</td>
+                                                                <td>{{ $value->transfer_date}}</td>
                                         
                                         
                                                             </tr>

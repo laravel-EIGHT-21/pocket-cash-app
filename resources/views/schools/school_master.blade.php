@@ -142,7 +142,10 @@
 							
 @php
 $id = Auth::user()->id;
-$admindata = App\Models\Schools::find($id);
+$admindata = App\Models\Schools::where('id',$id)->find($id);
+
+
+$editdata = App\Models\Schools::find($id);
 
 @endphp
 <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

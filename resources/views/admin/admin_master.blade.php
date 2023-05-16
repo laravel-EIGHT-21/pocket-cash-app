@@ -23,7 +23,7 @@
    <!-- Ionicons -->
    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-
+ 
 
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
@@ -55,7 +55,7 @@
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/dark-theme.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/semi-dark.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/header-colors.css')}}"/>
-	<title>Akilibit - Student-Pocket-Cash-App</title>
+	<title>Akilibit-Pocket-Cash App</title>
 </head>
 
 <body>
@@ -91,14 +91,6 @@
 					
 				</li>
 				
-				<li>
-					<a href="{{ route('view.all.deposits') }}" >
-						<div class="parent-icon"><i class="lni lni-invest-monitor bx-spin"></i>
-						</div>
-						<div class="menu-title">View All Deposits</div>
-					</a>
-					
-				</li>
 				
 
 				<li>
@@ -120,18 +112,13 @@
 					
 				</li>
 
-				@php 
 
-
-				$momoTransactionId = env('MOMO_REMITTANCE_ID');
-
-				@endphp
 
 				<li>
-					<a href="{{ route('view.all.transfers',$momoTransactionId) }}" >
+					<a href="{{ route('view.all.transfers') }}" >
 						<div class="parent-icon"><i class="lni lni-invest-monitor bx-spin"></i>
 						</div>
-						<div class="menu-title">View Transfers</div>
+						<div class="menu-title">View All Deposits</div>
 					</a>
 					
 				</li>
@@ -241,6 +228,7 @@ $editdata = App\Models\User::find($id);
 	<script src="{{asset('Backend/assets/plugins/validation/jquery.validate.min.js')}}"></script>
 	<script src="{{asset('Backend/assets/plugins/validation/validation-script.js')}}"></script>
 	<script src="{{ asset('Backend/assets/js/code.js') }}"></script>
+	
 	
 <!--SweetAlert2 -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

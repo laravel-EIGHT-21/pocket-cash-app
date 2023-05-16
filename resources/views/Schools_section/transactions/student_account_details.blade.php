@@ -126,8 +126,8 @@ Student Account
                                                             <tr>
                                                               
                                                                 
-                                                                <td>{{ $value->acct_amount}}</td>
-                                                                <td>{{ $value->deposite_date}}</td>
+                                                                <td>{{ $value->amount}}</td>
+                                                                <td>{{ $value->transfer_date}}</td>
                                         
                                         
                                                             </tr>

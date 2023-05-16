@@ -16,11 +16,6 @@ use App\Models\questions;
 use App\Models\posts;
 use App\Models\apiTransfers;
 use App\Products\Remittance;
-use App\Exceptions\RemittanceRequestException;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Config\Repository;
 use Ramsey\Uuid\Uuid;
 
 
@@ -29,268 +24,120 @@ class SchoolsController extends Controller
 
 
 
-/**
- * Subscription Key .
- *
- * @var string
- */
-protected $subscriptionKey;
+
+  
+    
+  public function TransferPocketCashView(){
+		
+    return view('parents.transfer_cash');
+
+  }
+
+
+
+      
+  public function TransferPocketCashGet(Request $request){
+		
+    $remittance = new Remittance();
+
+    $transactionId = rand(1,10000);
+    //$partyId = '0779913330';
+    //$amount = '15000';
+
+    $amount = $request->amount;
+    $partyId = $request->mobile;
+    $student_acct = $request->acct_id;
+
+
+
+		$singleStudent = SchoolStudent::where('acct_id',$student_acct)->where('status',1)->first();
+
+		if ($singleStudent == true) {
+    $momoTransactionId = $remittance->transfer($transactionId, $partyId, $amount,$student_acct);
+
+$response = $remittance->getTransactionStatus($momoTransactionId);
+
+  //  dd($response);
+
+  $token_obj = $response['status'];
+  $token_b = $response['payee'];
+  $token_c = $token_b['partyId'];
+  $amount = $response['amount'];
+  $currency = $response['currency'];
+
+
+ // dd($amount);
+
+$date = Carbon::now()->format('d F y');
+
+$month = Carbon::now()->format('F y');
+
+
+$year = Carbon::now()->format('y');
+
+
+
+              apiTransfers::create([
+
+              'student_acct_no' => $student_acct,
+              'amount' => $amount,
+              'currency' => $currency,
+              'reference_id' => $momoTransactionId,
+              'externalId' => $transactionId,
+              'payer_number' =>$token_c,
+              'status' => $token_obj,
+              'transfer_date' => $date,
+              'transfer_month' => $month,
+              'transfer_year' => $year,
+
+
+             ]);
+
+             $notification1 = array(
+              'message' => 'TRANSFER HAS BEEN SENT...',
+              'alert-type' => 'success'
+            );
+            
+            return redirect()->back()->with($notification1);
+          }
+          else{ 
+		
+            $notification = array(
+              'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
+              'alert-type' => 'error'
+            );
+        
+            return redirect()->back()->with($notification);
+        
+              }
 
 
 
 
-/**
- * Remittance ID .
- *
- * @var string
- */
-protected $clientId;
-
-
-
-
-/**
- * apiKey.
- *
- * @var string
- */
-protected $clientSecret;
-
-
-
-/**
- * Callback URI.
- *
- * @var string
- */
-protected $clientCallbackUri;
-
-
-
-/**
- * token Uri .
- *
- * @var string
- */
-protected $tokenUri;
-
-
-  /**
-     * HTTP client.
-     *
-     * @var \GuzzleHttp\ClientInterface
-     */
-    protected $client;
-
-        /**
-     * @return \GuzzleHttp\ClientInterface
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
-     * @param \GuzzleHttp\ClientInterface $client
-     */
-    public function setClient($client)
-    {
-        $this->client = $client;
-    }
-
-
-/**
- *  party Id Type .
- *
- * @var string
- */
-protected $partyIdType;
-
-
-
-/**
- *  Target environment .
- *
- * @var string
- */
-protected $environment;
-
-
-
-    /**
-     * Transact URI.
-     *
-     * @var string
-     */
-    protected $transactionUri;
-
-    /**
-     * Transaction status URI.
-     *
-     * @var string
-     */
-    protected $transactionStatusUri;
-
-    /**
-     * Account status URI.
-     *
-     * @var string
-     */
-    protected $accountStatusUri;
-
-    /**
-     * Account balance URI.
-     *
-     * @var string
-     */
-    protected $accountBalanceUri;
-
-    /**
-     * Account holder basic info URI.
-     *
-     * @var string
-     */
-    protected $accountHolderInfoUri;
-
-    /**
-     * @return string
-     */
-    public function getTransactionUri()
-    {
-        return $this->transactionUri;
-    }
-
-    /**
-     * @param string $transactionUri
-     */
-    public function setTransactionUri($transactionUri)
-    {
-        $this->transactionUri = $transactionUri;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTransactionStatusUri()
-    {
-        return $this->transactionStatusUri;
-    }
-
-
-
-    /**
-     * Constructor.
-     *
-     * @param array $headers
-     * @param array $middleware
-     * @param \GuzzleHttp\ClientInterface $client
-     *
-     * @uses \Illuminate\Contracts\Config\Repository
-     * 
-     * @throws \Exception
-     */
-   
-
-     public function __construct($headers = [], $middleware = [], ClientInterface $client = null)
-    {
-        $config = Container::getInstance()->make(Repository::class);
-
-        $this->subscriptionKey = $config->get('mtn-momo.products.remittance.key');
-        $this->clientId = $config->get('mtn-momo.products.remittance.id');
-        $this->clientSecret = $config->get('mtn-momo.products.remittance.secret');
-        $this->clientCallbackUri = $config->get('mtn-momo.products.remittance.callback_uri');
-
-        $this->tokenUri = $config->get('mtn-momo.products.remittance.token_uri');
-        $this->transactionUri = $config->get('mtn-momo.products.remittance.transaction_uri');
-        $this->transactionStatusUri = $config->get('mtn-momo.products.remittance.transaction_status_uri');
-        $this->accountStatusUri = $config->get('mtn-momo.products.remittance.account_status_uri');
-        $this->accountBalanceUri = $config->get('mtn-momo.products.remittance.account_balance_uri');
-        $this->accountHolderInfoUri = $config->get('mtn-momo.products.remittance.account_holder_info_uri');
-        $this->partyIdType = $config->get('mtn-momo.products.remittance.party_id_type');
-        $this->environment = $config->get('mtn-momo.products.remittance.environment');
-
-        //parent::__construct($headers, $middleware, $client);
-    }
+  }
 
 
 
 
 
-  /**
-     * Get transaction status.
-     *
-     * @see https://momodeveloper.mtn.com/docs/services/remittance/operations/transfer-referenceId-GET Documentation
-     *
-     * @param  string $momoTransactionId That was returned by transact (transfer)
-     *
-     * @throws \Bmatovu\MtnMomo\Exceptions\RemittanceRequestException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return array
-     */
 
 
 
-    public function ViewTranfsers($momoTransactionId)
+    public function ViewTranfsers()
     {
 
-
-
-//$x_reference_id = env('MOMO_REMITTANCE_ID');
-$environment1 = env('MOMO_ENVIRONMENT');
-
-//$momoTransactionId = $x_reference_id;
-
-
-      //https://sandbox.momodeveloper.mtn.com/remittance/v1_0/transfer/93b57ac3-b86f-4075-93ac-b1d74375eed2
-
-      //$momoTransactionId = Uuid::uuid4()->toString();
-
-
-      //$transactionStatusUri = str_replace('{momoTransactionId}', $momoTransactionId, $this->transactionStatusUri);
-
-$transferstatus = 'https://sandbox.momodeveloper.mtn.com/remittance/v1_0/transfer/' ;
-$transactionStatusUri = str_replace('{momoTransactionId}', $momoTransactionId, $this->transactionStatusUri);
-
-try {
-  $response =Http::get($transferstatus . $momoTransactionId, [
-        'headers' => [
-          'X-Target-Environment' => 'sandbox',
-          'Ocp-Apim-Subscription-Key' => '6a02dac9a9df4f2d9cc1ee42e4d1c5ba',
-        ],
-    ]);
-
-          $quizzes = json_decode($response->getBody(), true);
-
-      return $quizzes;
-
-     // dd($quizzes);
-} catch (RequestException $ex) {
-    throw new RemittanceRequestException('Unable to get transaction status.', 0, $ex);
-}
-
-
-
-
-      /*
-        foreach($quizzes as $quiz){
-
-               $apis= new apiTransfers();
-                    $apis->amount = $quiz['amount'];
-                    $apis->currency = $quiz['currency'];
-                    $apis->financialTransactionId = $quiz['financialTransactionId'];
-                    $apis->externalId = $quiz['externalId'];
-                    $apis->status = $quiz['status'];
-                    $apis->transfer_date = Carbon::now()->format('d F Y');
-                    $apis->save();
-               
-        }
-*/
-
+     
         $allData = apiTransfers::all();
+        
   return view('Admin_section.admins_view.api_transfer_status',compact('allData'));
 
     }
+
+
+
+
+
+
 
 
 

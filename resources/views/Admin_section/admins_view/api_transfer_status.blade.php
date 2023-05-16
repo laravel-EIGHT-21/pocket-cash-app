@@ -2,7 +2,7 @@
 @section('admin')
 
 @section('title')
-Transfer Status
+View Transactions
 @endsection
 
 <div class="page-content">
@@ -14,32 +14,32 @@ Transfer Status
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Money Transfers</li>
+								<li class="breadcrumb-item active" aria-current="page">Money Transfers (Deposits)</li>
 							</ol>
 						</nav>
 					</div>
 
 				</div>
 				<!--end breadcrumb-->
-				<h6 class="mb-0 text-uppercase">Money Transfers Information Status</h6>
+				<h6 class="mb-0 text-uppercase"><b>All Deposits Transactions Information</b></h6>
 
 				<hr/>
                 <br><br>
 				<div class="card">
-					<div class="card-body">
+				<div class="card-body">
 						<div class="table-responsive">
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>
 									
-									<th width="5%">SL</th> 
+									<th width=5%>SL</th> 
 
-                                        <th>Amount</th>
-                                        <th>Curreny</th>
-                                        <th>Transaction Id</th>
-                                        <th>Mobile No.</th>
-                                        <th>Status</th>
-                                        <th>Transaction Date</th>
+									<th>Student Account </th>
+                                        <th>Deposits (UGX)</th>
+                                    
+                                        <th>Parent Tel.</th>
+
+                                        <th>Transfer Date</th>
 										
 
 									</tr>
@@ -49,13 +49,10 @@ Transfer Status
 								<tr>
 <td>{{ $key+1 }}</td>
 
+<td> {{ $value->student_acct_no}}</td>
 <td> {{ $value->amount}}</td>
-<td> {{ $value->currency}}</td>
-<td> {{ $value->financialTransactionId}}</td>
 
-
-<td> {{ $value->mobile}}</td>
-<td> {{ $value->status}}</td>
+<td> {{ $value->payer_number}}</td>
 <td> {{ $value->transfer_date}}</td>
 
 

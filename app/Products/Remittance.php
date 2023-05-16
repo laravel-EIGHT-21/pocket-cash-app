@@ -279,9 +279,6 @@ class Remittance extends Product
         } catch (RequestException $ex) {
             throw new RemittanceRequestException('Unable to get transaction status.', 0, $ex);
         }
-
-
-
     }
 
     /**

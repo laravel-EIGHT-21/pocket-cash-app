@@ -13,4 +13,12 @@ class apiTransfers extends Model
     protected $guarded = [];
 
 
+    
+         
+    public function student(){
+        return $this->belongsTo(SchoolStudent::class,'student_acct_no','acct_id');
+    }
+
+
+
 }
