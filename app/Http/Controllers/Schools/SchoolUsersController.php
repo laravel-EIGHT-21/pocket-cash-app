@@ -107,13 +107,9 @@ class SchoolUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Laravel\Fortify\Contracts\LogoutResponse
      */
-    public function destroy(Request $request)
+    public function destroy()
     {
-        $this->guard->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        Auth::logout();
         return redirect()->route('school.login');
     }
 
@@ -151,7 +147,7 @@ class SchoolUsersController extends Controller
             $admin->password= Hash::make($request->password);
             $admin->save();
             Auth::logout();
-            return redirect()->route('school.logout');
+            return redirect()->route('school.logout'); 
 
         }else{
             return redirect()->back();
