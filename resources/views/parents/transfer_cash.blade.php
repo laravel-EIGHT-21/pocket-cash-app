@@ -72,13 +72,13 @@
 
 									<div class="my-4">
 										<label class="form-label">Enter Mobile  Number</label>
-										<input type="text" class="form-control" name="mobile"  />
+										<input type="text" class="form-control" name="mobile" maxlength="10"  />
 									</div>
 
 
 									<div class="my-4">
 										<label class="form-label">Enter Transfer Amount</label>
-										<input type="text" class="form-control" name="amount"  />
+										<input type="text" class="form-control" name="amount" maxlength="6" />
 									</div>
 
 
