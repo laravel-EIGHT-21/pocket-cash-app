@@ -29,7 +29,7 @@
 	<div class="wrapper">
 		<div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
 			<div class="container">
-				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
 					<div class="col mx-auto">
 						<div class="card mb-0">
 							<div class="card-body">
@@ -41,6 +41,7 @@
 										<h5 class=""><b>Akilibit-Pocket-Cash App</b></h5>
 										<p class="mb-0">Please log in to your account</p>
 									</div> 
+									<br>
 									<div class="form-body">
 										<form class="row g-3" method="POST" action="{{ isset($guard) ? url($guard.'/login'): route('login') }}">
                                             @csrf
@@ -54,7 +55,7 @@
 													<input id="inputChoosePassword" type="password" name="password" class="form-control border-end-0"  placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>
-											<div class="col-md-6">
+											<div class="col-md-8">
 												<div class="form-check form-switch">
 													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
 													<label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>

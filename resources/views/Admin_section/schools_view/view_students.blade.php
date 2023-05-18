@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('admin')
+@section('user')
 
 @section('title')
 View Students 
@@ -33,9 +33,10 @@ View Students
 
 									<th width="5%">SL</th> 
 										<th>School</th>
-										<th>Sch.Code</th>
+										<th>School Code</th>
 										<th>Student</th>
 										<th>Student Code</th>
+										<th>Status</th>
 										
 									</tr>
 								</thead>
@@ -44,12 +45,21 @@ View Students
 								<tr>
 <td>{{ $key+1 }}</td>
 
-<td> {{ $value['school']['name']}}</td>
+<td> {{ $value['school']['name']}}</td> 
 <td> {{ $value['school']['school_id_no']}}</td>
 <td> {{ $value->name }}</td>	
 <td> {{ $value->acct_id }}</td>	
 
 
+<td>
+@if($value->status == 1)
+<div class="badge rounded-pill text-success bg-light-info p-2 text-uppercase px-3"><i class='bx bxs-circle align-middle me-1'></i>Active</div>
+@elseif($value->status == 0 )
+<div class="badge rounded-pill text-danger bg-light-info p-2 text-uppercase px-3"><i class='bx bxs-circle align-middle me-1'></i>In-Active</div>
+@endif
+
+
+</td>	
 
 </tr>
 @endforeach

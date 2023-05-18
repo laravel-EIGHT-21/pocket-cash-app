@@ -9,6 +9,7 @@ use App\Models\SchoolTransactions;
 use App\Models\loan;
 use App\Models\withdrawal;
 use App\Models\apiTransfers;
+use App\Models\Schools;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,11 @@ class TransactionController extends Controller
     
     public function ViewStudentTransactions(){
 
-        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',Auth::id())->where('status',1)->get();
+      $id = Auth::user()->id;
+      $school = Schools::where('id',$id)->find($id);
+      $code =$school->school_id_no;
+
+        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$code)->where('status',1)->get();
       return view('Schools_section.transactions.student_account_view',$data);
   }
 

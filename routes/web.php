@@ -10,6 +10,9 @@ use App\Http\Controllers\Schools\SchoolUsersController;
 
 use App\Http\Controllers\ParentController;
 
+use App\Models\Schools;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -133,7 +136,7 @@ Route::middleware(['auth:school'])->group(function(){
 
 Route::middleware(['auth:sanctum,school','verified'])->group(function () {
     Route::get('/school/dashboard', function () {
-        return view('schools.index');
+        return view('schools.school_master');
     })->name('dashboard');
 });
 

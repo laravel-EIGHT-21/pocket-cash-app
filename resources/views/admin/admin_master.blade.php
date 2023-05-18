@@ -23,7 +23,9 @@
    <!-- Ionicons -->
    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
- 
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+   
 
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
@@ -192,7 +194,7 @@ $editdata = App\Models\User::find($id);
 		<div class="page-wrapper">
 
 			
-@yield('admin')
+@yield('user')
 
 		</div>
 		<!--end page wrapper -->
@@ -209,12 +211,19 @@ $editdata = App\Models\User::find($id);
 	<!--end wrapper-->
 
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Bootstrap JS -->
-	<script src="{{asset('Backend/assets/js/bootstrap.bundle.min.js')}}"></script>
-	<!--plugins-->
-	<script src="{{asset('Backend/assets/js/jquery.min.js')}}"></script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" ></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" ></script>
+
+
+		<!--plugins-->
+
 	<script src="{{asset('Backend/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
 	<script src="{{asset('Backend/assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
 	<script src="{{asset('Backend/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>

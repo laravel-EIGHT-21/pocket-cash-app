@@ -23,6 +23,9 @@ class Schools extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $guard = "school";
+
     protected $guarded = [];
 
     /**

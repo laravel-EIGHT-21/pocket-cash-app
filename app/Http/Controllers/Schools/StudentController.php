@@ -20,7 +20,11 @@ class StudentController extends Controller
     
     public function ViewStudents(){
 
-        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',Auth::id())->get();
+      $id = Auth::user()->id;
+      $school = Schools::where('id',$id)->find($id);
+      $code =$school->school_id_no;
+
+        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$code)->get();
       return view('Schools_section.students_view.view_students',$data);
   }
 
@@ -59,7 +63,7 @@ class StudentController extends Controller
           $user = new SchoolStudent();
           $user->acct_id = $final_id_no;
       $user->name = $request->name;
-      $user->school_id = $id;
+      $user->school_id = $code;
        $user->save();
 
 

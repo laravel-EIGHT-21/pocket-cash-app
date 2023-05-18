@@ -1,7 +1,7 @@
 
 @extends('admin.admin_master')
 
-@section('admin')
+@section('user')
 @section('title')
 User Profile
 @endsection

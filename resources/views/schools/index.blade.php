@@ -5,20 +5,23 @@
 
 
 
+<div class="page-content">
+				<div class="row row-cols-md-4 row-cols-xl-4">
 
+				
 @php 
+
 $id = Auth::user()->id;
+      $school = App\Models\Schools::where('id',$id)->find($id);
+      $code =$school->school_id_no;
 
-$school_user_id = App\Models\Schools::find($id);
-
-$students= App\Models\SchoolStudent::with(['school'])->where('school_id',$id)->where('status',1)->get();
+$students= App\Models\SchoolStudent::with(['school'])->where('school_id',$code)->where('status',1)->get();
 
 $allData = App\Models\apiTransfers::latest()->get();
 
 
 @endphp
-<div class="page-content">
-				<div class="row row-cols-md-4 row-cols-xl-4">
+
                    <div class="col">
 					 <div class="card radius-5 border-start border-0 border-3 border-info">
 						<div class="card-body">
