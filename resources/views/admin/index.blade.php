@@ -225,12 +225,12 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 
 
 				<div class="row">
-                   <div class="col-12 col-lg-12 d-flex">
+                   <div class="col-6 col-lg-6 d-flex">
                       <div class="card radius-10 w-100">
 						<div class="card-header">
 							<div class="d-flex align-items-center">
 								<div>
-									<h6 class="mb-0 text-uppercase"><b>All Deposits Overview</b></h6>
+									<h6 class="mb-0 text-uppercase"><b>BarChart Showing Deposits Overview</b></h6>
 								</div>
 
 							</div>
@@ -245,6 +245,30 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 
 					  </div>
 				   </div>
+
+
+                   <div class="col-6 col-lg-6 d-flex">
+                      <div class="card radius-10 w-100">
+						<div class="card-header">
+							<div class="d-flex align-items-center">
+								<div>
+									<h6 class="mb-0 text-uppercase"><b>LineChart Showing Deposits Overview</b></h6>
+								</div>
+
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="chart-container1">
+									<canvas id="chartline"></canvas>
+								</div>
+							</div>
+						</div>
+
+					  </div>
+				   </div>
+
+
 				   
 				</div><!--end row-->
 
@@ -318,6 +342,91 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 
 
 				</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    // chart1
+    var ctx = document.getElementById('chartline').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels:<?php echo json_encode($month); ?>,
+            datasets: [{
+                label: 'Total Amount of Deposits',
+				backgroundColor     : 'rgba(102, 205, 170,0.8)',
+				borderWidth          : 2,
+				borderColor         : 'rgba(102, 205, 170,1)',
+				pointRadius: 5,
+     			pointHoverRadius: 10,
+				pointDotStrokeWidth : 70,
+				pointColor          : 'rgba(102, 205, 170,0.8)',
+				pointHighlightFill  : '#fff',
+				pointHighlightStroke: 'rgba(102, 205, 170,0.8)',
+                data: <?php echo json_encode($deposits_total);?>,
+                
+            },
+
+		
+		]
+        },
+		options: {
+                maintainAspectRatio : false,
+                responsive : true,
+                pointDot   :true,
+                legend:{
+                  display:true
+
+                },
+                    scales: {
+            xAxes: [{
+              gridLines : {
+                display : false,
+              }
+            }],
+            yAxes: [{
+              gridLines : {
+                display : true,
+              },
+              ticks:{
+                beginAtZero:true
+              }
+
+            }]
+          }
+       }
+
+
+
+
+    });
+
+
+
+
+
+
+				</script>
+
+
+
+
+
+
+
+
+
+
 
 
 @endsection
