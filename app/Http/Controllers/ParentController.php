@@ -74,7 +74,7 @@ class ParentController extends Controller
 			else{ 
 		
 				$notification = array(
-					'message' => 'NO MATCH FOR STUDENT ACCOUNT OR ACCOUNT IS INACTIVE!!!',
+					'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
 					'alert-type' => 'error'
 				);
 		

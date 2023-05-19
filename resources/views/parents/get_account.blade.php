@@ -21,6 +21,16 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/icons.css')}}" rel="stylesheet">
+
+
+
+<!-- Toastr -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+
 	<title>Akilibit-Pocket-Cash App</title>
 </head>
 
@@ -54,26 +64,30 @@
 									</div>
 									<div class="form-body">
 										<form class="row g-3" method="GET" action="{{ route('student.account.get') }}" target="_blank">
+
                                         <div class="my-4">
 										<label class="form-label">Student Account Number</label>
 										<input type="text" class="form-control" name="acct_id" placeholder="example = 02000000" />
 									</div>
 
 
-
-											</div>
-											<div class="col-12">
+									<div class="col-12">
 												<div class="d-grid">
 													<button type="submit" class="btn btn-primary">Submit</button>
 												</div>
 											</div>
+
+									</form>
+
+											</div>
+											
 											<div class="col-12">
 												<div class="text-center ">
 													
 													</p>
 												</div>
 											</div>
-										</form>
+										
 									</div>
 									<div class="login-separater text-center mb-5"> 
 										<hr>
@@ -117,8 +131,47 @@
 	</script>
 	<!--app JS-->
 	<script src="{{asset('Backend/assets/js/app.js')}}"></script>
+
+
+
+	
+<!--Toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+
+@if(Session::has('message'))
+
+var type = "{{ Session::get('alert-type','info')}}"
+switch(type){
+  
+  case 'info':
+    toastr.info("{{Session::get('message')}}");
+    break;
+
+  case 'success':
+  toastr.success("{{Session::get('message')}}");
+  break;
+
+  case 'warning':
+  toastr.warning("{{Session::get('message')}}");
+  break; 
+
+  case 'error':
+  toastr.error("{{Session::get('message')}}");
+  break;
+
+}
+
+@endif
+
+</script>	
+
+
+
 </body>
 
 
-
+ 
 </html>
