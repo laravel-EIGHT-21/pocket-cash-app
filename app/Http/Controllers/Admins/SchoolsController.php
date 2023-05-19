@@ -127,7 +127,7 @@ $year = Carbon::now()->format('y');
     {
 
      
-        $allData = apiTransfers::all();
+        $allData = apiTransfers::latest()->get();
         
   return view('Admin_section.admins_view.api_transfer_status',compact('allData'));
 
