@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/Akilibit.png')}}" type="image/png"/>
+	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png"/>
 
 
 	<script src="https://kit.fontawesome.com/02761bcd61.js" crossorigin="anonymous"></script>
@@ -55,7 +55,7 @@
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/dark-theme.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/semi-dark.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/header-colors.css')}}"/>
-	<title>Akilibit - Student-Pocket-Cash-App</title>
+	<title>Funzi Wallet App</title>
 </head>
 
 <body>
@@ -65,7 +65,7 @@
 		<div class="sidebar-wrapper" data-simplebar="true" >
 			<div class="sidebar-header">
 				<div>
-					<img src="{{asset('upload/Akilibit.png')}}" class="logo-icon" alt="logo icon">
+					<img src="{{asset('upload/funzi_wallet.png')}}" width="400" class="logo-icon" alt="logo icon">
 				</div>
 
 
@@ -124,195 +124,14 @@
 		</div>
 		<!--end sidebar wrapper -->
 		
-
-
-<!--start header -->
-@php
-		$id = Auth::user()->id;
-		$adminData = App\Models\Schools::find($id);
-		@endphp
-
-<header>
-	<div class="topbar d-flex align-items-center">
-		<nav class="navbar navbar-expand gap-3">
-			<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
-			</div>
-
-
-
-			  <div class="top-menu ms-auto">
-				<ul class="navbar-nav align-items-center gap-1">
-			
-				</ul>
-			</div>
-			<div class="user-box dropdown px-3">
-							
-
-<a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="{{(!empty($adminData->school_logo_path))? url('upload/logo/'.$adminData->school_logo_path):url('upload/no_image.jpg') }}" class="user-img" alt="user avatar">
-					<div class="user-info">
-						<p class="user-name mb-0">{{$adminData->name}}</p>
-
-					</div>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item d-flex align-items-center" href="{{route('school.user.profile.view')}}"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
-					</li>
-					
-				
-					<li>
-						<div class="dropdown-divider mb-0"></div>
-					</li>
-					<li><a class="dropdown-item d-flex align-items-center" href="{{route('school.logout') }}"><i class="bx bx-log-out-circle"></i><span>Logout</span></a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-</header>
-
-		<!--end header -->
-
+@include('schools.header')
 
 
 		<!--start page wrapper -->
 		<div class="page-wrapper">
 
-		<div class="page-content">
-				<div class="row row-cols-md-4 row-cols-xl-4">
-
-				
-@php 
-
-$id = Auth::id();
-      $school = App\Models\Schools::where('id',$id)->find($id);
-      $code =$school->school_id_no;
-
-$students= App\Models\SchoolStudent::with(['school'])->where('school_id',$code)->where('status',1)->get();
-
-$allData = App\Models\apiTransfers::latest()->get();
-
-
-@endphp
-
-                   <div class="col">
-					 <div class="card radius-5 border-start border-0 border-3 border-info">
-						<div class="card-body">
-							<div class="d-flex align-items-center">
-								<div>
-									<p class="mb-0 text-secondary">Active Accounts</p>
-									<h5 class="my-1 text-info">{{ count($students) }}</h5>
-									
-								</div>
-								<div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class='bx bxs-group'></i>
-								</div>
-							</div>
-						</div>
-					 </div>
-				   </div>
-				   <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-danger">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Total Revenue</p>
-								   <h4 class="my-1 text-danger">$84,245</h4>
-								   <p class="mb-0 font-13">+5.4% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto"><i class='bx bxs-wallet'></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div>
-				  <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-success">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Bounce Rate</p>
-								   <h4 class="my-1 text-success">34.6%</h4>
-								   <p class="mb-0 font-13">-4.5% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class='bx bxs-bar-chart-alt-2' ></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div>
-				  <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-warning">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Total Customers</p>
-								   <h4 class="my-1 text-warning">8.4K</h4>
-								   <p class="mb-0 font-13">+8.4% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto"><i class='bx bxs-group'></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div> 
-				</div><!--end row-->
-
-
-<br>
-
-				<div class="row">
-
-				<div class="card">
-    <div class="card-body">
-
-	<div class="d-lg-flex align-items-center mb-4 gap-3">
-<h4><b>All Students Deposits</b></h4>
-                  </div>
-
-        <div class="table-responsive">
-		<table id="example" class="table table-striped table-bordered" style="width:100%">
-								<thead>
-									<tr>
-									
-									<th width=5%>SL</th> 
-
-									<th>Student Account </th>
-                                        <th>Deposits (UGX)</th>
-                                    
-                                        <th>Parent Tel.</th>
-
-                                        <th>Transfer Date</th>
-										
-
-									</tr>
-								</thead>
-								<tbody>
-								@foreach($allData as $key => $value )
-								<tr>
-<td>{{ $key+1 }}</td>
-
-<td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->amount}}</td>
-
-<td> {{ $value->payer_number}}</td>
-<td> {{ $value->transfer_date}}</td>
-
-
-
-
-</tr>
-@endforeach
-								</tbody>
-
-							</table>
-        </div>
-    </div>
-</div>
-				</div>
-
-
-
-			</div>
+			
+		@yield('school')
 
 		</div>
 		<!--end page wrapper -->

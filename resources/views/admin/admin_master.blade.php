@@ -57,7 +57,7 @@
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/dark-theme.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/semi-dark.css')}}"/>
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/header-colors.css')}}"/>
-	<title>Akilibit-Pocket-Cash App</title>
+	<title>Funzi Wallet App</title>
 </head>
 
 <body>
@@ -67,7 +67,7 @@
 		<div class="sidebar-wrapper" data-simplebar="true" >
 			<div class="sidebar-header">
 				<div>
-					<img src="{{asset('upload/Akilibit.png')}}" class="logo-icon" alt="logo icon">
+					<img src="{{asset('upload/funzi_wallet.png')}}" width="400" class="logo-icon" alt="logo icon">
 				</div>
 
 

@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/Akilibit.png')}}" type="image/png" />
+	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png" />
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
 	<link href="{{asset('Backend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/dark-theme.css')}}" />
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/semi-dark.css')}}" />
 	<link rel="stylesheet" href="{{asset('Backend/assets/css/header-colors.css')}}" />
-	<title>Akilibit-Pocket-Cash App</title>
+	<title>Funzi Wallet App</title>
 </head>
 
 <body>

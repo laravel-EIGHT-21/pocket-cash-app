@@ -1,3 +1,5 @@
+
+
 <!--start header -->
 @php
 		$id = Auth::user()->id;

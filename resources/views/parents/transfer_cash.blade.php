@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/Akilibit.png')}}" type="image/png" />
+	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png" />
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
 	<link href="{{asset('Backend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
@@ -28,7 +28,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
-	<title>Akilibit-Pocket-Cash App</title>
+	<title>Funzi Wallet App</title>
 </head>
 
 <body class="">
@@ -53,11 +53,11 @@
 							<div class="card-body p-sm-5">
 								<div class="">
 									<div class="mb-3 text-center">
-                                    <img src="{{asset('upload/Akilibit.png')}}" width="200" alt="" />
+                                    <img src="{{asset('upload/funzi_wallet.png')}}" width="390" alt="" />
 									</div>
 									<div class="text-center mb-4">
-                                    <h5 class=""><b>Akilibit-Pocket-Cash App</b></h5>
-										<p class="mb-0">Please Enter Student Account Number To View</p>
+                                    <h5 class=""><b>Funzi Wallet App</b></h5>
+										<p class="mb-0">Please Enter Student Account Number To Transfer Money</p>
 									</div>
 									<div class="form-body">
 										<form class="row g-3"  action="/transfer/pockek/cash" enctype="multipart/form-data" >

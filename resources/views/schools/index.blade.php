@@ -1,8 +1,7 @@
 
+
 @extends('schools.school_master')
 @section('school')
-
-
 
 
 <div class="page-content">
@@ -11,7 +10,7 @@
 				
 @php 
 
-$id = Auth::user()->id;
+$id = Auth::id();
       $school = App\Models\Schools::where('id',$id)->find($id);
       $code =$school->school_id_no;
 
@@ -141,5 +140,7 @@ $allData = App\Models\apiTransfers::latest()->get();
 
 			</div>
 
+
+			
 
 @endsection

@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/Akilibit.png')}}" type="image/png" />
+	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png" />
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
 	<link href="{{asset('Backend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
@@ -21,7 +21,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('Backend/assets/css/icons.css')}}" rel="stylesheet">
-	<title>Akilibit-Pocket-Cash App</title>
+	<title>Funzi Wallet App</title>
 </head>
 
 <body class="">
@@ -35,10 +35,10 @@
 							<div class="card-body">
 								<div class="p-4">
 									<div class="mb-3 text-center">
-										<img src="{{asset('upload/Akilibit.png')}}" width="200" alt="" />
+										<img src="{{asset('upload/funzi_wallet.png')}}" width="390" alt="" />
 									</div>
 									<div class="text-center mb-6">
-										<h5 class=""><b>Akilibit-Pocket-Cash App</b></h5>
+										<h5 class=""><b>Funzi Wallet App</b></h5>
 										<p class="mb-0">Please log in to your account</p>
 									</div> 
 									<br>

@@ -136,7 +136,7 @@ Route::middleware(['auth:school'])->group(function(){
 
 Route::middleware(['auth:sanctum,school','verified'])->group(function () {
     Route::get('/school/dashboard', function () {
-        return view('schools.school_master');
+        return view('schools.index');
     })->name('dashboard');
 });
 
