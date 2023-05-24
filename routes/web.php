@@ -253,9 +253,9 @@ Route::get('/student/account/get', [ParentController::class, 'StudentAccountGet'
 
 
 
-Route::get('/transfer/pockek/cash/form', [SchoolsController::class, 'TransferPocketCashView']);
+Route::get('/transfer/pocket/cash/form', [SchoolsController::class, 'TransferPocketCashView']);
 
-Route::get('/transfer/pockek/cash', [SchoolsController::class, 'TransferPocketCashGet']);
+Route::get('/transfer/pocket/cash', [SchoolsController::class, 'TransferPocketCashGet']);
 
 
 
