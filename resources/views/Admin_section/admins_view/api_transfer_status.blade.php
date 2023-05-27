@@ -31,7 +31,7 @@ View Transactions
 							<table id="example" class="table table-striped table-bordered display text-nowrap" style="width:100%">
 								<thead>
 									<tr>
-									
+                                    <th width="5%">SL</th> 
 									<th>Student Account </th>
                                         <th>Parent Tel.</th>
                                         <th>Transfer Date</th>
@@ -44,12 +44,13 @@ View Transactions
 								@foreach($allData as $key => $value )
 								<tr>
 
+                                <td>{{ $key+1 }}</td>
 <td> {{ $value->student_acct_no}}</td>
 <td> {{ $value->payer_number}}</td>
 <td> {{ $value->transfer_date}}</td>
 <td> {{ $value->amount}}</td>
 
-
+ 
 
 
 </tr>
@@ -59,8 +60,8 @@ View Transactions
 								<tfoot>
                           <!-- start row -->
                           <tr>
-                            <th colspan="3" style="text-align: right">
-                              Total Amount:
+                            <th colspan="4" style="text-align: right">
+                              Total Amount (UGX):
                             </th>
                             <th></th>
                           </tr>
@@ -93,7 +94,7 @@ $(document).ready(function() {
  
             // Total over all pages
             total = api
-                .column( 3 )
+                .column( 4 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -101,7 +102,7 @@ $(document).ready(function() {
  
             // Total over this page
             pageTotal = api
-                .column( 3, { page: 'current'} )
+                .column( 4, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -109,11 +110,11 @@ $(document).ready(function() {
           
 
             // Total filtered rows on the selected column (code part added)
-            var sumCol4Filtered = display.map(el => data[el][3]).reduce((a, b) => intVal(a) + intVal(b), 0 );
+            var sumCol4Filtered = display.map(el => data[el][4]).reduce((a, b) => intVal(a) + intVal(b), 0 );
           
             // Update footer
-            $( api.column( 3 ).footer() ).html(
-                '$'+pageTotal +' ( $'+ total +' total) ($' + sumCol4Filtered +' filtered)'
+            $( api.column( 4 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' total) (' + sumCol4Filtered +' filtered)'
             );
         }
     } );
