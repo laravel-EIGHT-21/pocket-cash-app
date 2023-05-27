@@ -238,6 +238,10 @@ $editdata = App\Models\User::find($id);
 	<script src="{{asset('Backend/assets/plugins/validation/validation-script.js')}}"></script>
 	<script src="{{ asset('Backend/assets/js/code.js') }}"></script>
 	
+	<script src="{{asset('Backend/assets/js/jquery.dataTables.min.js')}}"></script>
+	
+
+
 	
 <!--SweetAlert2 -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

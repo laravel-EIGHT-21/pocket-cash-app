@@ -28,18 +28,14 @@ View Transactions
 				<div class="card">
 				<div class="card-body">
 						<div class="table-responsive">
-							<table id="example" class="table table-striped table-bordered" style="width:100%">
+							<table id="example" class="table table-striped table-bordered display text-nowrap" style="width:100%">
 								<thead>
 									<tr>
 									
-									<th width=5%>SL</th> 
-
 									<th>Student Account </th>
-                                        <th>Deposits (UGX)</th>
-                                    
                                         <th>Parent Tel.</th>
-
                                         <th>Transfer Date</th>
+										<th>Deposits (UGX)</th>
 										
 
 									</tr>
@@ -47,13 +43,11 @@ View Transactions
 								<tbody>
 								@foreach($allData as $key => $value )
 								<tr>
-<td>{{ $key+1 }}</td>
 
 <td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->amount}}</td>
-
 <td> {{ $value->payer_number}}</td>
 <td> {{ $value->transfer_date}}</td>
+<td> {{ $value->amount}}</td>
 
 
 
@@ -62,6 +56,17 @@ View Transactions
 @endforeach
 								</tbody>
 
+								<tfoot>
+                          <!-- start row -->
+                          <tr>
+                            <th colspan="3" style="text-align: right">
+                              Total Amount:
+                            </th>
+                            <th></th>
+                          </tr>
+                          <!-- end row -->
+                        </tfoot>
+
 							</table>
 						</div>
 					</div>
@@ -69,6 +74,51 @@ View Transactions
 				
 			</div>
 <br><br>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 3 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 3, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+          
+
+            // Total filtered rows on the selected column (code part added)
+            var sumCol4Filtered = display.map(el => data[el][3]).reduce((a, b) => intVal(a) + intVal(b), 0 );
+          
+            // Update footer
+            $( api.column( 3 ).footer() ).html(
+                '$'+pageTotal +' ( $'+ total +' total) ($' + sumCol4Filtered +' filtered)'
+            );
+        }
+    } );
+} );
+</script>
 
             
 @endsection
