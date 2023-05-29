@@ -26,10 +26,9 @@ class TransactionController extends Controller
     public function ViewStudentTransactions(){
 
       $id = Auth::user()->id;
-      $school = Schools::where('id',$id)->find($id);
-      $code =$school->school_id_no;
+     
 
-        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$code)->where('status',1)->get();
+        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$id)->where('status',1)->get();
       return view('Schools_section.transactions.student_account_view',$data);
   }
 

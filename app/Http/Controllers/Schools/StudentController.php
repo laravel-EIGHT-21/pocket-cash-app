@@ -22,9 +22,9 @@ class StudentController extends Controller
 
       $id = Auth::user()->id;
       $school = Schools::where('id',$id)->find($id);
-      $code =$school->school_id_no;
+     // $code =$school->school_id_no;
 
-        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$code)->get();
+        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$id)->get();
       return view('Schools_section.students_view.view_students',$data);
   }
 
@@ -49,21 +49,18 @@ class StudentController extends Controller
 
       DB::transaction(function() use($request){
         $id = Auth::user()->id;
-        $school = Schools::where('id',$id)->find($id);
-        $code =$school->school_id_no;
-        
-
+       
        // $students = SchoolStudent::orderBy('id','DESC')->first();
     
         $student_acct = mt_rand(100000,999999);
 
-          $final_id_no = $code.$student_acct;
+          $final_id_no = $student_acct;
 
     
           $user = new SchoolStudent();
           $user->acct_id = $final_id_no;
       $user->name = $request->name;
-      $user->school_id = $code;
+      $user->school_id = $id;
        $user->save();
 
 

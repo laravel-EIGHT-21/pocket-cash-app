@@ -42,9 +42,9 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 @endphp
 
 <div class="page-content">
-				<div class="row row-cols-md-6 row-cols-xl-6">
+				<div class="row">
                    <div class="col-md-6">
-					 <div class="card radius-10 border-start border-0 border-info">
+					 <div class="card radius-10 border-start border-0 border-4 border-info">
 						<div class="card-body">
 						<div class="d-flex align-items-center">
 								<div>
@@ -59,7 +59,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 					 </div>
 				   </div>
 				   <div class="col-md-6">
-					<div class="card radius-10 border-start border-0 border-danger">
+					<div class="card radius-10 border-start border-0 border-4 border-danger">
 					   <div class="card-body">
 					   <div class="d-flex align-items-center">
 								<div>
@@ -84,9 +84,9 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 
 
 
-				<div class="row row-cols-md-6 row-cols-xl-6">
+				<div class="row">
                    <div class="col-md-4">
-					 <div class="card radius-10 border-start border-0 border-warning">
+					 <div class="card radius-10 border-start border-0 border-4 border-warning">
 						<div class="card-body">
 						<div class="d-flex align-items-center">
 								<div>
@@ -101,7 +101,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 					 </div>
 				   </div>
 				   <div class="col-md-4">
-					<div class="card radius-10 border-start border-0 border-success">
+					<div class="card radius-10 border-start border-0 border-4 border-success">
 					   <div class="card-body">
 					   <div class="d-flex align-items-center">
 								<div>
@@ -118,7 +118,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 
 
 				  <div class="col-md-4">
-					<div class="card radius-10 border-start border-0 border-primary">
+					<div class="card radius-10 border-start border-0 border-4 border-primary">
 					   <div class="card-body">
 					   <div class="d-flex align-items-center">
 								<div>
@@ -142,9 +142,9 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 
 
 
-				<div class="row row-cols-md-6 row-cols-xl-6">
+				<div class="row">
                    <div class="col-md-4">
-					 <div class="card radius-10 border-start border-0 border-dark">
+					 <div class="card radius-10 border-start border-0 border-4 border-dark">
 						<div class="card-body">
 						<div class="d-flex align-items-center">
 								<div>
@@ -159,7 +159,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 					 </div>
 				   </div>
 				   <div class="col-md-4">
-					<div class="card radius-10 border-start border-0 border-secondary">
+					<div class="card radius-10 border-start border-0 border-4 border-secondary">
 					   <div class="card-body">
 					   <div class="d-flex align-items-center">
 								<div>
@@ -176,7 +176,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 
 
 				  <div class="col-md-4">
-					<div class="card radius-10 border-start border-0 border-light">
+					<div class="card radius-10 border-start border-0 border-4 border-warning">
 					   <div class="card-body">
 					   <div class="d-flex align-items-center">
 								<div>
@@ -421,7 +421,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 
 
 
-
+ 
 
 
 

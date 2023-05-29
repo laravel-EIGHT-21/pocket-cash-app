@@ -36,7 +36,6 @@ View Transactions
                                         <th>Parent Tel.</th>
                                         <th>Transfer Date</th>
 										<th>Deposits (UGX)</th>
-										
 
 									</tr>
 								</thead>
@@ -49,8 +48,6 @@ View Transactions
 <td> {{ $value->payer_number}}</td>
 <td> {{ $value->transfer_date}}</td>
 <td> {{ $value->amount}}</td>
-
- 
 
 
 </tr>
