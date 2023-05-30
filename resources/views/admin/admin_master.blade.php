@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/Akilibit.png')}}" type="image/png"/>
+	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png"/>
 
 
 	<script src="https://kit.fontawesome.com/02761bcd61.js" crossorigin="anonymous"></script>
@@ -238,9 +238,9 @@ $editdata = App\Models\User::find($id);
 	<script src="{{asset('Backend/assets/plugins/validation/validation-script.js')}}"></script>
 	<script src="{{ asset('Backend/assets/js/code.js') }}"></script>
 	
-	<script src="{{asset('Backend/assets/js/jquery.dataTables.min.js')}}"></script>
-	
+	<script src="{{asset('Backend/assets/plugins/datatable/js/datatable-api.init.js')}}"></script>
 
+	
 
 	
 <!--SweetAlert2 -->

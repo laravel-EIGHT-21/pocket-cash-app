@@ -12,7 +12,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Add Students</li>
+								<li class="breadcrumb-item active" aria-current="page">Add New Students</li>
 							</ol>
 						</nav>
 					</div>
@@ -24,7 +24,7 @@
 					<div class="col-xl-6 mx-auto">
 						<div class="card">
 							<div class="card-header px-4 py-6">
-								<h5 class="mb-0">Add New Student Account</h5>
+								<h5 class="mb-0"><b>Add New Student Account</b></h5>
 								<div class="ms-auto" style="float: right;"><a href="{{ route('view.students') }}" class="btn btn-success radius-30 mt-2 mt-lg-0">Back</a></div>
 							</div>
 							<div class="card-body p-4">

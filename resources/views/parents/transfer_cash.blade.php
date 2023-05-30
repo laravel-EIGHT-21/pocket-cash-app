@@ -60,7 +60,7 @@
 										<p class="mb-0">Please Enter Student Account Number To Transfer Money</p>
 									</div>
 									<div class="form-body">
-										<form class="row g-3"  action="/transfer/pockek/cash" enctype="multipart/form-data" >
+										<form class="row g-3"  action="/transfer/pocket/cash" enctype="multipart/form-data" >
 									{{csrf_field()}}
 
                                         <div class="my-4">

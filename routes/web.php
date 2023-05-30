@@ -158,10 +158,17 @@ Route::get('/add/students', [StudentController::class, 'AddStudents'])->name('ad
 
 Route::post('/store/students', [StudentController::class, 'StoreStudents'])->name('students.store');
 
+Route::get('/add/old/students', [StudentController::class, 'AddOldStudents'])->name('add.old.students');
+Route::post('/store/old/students', [StudentController::class, 'StoreOldStudents'])->name('old.students.store');
+
+
+Route::get('/get/student/code', [StudentController::class, 'GetStudentCode'])->name('get.student.code');
+
+
 Route::get('/students/edit/{id}', [StudentController::class, 'EditStudents'])->name('edit.students');
 Route::post('/students/update/{id}', [StudentController::class, 'UpdateStudents'])->name('students.update');
 
-Route::get('/students/delete/{id}', [StudentController::class, 'DeleteStudents'])->name('delete.students');
+//Route::get('/students/delete/{id}', [StudentController::class, 'DeleteStudents'])->name('delete.students');
 
 
 Route::get('/students/inactive/{id}',[StudentController::class,'inactiveStudents'])->name('students.inactive');

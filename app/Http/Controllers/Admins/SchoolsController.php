@@ -44,11 +44,18 @@ class SchoolsController extends Controller
     $partyId = $request->mobile;
     $student_acct = $request->acct_id;
 
+    
+   // $school = SchoolStudent::where('acct_id',$student_acct)->get();
+    //$school_id = $school->school_id;
+
 
 
 		$singleStudent = SchoolStudent::where('acct_id',$student_acct)->where('status',1)->first();
 
 		if ($singleStudent == true) {
+
+
+
     $momoTransactionId = $remittance->transfer($transactionId, $partyId, $amount,$student_acct);
 
 $response = $remittance->getTransactionStatus($momoTransactionId);
@@ -76,6 +83,7 @@ $year = Carbon::now()->format('y');
               apiTransfers::create([
 
               'student_acct_no' => $student_acct,
+              'school_id' => $singleStudent->school_id,
               'amount' => $amount,
               'currency' => $currency,
               'reference_id' => $momoTransactionId,

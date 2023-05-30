@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('api_transfers', function (Blueprint $table) {
             $table->id();
+            $table->string('student_acct_no')->nullable();
             $table->double('amount')->nullable();
             $table->string('currency')->nullable();
             $table->string('financialTransactionId')->nullable();

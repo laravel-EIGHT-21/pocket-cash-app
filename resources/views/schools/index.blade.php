@@ -96,16 +96,15 @@ $allData = App\Models\apiTransfers::latest()->get();
                   </div>
 
         <div class="table-responsive">
-		<table id="example" class="table table-striped table-bordered" style="width:100%">
+		<table id="example" class="table table-striped table-bordered text-inputs-searching text-nowrap" style="width:100%">
 								<thead>
 									<tr>
 									
 									<th width=5%>SL</th> 
 
 									<th>Student Account </th>
+									<th>School Code </th>
                                         <th>Deposits (UGX)</th>
-                                    
-                                        <th>Parent Tel.</th>
 
                                         <th>Transfer Date</th>
 										
@@ -118,9 +117,9 @@ $allData = App\Models\apiTransfers::latest()->get();
 <td>{{ $key+1 }}</td>
 
 <td> {{ $value->student_acct_no}}</td>
+<td> {{ $value->school_id}}</td>
 <td> {{ $value->amount}}</td>
 
-<td> {{ $value->payer_number}}</td>
 <td> {{ $value->transfer_date}}</td>
 
 
@@ -129,6 +128,19 @@ $allData = App\Models\apiTransfers::latest()->get();
 </tr>
 @endforeach
 								</tbody>
+
+								<tfoot>
+                          <!-- start row -->
+                          <tr>
+						  <th>SL</th> 
+						  <th>Student Account </th>
+									<th>School Code </th>
+                                        <th>Deposits (UGX)</th>
+
+                                        <th>Transfer Date</th>
+                          </tr>
+                          <!-- end row -->
+                        </tfoot>
 
 							</table>
         </div>

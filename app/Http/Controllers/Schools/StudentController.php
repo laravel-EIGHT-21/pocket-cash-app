@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Schools;
 use App\Models\SchoolStudent;
+use App\Models\studentCodes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,16 @@ class StudentController extends Controller
     }
 
 
+    
+      
+  
+  public function AddOldStudents(){
+
+    $data['students'] = SchoolStudent::all();
+      return view('Schools_section.students_view.add_old_student',$data);
+    }
+
+
 
 
 
@@ -50,7 +61,8 @@ class StudentController extends Controller
       DB::transaction(function() use($request){
         $id = Auth::user()->id;
        
-       // $students = SchoolStudent::orderBy('id','DESC')->first();
+        $students = Schools::where('id',$id)->find($id);
+       
     
         $student_acct = mt_rand(100000,999999);
 
@@ -60,10 +72,10 @@ class StudentController extends Controller
           $user = new SchoolStudent();
           $user->acct_id = $final_id_no;
       $user->name = $request->name;
-      $user->school_id = $id;
+      $user->school_id = $students->school_id_no;
        $user->save();
 
-
+      
 
       });
 
@@ -82,6 +94,82 @@ class StudentController extends Controller
     } // End Method 
 
 
+
+
+		
+		public function GetStudentCode(Request $request){
+
+			$id = $request->id;
+			
+
+            $allData = SchoolStudent::where('status',1)->where('id',$id)->first()->acct_id;
+            return response()->json($allData); 
+	
+		}
+  
+  
+  
+  
+  
+      
+    public function StoreOldStudents(Request $request){
+
+		$acct_id = $request->acct_id;
+		
+
+		$check = SchoolStudent::where('acct_id',$acct_id)->where('status',0)->first();
+
+
+			     
+		if($check == true){
+  
+  
+        DB::transaction(function() use($request){
+          $id = Auth::user()->id;
+         
+         $students = Schools::where('id',$id)->find($id);
+         
+      
+            $user = new SchoolStudent();
+            $user->acct_id = $request->acct_id;
+        $user->name = $request->name;
+        $user->school_id = $students->school_id_no;
+         $user->save();
+  
+        
+         SchoolStudent::where('acct_id',$user->acct_id)->where('status',0)->delete();
+         
+  
+        });
+  
+  
+        $notification = array(
+          'message' => 'Student Account Added Successfully',
+          'alert-type' => 'success'
+        );
+  
+        return redirect()->route('view.students')->with($notification);
+  
+      }
+
+      else{
+
+
+        $notification = array(
+          'message' => 'STUDENT`S  ACCOUNT STILL ACTIVE IN ANOTHER SCHOOL...',
+          'alert-type' => 'error'
+        );
+        
+        return redirect()->back()->with($notification);
+        
+        }	
+    
+  
+  
+  
+      } // End Method 
+  
+  
 
 
 
@@ -131,6 +219,9 @@ class StudentController extends Controller
   
   public function inactiveStudents($id)
 { 
+
+  
+
   SchoolStudent::findOrFail($id)->update(['status' => 0]);
         $notification = array(
             'message' => 'Student Account Status Deactivated...',

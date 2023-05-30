@@ -37,7 +37,7 @@ class TransactionController extends Controller
   
   public function ViewStudentAccountDetails($acct_id){
 
-    $account = SchoolStudent::where('acct_id',$acct_id)->get();
+    $account = SchoolStudent::where('acct_id',$acct_id)->where('status',1)->get();
 
     $acct = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('amount');
 

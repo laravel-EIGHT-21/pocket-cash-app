@@ -29,11 +29,11 @@
 	<div class="wrapper">
 		<div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
 			<div class="container">
-				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
-					<div class="col mx-auto">
+				<div class="row ">
+					<div class="col-6 mx-auto">
 						<div class="card mb-0">
 							<div class="card-body">
-								<div class="p-4">
+								<div class="p-8">
 									<div class="mb-3 text-center">
 										<img src="{{asset('upload/funzi_wallet.png')}}" width="390" alt="" />
 									</div>

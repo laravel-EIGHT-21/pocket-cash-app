@@ -31,9 +31,9 @@ View Transactions
 							<table id="example" class="table table-striped table-bordered display text-nowrap" style="width:100%">
 								<thead>
 									<tr>
-                                    <th width="5%">SL</th> 
+                                    <th>SL</th> 
 									<th>Student Account </th>
-                                        <th>Parent Tel.</th>
+                                    <th>School Code</th>
                                         <th>Transfer Date</th>
 										<th>Deposits (UGX)</th>
 
@@ -45,7 +45,7 @@ View Transactions
 
                                 <td>{{ $key+1 }}</td>
 <td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->payer_number}}</td>
+<td> {{ $value->school_id}}</td>
 <td> {{ $value->transfer_date}}</td>
 <td> {{ $value->amount}}</td>
 
@@ -63,7 +63,9 @@ View Transactions
                             <th></th>
                           </tr>
                           <!-- end row -->
+
                         </tfoot>
+
 
 							</table>
 						</div>
@@ -73,7 +75,7 @@ View Transactions
 			</div>
 <br><br>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" ></script>
 
 <script>
 $(document).ready(function() {
@@ -111,7 +113,7 @@ $(document).ready(function() {
           
             // Update footer
             $( api.column( 4 ).footer() ).html(
-                ''+pageTotal +' ( '+ total +' total) (' + sumCol4Filtered +' filtered)'
+                ''+pageTotal +' ( '+ total +' total) '
             );
         }
     } );

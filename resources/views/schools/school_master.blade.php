@@ -23,7 +23,9 @@
    <!-- Ionicons -->
    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-
+   
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.3.0/select2-bootstrap-5-theme.min.css" />
 
 	<!--plugins-->
 	<link href="{{asset('Backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
@@ -68,7 +70,8 @@
 					<img src="{{asset('upload/funzi_wallet.png')}}" width="400" class="logo-icon" alt="logo icon">
 				</div>
 
-
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+				</div>
 			 </div>
 			<!--navigation-->
 			<ul class="metismenu" id="menu">
@@ -96,8 +99,6 @@
 					
 				</li>
 				
-
-
 				<li>
 					<a href="{{ route('view.students') }}" >
 						<div class="parent-icon"><i class="lni lni-network bx-spin"></i>
@@ -106,6 +107,16 @@
 					</a>
 					
 				</li>
+
+				<li>
+					<a href="{{ route('add.old.students') }}" >
+						<div class="parent-icon"><i class="lni lni-network bx-spin"></i>
+						</div>
+						<div class="menu-title">Register Old Student</div>
+					</a>
+					
+				</li>
+
 
 
 
@@ -164,11 +175,14 @@
 	<script src="{{asset('Backend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 	<script src="{{asset('Backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
 
+	<script src="{{asset('Backend/assets/plugins/datatable/js/datatable-api.init.js')}}"></script>
+
 	<script src="{{asset('Backend/assets/plugins/validation/jquery.validate.min.js')}}"></script>
 	<script src="{{asset('Backend/assets/plugins/validation/validation-script.js')}}"></script>
 
 	<script type="text/javascript" src="{{asset('Backend/assets/js/animation.js')}}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	
 <!--SweetAlert2 -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
