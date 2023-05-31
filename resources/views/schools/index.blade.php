@@ -297,7 +297,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 <td>{{ $key+1 }}</td>
 
 <td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->school_id}}</td>
+<td> {{ $value['school']['name']}}</td>
 <td> {{ $value->amount}}</td>
 
 <td> {{ $value->transfer_date}}</td>

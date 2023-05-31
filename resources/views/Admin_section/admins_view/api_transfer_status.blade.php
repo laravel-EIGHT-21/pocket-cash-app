@@ -45,7 +45,7 @@ View Transactions
 
                                 <td>{{ $key+1 }}</td>
 <td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->school_id}}</td>
+<td> {{ $value['school']['name']}}</td>
 <td> {{ $value->transfer_date}}</td>
 <td> {{ $value->amount}}</td>
 
