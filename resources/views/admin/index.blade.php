@@ -41,7 +41,7 @@ $allData3 = App\Models\apiTransfers::where('transfer_year',$years)->get();
 
 @endphp
 
-<div class="page-content">
+<div class="page-content"> 
 				<div class="row">
                    <div class="col-md-6">
 					 <div class="card radius-10 border-start border-0 border-4 border-info">
@@ -213,8 +213,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
              
                 $month[] = $row['transfer_month'];
                 $deposits_total[] = $row['deposits'];
-				$deposits_made = $row['deposits'];
-             
+				
              }
 
 			

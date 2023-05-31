@@ -20,5 +20,10 @@ class apiTransfers extends Model
     }
 
 
+         
+    public function school(){
+        return $this->belongsTo(Schools::class,'school_id','school_id_no');
+    }
+
 
 }
