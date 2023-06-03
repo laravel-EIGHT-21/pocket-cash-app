@@ -23,8 +23,15 @@ View Schools
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">All School Information</h6>
 
+				@can('create-school')
+				
 									<div class="ms-auto" style="float: right;"><a href="{{ route('add.school') }}" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Add New School</a></div>
+
+
+@endcan
+
 				<hr/>
+
                 <br><br>
 				<div class="card">
 					<div class="card-body">
@@ -57,7 +64,8 @@ View Schools
 <img src="{{ (!empty($value->school_logo_path))? url('upload/logo/'.$value->school_logo_path):url('upload/no_image.jpg') }}" style="width: 60px; width: 60px;"> 
 </td>
 
-			 
+	
+@can('edit-school')
 <td>
 
 
@@ -77,6 +85,8 @@ View Schools
 
 
 </td>
+@endcan
+
 @endforeach									
 								</tbody>
 

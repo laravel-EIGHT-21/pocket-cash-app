@@ -47,6 +47,11 @@ return [
             'provider' => 'schools',
         ],
 
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'students',
+        ],
+
 
     ],
 
@@ -76,6 +81,11 @@ return [
         'schools' => [
             'driver' => 'eloquent',
             'model' => App\Models\Schools::class,
+        ],
+
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SchoolStudent::class,
         ],
 
 
@@ -111,6 +121,13 @@ return [
 
         'schools' => [
             'provider' => 'schools',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'students' => [
+            'provider' => 'studnets',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

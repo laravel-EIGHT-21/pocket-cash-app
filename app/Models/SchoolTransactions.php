@@ -14,10 +14,9 @@ class SchoolTransactions extends Model
 
 
          
-    public function student(){
-        return $this->belongsTo(SchoolStudent::class,'student_acct_no','acct_id');
+    public function school(){
+        return $this->belongsTo(Schools::class,'school_id','school_id_no');
     }
-
 
 
 

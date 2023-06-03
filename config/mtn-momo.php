@@ -116,7 +116,7 @@ return [
         'disbursement' => [
             'id' => env('MOMO_DISBURSEMENT_ID'),
 
-            'callback_uri' => env('MOMO_DISBURSEMENT_CALLBACK_URI'),
+            'callback_uri' => env('MOMO_REMITTANCE_CALLBACK_URI'),
 
             'secret' => env('MOMO_DISBURSEMENT_SECRET'),
 

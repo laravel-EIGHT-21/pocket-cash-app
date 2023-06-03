@@ -22,9 +22,16 @@ View Admins
 				</div>
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">Admin Users Information</h6>
+
+
+				@can('create-admin-user')
+			
+
 				<div class="col" style="float: right;">
 										<a href="{{ route('add.admin.user') }}" class="btn btn-primary px-2 radius-30">Add New Admin</a>
 									</div>
+@endcan
+
 				<hr/>
                 <br><br>
 				<div class="card">
@@ -50,9 +57,13 @@ View Admins
 <td> {{ $value->email }}</td>	
 <td> {{ $value->mobile }}</td>	
 
+
+@can('edit-admin-user ')
+			
 			 
 <td>
 
+	
 
 <a href="{{ route('edit.admin.user',$value->id) }}" class="btn btn-info" title="Edit"><i class="fa fa-edit"></i></a>
 
@@ -70,6 +81,8 @@ View Admins
 
 
 </td>
+
+@endcan
 
 </tr>
 @endforeach

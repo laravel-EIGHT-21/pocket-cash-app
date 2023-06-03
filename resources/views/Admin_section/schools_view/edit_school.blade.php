@@ -92,12 +92,16 @@ View Schools
 									</div>
 
 
+									@can('edit-school')
 									<div class="col-md-12">
 										<div class="d-md-flex d-grid align-items-center gap-3">
 											<button type="submit" class="btn btn-primary px-4">Update</button>
 											<button type="reset" class="btn btn-light px-4">Reset</button>
 										</div>
 									</div>
+@endcan
+
+
 								</form>
 							</div>
 						</div>

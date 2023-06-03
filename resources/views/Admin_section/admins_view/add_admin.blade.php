@@ -63,13 +63,35 @@ View Admins
 										  </div>
 									</div>
 
+									<br>
 
+									<hr>
+
+
+									<div class="mb-4">
+									<label for="single-select-field" class="form-label">Assign User Role</label>
+									<select name="roles[]"  class="form-select" id="single-select-field" data-placeholder="Choose User Role">
+									<option value="" selected="" disabled="">Select User Group</option>
+									@foreach ($roles as $role)
+									<option value="{{ $role->id }}">{{ $role->name }}</option>
+									@endforeach
+
+									</select>
+								</div>
+
+								<br>
+
+								<hr>
+
+								@can('create-admin-user')
 									<div class="col-md-12">
 										<div class="d-md-flex d-grid align-items-center gap-3">
 											<button type="submit" class="btn btn-primary px-4">Submit</button>
 											<button type="reset" class="btn btn-light px-4">Reset</button>
 										</div>
 									</div>
+@endcan
+
 								</form>
 							</div>
 						</div>

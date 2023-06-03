@@ -13,11 +13,27 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\apiTransfers;
 use App\Products\Remittance;
+use App\Products\Disbursement;
 
 
 class SchoolsController extends Controller
 {
+ 	
 
+
+  function __construct()
+
+    {
+
+         $this->middleware('permission:view-schools|create-school|edit-school|money-transfers', ['only' => ['ViewSchools']]);
+
+         $this->middleware('permission:create-school', ['only' => ['AddSchools','StoreSchools']]);
+
+         $this->middleware('permission:edit-school', ['only' => ['EditSchools','UpdateSchools','inactiveSchools','activeSchools']]);
+
+         $this->middleware('permission:money-transfers', ['only' => ['MoneyTransfers','BulkMoneyTransferGet']]);
+
+    }
 
 
 
@@ -138,6 +154,31 @@ $year = Carbon::now()->format('y');
 
     }
 
+
+
+
+    
+
+
+    public function MoneyTransfers()
+    {
+     
+        $allData = SchoolTransactions::select('date')->groupBy('date')->latest()->get();
+
+        
+        
+  return view('Admin_section.transactions.view_transactions',compact('allData'));
+
+    }
+
+
+
+    
+      
+  public function BulkMoneyTransferGet(Request $request){
+
+
+  }
 
 
 
@@ -358,17 +399,7 @@ $year = Carbon::now()->format('y');
     	return view('Admin_section.schools_view.view_students',$data);
     }
 
-    
-        
-    public function ViewSchoolTransactions(){
-
-		$data['allData'] = SchoolTransactions::all();
-    	return view('Admin_section.transactions.view_transactions',$data);
-    }
-
-
-
-
+  
 
 
 

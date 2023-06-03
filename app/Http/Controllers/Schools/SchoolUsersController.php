@@ -18,6 +18,7 @@ use Laravel\Fortify\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Schools;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Responses\LoginResponse;
 
 class SchoolUsersController extends Controller
@@ -107,9 +108,15 @@ class SchoolUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Laravel\Fortify\Contracts\LogoutResponse
      */
-    public function destroy()
+    public function destroy(Request $request): RedirectResponse
     {
+
         Auth::logout();
+ 
+        $request->session()->invalidate();
+     
+        $request->session()->regenerateToken();
+
         return redirect()->route('school.login');
     }
 

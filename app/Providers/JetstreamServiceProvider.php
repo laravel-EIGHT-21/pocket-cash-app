@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 use App\Models\User;
 use App\Models\Schools;
+use App\Models\SchoolStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Fortify;
@@ -34,16 +35,22 @@ class JetstreamServiceProvider extends ServiceProvider
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->auth)->first();
             $user1 = Schools::Where('school_id_no', $request->auth)->first();
+            $user2 = SchoolStudent::Where('acct_id', $request->auth)->first();
 
             if ($user &&
-                Hash::check($request->password, $user->password)) {
-                return $user;
+            Hash::check($request->password, $user->password)) {
+            return $user;
             }
 
-if($user1 &&
-Hash::check($request->password, $user1->password)) {
-return $user1;
-}
+            if($user1 &&
+            Hash::check($request->password, $user1->password)) {
+            return $user1;
+            }
+
+            if($user2 &&
+            Hash::check($request->password, $user2->password)) {
+            return $user2;
+            }
 
 
         });

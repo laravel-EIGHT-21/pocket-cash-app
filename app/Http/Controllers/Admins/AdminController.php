@@ -8,16 +8,40 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User; 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+
+
+
+    function __construct()
+
+    {
+
+         $this->middleware('permission:view-admin-users|create-admin-user|edit-admin-user', ['only' => ['ViewAdminUsers']]);
+
+         $this->middleware('permission:create-admin-user', ['only' => ['AddAdminUser','StoreAdminUser']]);
+
+         $this->middleware('permission:edit-admin-user', ['only' => ['EditAdminUser','UpdateAdminUser']]);
+
+        // $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+
+    }
     
 
 
-    public function destroy(){
+    public function destroy(Request $request): RedirectResponse
+    {
 
         Auth::logout();
+ 
+        $request->session()->invalidate();
+     
+        $request->session()->regenerateToken();
+
         return redirect()->route('login');
 
     }
@@ -114,8 +138,8 @@ class AdminController extends Controller
     
     public function AddAdminUser(){
 
-		//$data['allData'] = User::all();
-    	return view('Admin_section.admins_view.add_admin');
+		$data['roles'] = Role::all();
+    	return view('Admin_section.admins_view.add_admin',$data);
     }
 
 
@@ -140,6 +164,16 @@ class AdminController extends Controller
 			$adminuser->password = Hash::make($request->password);
 			$adminuser->created_at = Carbon::now(); 
 			$adminuser->save();
+
+            $roles = $request['roles'];
+
+			if (isset($roles)) {
+	
+				foreach ($roles as $role) {
+				$role_r = Role::where('id', '=', $role)->firstOrFail();            
+				$adminuser->assignRole($role_r);
+				}
+			}     
 
            
     	});
@@ -180,8 +214,10 @@ class AdminController extends Controller
     
     public function EditAdminUser($id){
 		$data['editData'] = User::findOrFail($id);
-		
 
+        $data['editRole'] = DB::table('model_has_roles')->where('model_id',$id)->orderBy('role_id','asc')->get();
+        $data['roles'] = Role::all();
+		
     	return view('Admin_section.admins_view.edit_admin',$data);
 
     }
@@ -202,6 +238,15 @@ class AdminController extends Controller
 		$adminuser->password = Hash::make($request->password);
 	
  	    $adminuser->save();
+
+
+         $roles = $request['roles'];
+		 if (isset($roles)) {        
+            $adminuser->roles()->sync($roles);            
+        }        
+        else {
+            $adminuser->roles()->detach();
+        }
 
 
 

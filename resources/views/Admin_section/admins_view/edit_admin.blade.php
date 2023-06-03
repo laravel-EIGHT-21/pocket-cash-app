@@ -53,7 +53,7 @@ View Admins
 										<div class="invalid-feedback">
 											Please choose a password.
 										</div>
-									</div>
+						 			</div>
 
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Phone</label>
@@ -64,12 +64,36 @@ View Admins
 									</div>
 
 
+									<br>
+
+<hr>
+@foreach($editRole as $update)
+
+<div class="mb-4">
+<label for="single-select-field" class="form-label">Assign User Role</label>
+<select name="roles[]"  class="form-select" id="single-select-field" data-placeholder="Choose User Role">
+<option value="" selected="" disabled="">Select User Group</option>
+@foreach ($roles as $role)
+<option value="{{ $role->id }}" {{ ($update->role_id == $role->id)? "selected": ""  }}>{{ $role->name }}</option>
+@endforeach
+
+</select>
+</div>
+@endforeach
+
+<br>
+
+<hr>
+
+@can('edit-admin-user')
 									<div class="col-md-12">
 										<div class="d-md-flex d-grid align-items-center gap-3">
 											<button type="submit" class="btn btn-primary px-4">Update </button>
 											<button type="reset" class="btn btn-light px-4">Reset</button>
 										</div>
 									</div>
+@endcan
+
 								</form>
 							</div>
 						</div>

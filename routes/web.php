@@ -4,11 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\AdminController;
 use App\Http\Controllers\Admins\SchoolsController;
 use App\Http\Controllers\Admins\SiteSettingController;
+use App\Http\Controllers\Admins\RoleController;
+use App\Http\Controllers\Admins\PermissionController;
+
+
 use App\Http\Controllers\Schools\StudentController;
 use App\Http\Controllers\Schools\TransactionController;
 use App\Http\Controllers\Schools\SchoolUsersController;
-
+use App\Http\Controllers\Schools\StudentUserController;
 use App\Http\Controllers\ParentController;
+
 
 use App\Models\Schools;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +43,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
     Route::middleware(['auth'])->group(function(){
 
-Route::middleware(['auth:sanctum','verified'])->group(function () {
+Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.index');
     })->name('dashboard');
@@ -97,19 +102,55 @@ Route::get('/school/active/{id}',[SchoolsController::class,'activeSchools'])->na
 Route::get('/view/all/students', [SchoolsController::class, 'ViewSchoolStudents'])->name('view.all.students');
 
 
-
-// All Students Transactions Informations
-Route::get('/view/all/deposits', [SchoolsController::class, 'ViewSchoolTransactions'])->name('view.all.deposits');
-
-
-
-// All Students Transactions Informations
-Route::get('/view/api/questions', [SchoolsController::class, 'ViewQuestions'])->name('view.api.questions');
-
-
-
 // All Apis Transfers Informations
-Route::get('/view/api/tranfers}', [SchoolsController::class, 'ViewTranfsers'])->name('view.all.transfers');
+Route::get('/view/api/tranfers', [SchoolsController::class, 'ViewTranfsers'])->name('view.all.transfers');
+
+
+
+
+// All Money Transfers Informations
+Route::get('/view/money/tranfers', [SchoolsController::class, 'MoneyTransfers'])->name('money.transfers');
+
+
+Route::get('/bulk/money/tranfer', [SchoolsController::class, 'BulkMoneyTransferGet']);
+
+
+
+
+
+
+
+
+//Roles Routes ///
+Route::get('/roles/view',[RoleController::class,'index'])->name('roles.view');
+
+Route::get('/roles/show/{id}',[RoleController::class,'show'])->name('role.show');
+
+Route::get('/roles/add', [RoleController::class, 'create'])->name('roles.create');
+
+Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
+
+Route::get('/roles/edit/{id}', [RoleController::class, 'edit'])->name('role.edit');
+
+Route::post('/roles/update/{id}', [RoleController::class, 'update'])->name('role.update');
+
+Route::get('/roles/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
+
+
+
+
+
+//Permissions Routes ///
+Route::get('/permissions/view',[PermissionController::class,'index'])->name('permissions.view');
+
+Route::post('/permissions/store', [PermissionController::class, 'store'])->name('permissions.store');
+
+Route::get('/permissions/edit/{id}', [PermissionController::class, 'edit'])->name('permission.edit');
+
+Route::post('/permissions/update/{id}', [PermissionController::class, 'update'])->name('permission.update');
+
+Route::get('/permissions/delete/{id}', [PermissionController::class, 'destroy'])->name('permission.delete');
+
 
 
     
@@ -134,7 +175,7 @@ Route::group(['prefix' => 'school','middleware' =>['school:school']],function(){
 Route::middleware(['auth:school'])->group(function(){
 
 
-Route::middleware(['auth:sanctum,school','verified'])->group(function () {
+Route::middleware(['auth:sanctum,school',config('jetstream.auth_session'),'verified'])->group(function () {
     Route::get('/school/dashboard', function () {
         return view('schools.index');
     })->name('dashboard');
@@ -247,6 +288,48 @@ Route::post('loan/payment/amount/update/{id}',[TransactionController::class, 'St
     
 
 }); // End Middleare  School Auth Route
+
+
+
+
+
+Route::group(['prefix' => 'student','middleware' =>['student:student']],function(){
+
+    Route::get('/login', [StudentUserController::class,'StudentloginForm']);
+    Route::post('/login', [StudentUserController::class,'studentstore'])->name('student.login');
+
+}); 
+
+
+
+
+
+Route::middleware(['auth:student'])->group(function(){
+
+
+Route::middleware(['auth:sanctum,student','verified'])->group(function () {
+    Route::get('/student/dashboard', function () {
+        return view('students.index');
+    })->name('dashboard');
+});
+
+
+
+// Students Users all Routes
+Route::get('/student/logout',[StudentUserController::class,'destroy'])->name('student.logout');
+
+Route::get('/student-user/profile',[StudentUserController::class,'StudentUserprofile'])->name('student.user.profile.view');
+//Route::post('/school/profile/update',[AdminController::class,'profileUpdate'])->name('admin.profile.update');
+Route::post('/student/password/update',[StudentUserController::class,'studentpassUpdate'])->name('student.password.update');
+
+
+
+    
+
+}); // End Middleare  Students login Auth Route
+
+
+
 
 
 

@@ -83,7 +83,7 @@
 
 				</li>
 
-
+				@can('view-admin-users')
 				<li>
 					<a href="{{ route('view.admin.user') }}" >
 						<div class="parent-icon"><i class="lni lni-users bx-spin"></i>
@@ -92,9 +92,10 @@
 					</a>
 					
 				</li>
+				@endcan
 				
 				
-
+				@can('view-schools')
 				<li>
 					<a href="{{ route('view.schools') }}" >
 						<div class="parent-icon"><i class="fadeIn animated bx bx-home-smile bx-spin"></i>
@@ -103,6 +104,7 @@
 					</a>
 					
 				</li>
+				@endcan
 
 
 				<li>
@@ -115,7 +117,6 @@
 				</li>
 
 
-
 				<li>
 					<a href="{{ route('view.all.transfers') }}" >
 						<div class="parent-icon"><i class="lni lni-invest-monitor bx-spin"></i>
@@ -124,6 +125,44 @@
 					</a>
 					
 				</li>
+
+				@can('money-transfers')
+				<li>
+					<a href="{{ route('money.transfers') }}" >
+						<div class="parent-icon"><i class="lni lni-invest-monitor bx-spin"></i>
+						</div>
+						<div class="menu-title">Money Transfers</div>
+					</a>
+					
+				</li>
+
+				@endcan
+
+
+
+				@can('role-list')
+				
+				<li>
+					<a href="{{ route('roles.view') }}" >
+						<div class="parent-icon"><i class="lni lni-users bx-spin"></i>
+						</div>
+						<div class="menu-title">View User Groups</div>
+					</a>
+					
+				</li>
+@endcan
+
+
+				@can('permit-list')
+				<li>
+					<a href="{{ route('permissions.view') }}" >
+						<div class="parent-icon"><i class="lni lni-lock bx-spin"></i>
+						</div>
+						<div class="menu-title">View Permissions</div>
+					</a>
+					
+				</li>
+				@endcan
 
 
 
@@ -143,53 +182,9 @@
 			<!--end navigation-->
 		</div>
 		<!--end sidebar wrapper -->
-		<!--start header -->
-		<header>
-	<div class="topbar d-flex align-items-center">
-		<nav class="navbar navbar-expand gap-3">
-			<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
-			</div>
-
-
-
-			  <div class="top-menu ms-auto">
-				<ul class="navbar-nav align-items-center gap-1">
-			
-				</ul>
-			</div>
-			<div class="user-box dropdown px-3">
-
-							
-@php
-$id = Auth::user()->id;
-$admindata = App\Models\User::find($id);
-
-$editdata = App\Models\User::find($id);
-@endphp
-<a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="{{(!empty($admindata->profile_photo_path))? url('upload/admin_images/'.$admindata->profile_photo_path):url('upload/no_image.jpg') }}" class="user-img" alt="user avatar">
-					<div class="user-info">
-						<p class="user-name mb-0">{{$editdata->name}}</p>
-
-					</div>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item d-flex align-items-center" href="{{route('profile.view')}}"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
-					</li>
-					
 				
-					<li>
-						<div class="dropdown-divider mb-0"></div>
-					</li>
-					<li><a class="dropdown-item d-flex align-items-center" href="{{route('admin.logout')}}"><i class="bx bx-log-out-circle"></i><span>Logout</span></a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-</header>
+@include('admin.header')
 
-		<!--end header -->
 		<!--start page wrapper -->
 		<div class="page-wrapper">
 
