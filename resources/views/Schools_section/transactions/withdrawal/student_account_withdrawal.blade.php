@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 
@@ -40,7 +40,7 @@
 									</div>
 
 									<div class="col-md-4">
-										<label for="bsValidation1" class="form-label"><b>Account No : {{ $allData->acct_id}}</b></label>
+										<label for="bsValidation1" class="form-label"><b>Account No : {{ $allData->student_code}}</b></label>
 										
 									</div>
 

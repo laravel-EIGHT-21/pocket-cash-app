@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 <div class="page-content">
 				<!--breadcrumb-->

@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 <section class="content-header">
 <div class="container-fluid">
@@ -43,6 +43,7 @@
 {{$item->name}}
 
 </td>
+@if (auth()->user()->type == 0)
 <td width="20%">
 
 @can('permit-edit')
@@ -57,6 +58,7 @@
    @endcan
 
 </td>
+@endif
 </tr>
 @endforeach  
 
@@ -72,7 +74,7 @@
 
 
 <!--Add New Blog Category-->
-
+@if (auth()->user()->type == 0)
 <div class="col-4 ">
 
     <div class="card card-default">
@@ -115,6 +117,7 @@
 
 
 </div>
+@endif
 
 </div>
 

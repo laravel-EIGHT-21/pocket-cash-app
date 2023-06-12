@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 <div class="page-content">
 				<!--breadcrumb-->
@@ -24,6 +24,7 @@
 								<h5 class="mb-0">Update Permission Info</h5>
                                 <a href="{{ route('permissions.view') }}" class="btn btn-success px-3 radius-0" style="float: right;"> Back</a>
 							</div>
+							@if (auth()->user()->type == 0)
 							<div class="card-body p-4">
 								<form  method="post" action="{{ route('permission.update',$permit->id) }}"  class="row g-3 needs-validation" novalidate>
                                 @csrf
@@ -47,8 +48,10 @@
 											<button type="reset" class="btn btn-light px-4">Reset</button>
 										</div>
 									</div>
+								
 								</form>
 							</div>
+							@endif
 						</div>
 					</div>
 				</div>

@@ -76,7 +76,7 @@
 			<!--navigation-->
 			<ul class="metismenu" id="menu">
 				<li>
-					<a href="{{ route('dashboard') }}">
+					<a href="{{ route('school.dashboard') }}">
 						<div class="parent-icon"><i class='bx bx-home-alt'></i>
 						</div>
 						<div class="menu-title">Dashboard</div>
@@ -142,7 +142,7 @@
 		<div class="page-wrapper">
 
 			
-		@yield('school')
+		@yield('content')
 
 		</div>
 		<!--end page wrapper -->
@@ -153,7 +153,7 @@
 		  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
 		<footer class="page-footer">
-			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+		<script>document.write(new Date().getFullYear())</script> &copy; <b>Funzi Wallet</b> theme by <a href="#"><b>Akilibit</b></a> 
 		</footer>
 	</div>
 	<!--end wrapper-->

@@ -1,6 +1,6 @@
 <
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 <div class="page-content">
 				<!--breadcrumb-->

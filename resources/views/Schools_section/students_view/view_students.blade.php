@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 <div class="page-content">
@@ -20,8 +20,13 @@
 				</div>
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">All Students Information</h6>
+
+				@if (auth()->user()->type == 1)
                 <div class="ms-auto" style="float: right;"><a href="{{ route('add.students') }}" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Add New Student</a></div>
+				@endif
+
 				<hr/>
+
                 <br><br>
 				<div class="card">
 					<div class="card-body">
@@ -44,7 +49,7 @@
 <td>{{ $key+1 }}</td>
 
 <td> {{ $value->name }}</td>	
-<td> {{ $value->acct_id }}</td>
+<td> {{ $value->student_code }}</td>
 
 
 

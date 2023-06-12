@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 @section('title')
 View Schools 
@@ -42,8 +42,8 @@ View Schools
 									<th>Sch.Code</th> 
 										<th>Name</th>
 										<th>Email</th>
-										<th>Phone 1</th>
-										<th>Phone 2</th>
+										<th>Tel 1</th>
+										<th>Tel 2</th>
 										<th>Address</th>
 										<th>Logo</th>
 										<th>Action</th>
@@ -56,14 +56,14 @@ View Schools
 								<td> {{ $value->school_id_no }}</td>
 <td> {{ $value->name }}</td>
 <td> {{ $value->email }}</td>	
-<td> {{ $value->phone1 }}</td>	
-<td> {{ $value->phone2 }}</td>
-<td> {{ $value->address }}</td>
+<td> {{ $value->school_tel1 }}</td>	
+<td> {{ $value->school_tel2 }}</td>
+<td> {{ $value->school_address }}</td>
 <td> 
 
 <img src="{{ (!empty($value->school_logo_path))? url('upload/logo/'.$value->school_logo_path):url('upload/no_image.jpg') }}" style="width: 60px; width: 60px;"> 
 </td>
-
+@if (auth()->user()->type == 0)
 	
 @can('edit-school')
 <td>
@@ -86,6 +86,7 @@ View Schools
 
 </td>
 @endcan
+@endif
 
 @endforeach									
 								</tbody>

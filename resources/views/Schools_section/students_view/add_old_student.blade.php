@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 
@@ -46,7 +46,7 @@
   <select name="id"  class="form-control js-example-basic-single" aria-readonly="">
   <option value="" selected="" disabled="">Search For Student</option>
   @foreach($students as $class)
-  <option value="{{ $class->id }}">{{ $class->name }}&nbsp; - &nbsp;{{ $class->acct_id }}</option>
+  <option value="{{ $class->id }}">{{ $class->name }}&nbsp; - &nbsp;{{ $class->student_code }}</option>
   @endforeach
 
   </select>
@@ -72,6 +72,14 @@
 
 									</div>
 
+
+									<div class="col-md-12">
+										<label for="bsValidation1" class="form-label">Student Password</label>
+										<input type="password" class="form-control" id="bsValidation1" name="password"  required>
+										<div class="invalid-feedback">
+											Please Enter Student Password.
+										  </div>
+									</div>
 		
 
 

@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 <div class="page-content">
 				<!--breadcrumb-->
@@ -41,7 +41,7 @@
 
 <br>
 
-
+@if (auth()->user()->type == 0)
 
 <div class="row"> <!-- start 2nd row  -->
     
@@ -75,7 +75,7 @@
     
     </div> <!-- end 2nd row  -->
 
-
+@endif
     <hr>
 
 <br>

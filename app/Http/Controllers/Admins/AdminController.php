@@ -25,7 +25,7 @@ class AdminController extends Controller
 
          $this->middleware('permission:create-admin-user', ['only' => ['AddAdminUser','StoreAdminUser']]);
 
-         $this->middleware('permission:edit-admin-user', ['only' => ['EditAdminUser','UpdateAdminUser']]);
+         $this->middleware('permission:edit-admin-user', ['only' => ['EditAdminUser','UpdateAdminUser','inactiveAdminUser','activeAdminUser']]);
 
         // $this->middleware('permission:role-delete', ['only' => ['destroy']]);
 
@@ -45,6 +45,15 @@ class AdminController extends Controller
         return redirect()->route('login');
 
     }
+
+
+        
+    public function adminindex(){
+
+
+    	return view('admin.index');
+    }
+
 
 
 
@@ -129,7 +138,7 @@ class AdminController extends Controller
     
     public function ViewAdminUsers(){
 
-		$data['allData'] = User::all();
+		$data['allData'] = User::where('type',0)->get();
     	return view('Admin_section.admins_view.view_admin',$data);
     }
 
@@ -162,6 +171,7 @@ class AdminController extends Controller
 			$adminuser->email = $request->email;
 			$adminuser->mobile = $request->mobile;
 			$adminuser->password = Hash::make($request->password);
+            $adminuser->type = 0;
 			$adminuser->created_at = Carbon::now(); 
 			$adminuser->save();
 
@@ -264,6 +274,31 @@ class AdminController extends Controller
     }// END METHOD
 
 
+
+
+    
+    public function inactiveAdminUser($id)
+    { 
+        User::findOrFail($id)->update(['status' => 0]);
+            $notification = array(
+                'message' => 'User Has Been Deactivated...',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+
+    }
+
+
+    public function activeAdminUser($id)
+    {
+        User::findOrFail($id)->update(['status' => 1]);
+        $notification = array(
+            'message' => 'User Has Been Activated...',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+
+    }
 
 
 

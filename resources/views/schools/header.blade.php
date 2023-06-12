@@ -3,7 +3,7 @@
 <!--start header -->
 @php
 		$id = Auth::user()->id;
-		$adminData = App\Models\Schools::find($id);
+		$adminData = App\Models\User::find($id);
 		@endphp
 
 <header>

@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 @section('title')
 View Students 
@@ -32,7 +32,7 @@ View Students
 									<tr>
 
 									<th width="5%">SL</th> 
-										<th>School</th>
+									
 										<th>School Code</th>
 										<th>Student</th>
 										<th>Student Code</th>
@@ -45,10 +45,21 @@ View Students
 								<tr>
 <td>{{ $key+1 }}</td>
 
-<td> {{ $value['school']['name']}}</td> 
-<td> {{ $value['school']['school_id_no']}}</td>
+@php 
+
+
+$school = App\Models\User::where('school_id_no','school_std_code')->where('type',1)->get();
+
+
+
+@endphp
+
+
+<td> {{ $value->school_std_code}}</td>
+
+
 <td> {{ $value->name }}</td>	
-<td> {{ $value->acct_id }}</td>	
+<td> {{ $value->student_code }}</td>	
 
 
 <td>

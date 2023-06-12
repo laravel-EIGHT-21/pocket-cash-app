@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 <div class="page-content">
@@ -35,6 +35,15 @@
 										<input type="text" class="form-control" id="bsValidation1" name="name"  required>
 										<div class="invalid-feedback">
 											Please Enter Student name.
+										  </div>
+									</div>
+
+
+									<div class="col-md-12">
+										<label for="bsValidation1" class="form-label">Student Password</label>
+										<input type="password" class="form-control" id="bsValidation1" name="password"  required>
+										<div class="invalid-feedback">
+											Please Enter Student Password.
 										  </div>
 									</div>
 

@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 @section('title')
 View Admins 
@@ -44,7 +44,7 @@ View Admins
 										<th>Name</th>
 										<th>Email</th>
 										<th>Mobile</th>
-										
+										<th>Status</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -58,7 +58,18 @@ View Admins
 <td> {{ $value->mobile }}</td>	
 
 
-@can('edit-admin-user ')
+<td>
+@if($value->status == 1)
+<div class="badge rounded-pill text-success bg-light-info p-2 text-uppercase px-3"><i class='bx bxs-circle align-middle me-1'></i>Active</div>
+@elseif($value->status == 0 )
+<div class="badge rounded-pill text-danger bg-light-info p-2 text-uppercase px-3"><i class='bx bxs-circle align-middle me-1'></i>In-Active</div>
+@endif
+
+
+</td>	
+
+
+@can('edit-admin-user')
 			
 			 
 <td>
@@ -71,10 +82,10 @@ View Admins
 
 
 @if($value->status == 1)
-<a href="{{route('admin.user.inactive',$value->id)}}" class="btn btn-danger" title="Deactivate ">
+<a href="{{route('admin.user.inactive',$value->id)}}" class="btn btn-danger" id="deactivate" title="Deactivate ">
   <i class="fa fa-arrow-down"></i></a>
 @else
-<a href="{{route('admin.user.active',$value->id)}}" class="btn btn-success" title="Activate ">
+<a href="{{route('admin.user.active',$value->id)}}" class="btn btn-success" id="activate" title="Activate ">
   <i class="fa fa-arrow-up"></i></a>
 @endif
 

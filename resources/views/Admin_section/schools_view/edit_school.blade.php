@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 @section('title')
 View Schools  
@@ -28,6 +28,7 @@ View Schools
 								<h5 class="mb-0">Update School Infor</h5>
                                 <a href="{{ route('view.schools') }}" class="btn btn-success px-3 radius-0" style="float: right;"> Back</a>
 							</div>
+							@if (auth()->user()->type == 0)
 							<div class="card-body p-4">
 								<form  method="post" action="{{ route('school.update',$editData->id) }}" enctype="multipart/form-data"  class="row g-3 needs-validation" novalidate>
                                 @csrf
@@ -49,7 +50,7 @@ View Schools
 									</div>
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Telephone 1</label>
-										<input type="text" class="form-control" id="bsValidation3" name="phone1" maxlength="10" value="{{$editData->phone1}}">
+										<input type="text" class="form-control" id="bsValidation3" name="school_tel1" maxlength="10" value="{{$editData->school_tel1}}">
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>
@@ -57,7 +58,7 @@ View Schools
 
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Telephone 2</label>
-										<input type="text" class="form-control" id="bsValidation3" name="phone2" maxlength="10" value="{{$editData->phone2}}">
+										<input type="text" class="form-control" id="bsValidation3" name="school_tel2" maxlength="10" value="{{$editData->school_tel2}}">
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>
@@ -66,20 +67,12 @@ View Schools
                                   
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Address</label>
-										<input type="text" class="form-control" id="bsValidation3" name="address" value="{{$editData->address}}">
+										<input type="text" class="form-control" id="bsValidation3" name="school_address" value="{{$editData->school_address}}">
 										<div class="invalid-feedback">
 											Please Enter School Address.
 										  </div>
 									</div>
 
-
-									<div class="col-md-12">
-										<label for="password" class="form-label">Password</label>
-										<input type="password" class="form-control" name="password" id="password">
-										<div class="invalid-feedback">
-											Please Enter Password.
-										  </div>
-									</div>
 
 
                                    
@@ -104,6 +97,7 @@ View Schools
 
 								</form>
 							</div>
+							@endif
 						</div>
 					</div>
 				</div>

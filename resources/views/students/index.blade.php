@@ -1,6 +1,6 @@
 
 @extends('students.student_master')
-@section('student')
+@section('content')
 
 
 <!-- Start Content-->

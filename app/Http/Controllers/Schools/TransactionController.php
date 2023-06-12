@@ -9,7 +9,7 @@ use App\Models\SchoolTransactions;
 use App\Models\loan;
 use App\Models\withdrawal;
 use App\Models\apiTransfers;
-use App\Models\Schools;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +26,10 @@ class TransactionController extends Controller
     public function ViewStudentTransactions(){
 
       $id = Auth::user()->id;
+      $school_code = Auth::user()->school_id_no;
      
 
-        $data['allData'] = SchoolStudent::with(['school'])->where('school_id',$id)->where('status',1)->get();
+        $data['allData'] = User::where('type',2)->where('school_std_code',$school_code)->where('status',1)->get();
       return view('Schools_section.transactions.student_account_view',$data);
   }
 
@@ -37,7 +38,7 @@ class TransactionController extends Controller
   
   public function ViewStudentAccountDetails($acct_id){
 
-    $account = SchoolStudent::where('acct_id',$acct_id)->where('status',1)->get();
+    $account = User::where('type',2)->where('student_code',$acct_id)->where('status',1)->get();
 
     $acct = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('amount');
 
@@ -71,8 +72,8 @@ class TransactionController extends Controller
   
 public function StudentWithdrawalForm($id){
 
-  $allData = SchoolStudent::where('id',$id)->first();
-  $acct_no = $allData->acct_id;
+  $allData = User::where('id',$id)->first();
+  $acct_no = $allData->student_code;
 
         
   $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
@@ -96,9 +97,8 @@ public function StudentWithdrawalForm($id){
   
 public function StudentLoanForm($id){
    
-  $allData = SchoolStudent::where('id',$id)->first();
-
-  $acct_no = $allData->acct_id;
+  $allData = User::where('id',$id)->first();
+  $acct_no = $allData->student_code;
 
         
   $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
@@ -136,8 +136,8 @@ public function StudentLoanForm($id){
 				
 public function StudentWithdrawalAmountStore(Request $request,$id){
 
-  $account = SchoolStudent::where('id',$id)->find($id);
-  $acct_no = $account->acct_id;
+  $account = User::where('id',$id)->first();
+  $acct_no = $account->student_code;
     
   $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
 
@@ -293,9 +293,8 @@ public function StudentWithdrawnAmountUpdate(Request $request,$id){
       
 public function StudentLoanAmountStore(Request $request,$id){
 
-  
-  $account = SchoolStudent::where('id',$id)->find($id);
-  $acct_no = $account->acct_id;
+  $allData = User::where('id',$id)->first();
+  $acct_no = $allData->student_code;
     
 
   $feesData = new loan();

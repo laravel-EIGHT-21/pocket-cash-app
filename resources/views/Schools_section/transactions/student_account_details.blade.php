@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
             
 <div class="page-content">
@@ -39,7 +39,7 @@
 											<div class="mt-3">
                                             @foreach($account as $key => $value )
 												<h4><b><span style="color:green;">{{$value->name}}`s</span></b></h4>
-												<p class="text-primary mb-1"><b>Account Number : </b><b>{{$value->acct_id}}</b></p>
+												<p class="text-primary mb-1"><b>Account Number : </b><b>{{$value->student_code}}</b></p>
 
                                                 <p class="text-success mb-1"><b> Actual Amount : ugx </b><b>{{ ($acct_bal) }}</b></p>
 
@@ -315,54 +315,6 @@
                                         </div>
 
 
-										
-<!-- Edit Modal -->
-<div class="modal fade" id="loaneditmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="myModalLabel">Enter Loan Payment Amount</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-
-<form method="post" action="{{ route('loan.payment.update',$value->id) }}">
- @csrf
-
-
-
-<div class="modal-body">
-
-<input type="hidden" name="id" id="id" >
-
-<div class="mb-3">
-<label for="loan_amount">Loan Amount Given</label>
-<input type="text" name="loan_amount" id="loan_amount" class="form-control" readonly>
-</div>
-
-
-<div class="mb-3">
-<label for="loan_date">Loan Date</label>
-<input type="text" name="loan_date" id="loan_date" class="form-control" readonly>
-</div>
-
-
-<div class="mb-3">
-<label for="loan_payment_amount">Loan Payment Amount</label>
-<input type="text" name="loan_payment_amount" id="loan_payment_amount" class="form-control" required>
-</div>
-
-</div>
-
-
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-<button type="submit" id="submit"  class="btn btn-success">Submit Loan Payment</button>
-</div>
-
-</form>
-</div>
-</div>
-</div>
 
 										
 									

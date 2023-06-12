@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 
@@ -27,9 +27,10 @@
 							<div class="col-lg-4">
 								<div class="card">
 									<div class="card-body">
-                                        @php
+									@php
                                         $id = Auth::user()->id;
-                                        $adminData = App\Models\Schools::find($id);
+                                        $adminData = App\Models\User::find($id);
+										$editData = App\Models\User::find($id);
                                         @endphp
 										
 										
@@ -40,8 +41,8 @@
 												<h4><b>{{$adminData->name}}</b></h4>
 												<p class="text-secondary mb-1"><b>{{$adminData->email}}</b></p>
 												<p class="text-secondary mb-1"><b>School-Code :{{$adminData->school_id_no}}</b></p>
-												<p class="text-secondary mb-1"><b>Telephones:{{$adminData->phone1}} ,{{$adminData->phone2}}</b></p>
-												<p class="text-secondary mb-1"><b>Address :{{$adminData->address}}</b></p>
+												<p class="text-secondary mb-1"><b>Telephones:{{$adminData->school_tel1}} ,{{$adminData->school_tel2}}</b></p>
+												<p class="text-secondary mb-1"><b>Address :{{$adminData->school_address}}</b></p>
 												
 
 											</div>

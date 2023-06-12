@@ -1,9 +1,6 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
-@section('title')
-View Transactions
-@endsection
 
 <div class="page-content">
 				<!--breadcrumb-->
@@ -14,14 +11,21 @@ View Transactions
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page"> All Deposits </li>
+								<li class="breadcrumb-item active" aria-current="page">Money Transfers </li>
 							</ol>
 						</nav>
 					</div>
 					
 				</div>
 				<!--end breadcrumb-->
-				<h6 class="mb-0 text-uppercase">All Deposits Transactions Information</h6>
+				<h6 class="mb-0 text-uppercase">Bulk Money Transactions </h6>
+
+				@can('money-transfers')
+				<div class="col" style="float: right;">
+										<a href="{{ route('bulk.money.transfers') }}" class="btn btn-primary px-2 radius-30">Bulk Transfers</a>
+									</div>
+									@endcan
+
 				<hr/>
                 <br><br>
 				<div class="card">
@@ -31,9 +35,10 @@ View Transactions
 								<thead>
 									<tr>
 									<th width="5%">SL</th> 
-										<th>Student Acct Code</th>
-										<th>Amount Deposited</th>
 										<th>Date</th>
+										<th>Total Amount Transfered</th>
+										<th>Action</th>
+										
 
 									</tr>
 								</thead>
@@ -42,9 +47,17 @@ View Transactions
 								<tr>
 <td>{{ $key+1 }}</td>
 
-<td> {{ $value->student_acct_no}}</td>
-<td> {{ $value->acct_amount }}</td>
-<td> {{ $value->deposite_date }}</td>	
+<td> {{ $value->date}}</td>
+<td> {{ ($amount_total)}}</td>
+
+@can('money-transfers')			 
+<td>
+
+<a href="{{ route('bulk.money.transfers.details',$value->date) }}" class="btn btn-success btn-sm radius-10 px-2" title="View Details" target="_blank"><i class="lni lni-eye"></i></a>
+
+
+</td>
+@endcan
 
 
 

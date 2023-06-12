@@ -15,7 +15,7 @@ class SchoolTransactions extends Model
 
          
     public function school(){
-        return $this->belongsTo(Schools::class,'school_id','school_id_no');
+        return $this->belongsTo(Schools::class,'school_code','school_id_no');
     }
 
 

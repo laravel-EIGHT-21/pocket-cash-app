@@ -189,7 +189,7 @@
 		<div class="page-wrapper">
 
 			
-@yield('user')
+@yield('content')
 
 		</div>
 		<!--end page wrapper -->
@@ -200,7 +200,7 @@
 		  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
 		<footer class="page-footer">
-			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+		<script>document.write(new Date().getFullYear())</script> &copy; <b>Funzi Wallet</b> theme by <a href="#"><b>Akilibit</b></a> 
 		</footer>
 	</div>
 	<!--end wrapper-->

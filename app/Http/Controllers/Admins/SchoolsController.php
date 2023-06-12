@@ -14,6 +14,9 @@ use Carbon\Carbon;
 use App\Models\apiTransfers;
 use App\Products\Remittance;
 use App\Products\Disbursement;
+use App\Products\Collection;
+use App\Models\User;
+use DateTime;
 
 
 class SchoolsController extends Controller
@@ -50,42 +53,35 @@ class SchoolsController extends Controller
       
   public function TransferPocketCashGet(Request $request){
 		
-    $remittance = new Remittance();
+    $remittance = new Collection();
 
-    $transactionId = rand(1,10000);
-    //$partyId = '0779913330';
-    //$amount = '15000';
+  $transactionId = rand(1,10000);
 
-    $amount = $request->amount;
-    $partyId = $request->mobile;
-    $student_acct = $request->acct_id;
+  $amount = $request->amount;
+  $partyId = $request->mobile;
+  $student_acct = $request->acct_id;
 
-    
-   // $school = SchoolStudent::where('acct_id',$student_acct)->get();
-    //$school_id = $school->school_id;
+  
+      $singleStudent = User::where('student_code',$student_acct)->where('status',1)->where('type',2)->first();
 
-
-
-		$singleStudent = SchoolStudent::where('acct_id',$student_acct)->where('status',1)->first();
-
-		if ($singleStudent == true) {
+      if ($singleStudent == true) {
 
 
 
-    $momoTransactionId = $remittance->transfer($transactionId, $partyId, $amount,$student_acct);
+  $momoTransactionId = $remittance->requestToPay($transactionId, $partyId, $amount,$student_acct);
 
 $response = $remittance->getTransactionStatus($momoTransactionId);
 
-  //  dd($response);
+//  dd($response);
 
-  $token_obj = $response['status'];
-  $token_b = $response['payee'];
-  $token_c = $token_b['partyId'];
-  $amount = $response['amount'];
-  $currency = $response['currency'];
+$token_obj = $response['status'];
+$token_b = $response['payee'];
+$token_c = $token_b['partyId'];
+$amount = $response['amount'];
+$currency = $response['currency'];
 
 
- // dd($amount);
+// dd($amount);
 
 $date = Carbon::now()->format('d F y');
 
@@ -96,40 +92,40 @@ $year = Carbon::now()->format('y');
 
 
 
-              apiTransfers::create([
+            apiTransfers::create([
 
-              'student_acct_no' => $student_acct,
-              'school_id' => $singleStudent->school_id,
-              'amount' => $amount,
-              'currency' => $currency,
-              'reference_id' => $momoTransactionId,
-              'externalId' => $transactionId,
-              'payer_number' =>$token_c,
-              'status' => $token_obj,
-              'transfer_date' => $date,
-              'transfer_month' => $month,
-              'transfer_year' => $year,
+            'student_acct_no' => $student_acct,
+            'school_id' => $singleStudent->school_id,
+            'amount' => $amount,
+            'currency' => $currency,
+            'reference_id' => $momoTransactionId,
+            'externalId' => $transactionId,
+            'payee_number' =>$token_c,
+            'status' => $token_obj,
+            'transfer_date' => $date,
+            'transfer_month' => $month,
+            'transfer_year' => $year,
 
 
-             ]);
+           ]);
 
-             $notification1 = array(
-              'message' => 'TRANSFER HAS BEEN SENT...',
-              'alert-type' => 'success'
-            );
-            
-            return redirect()->back()->with($notification1);
-          }
-          else{ 
-		
-            $notification = array(
-              'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
-              'alert-type' => 'error'
-            );
-        
-            return redirect()->back()->with($notification);
-        
-              }
+           $notification1 = array(
+            'message' => 'TRANSFER HAS BEEN SENT...',
+            'alert-type' => 'success'
+          );
+          
+          return redirect()->back()->with($notification1);
+        }
+        else{ 
+      
+          $notification = array(
+            'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
+            'alert-type' => 'error'
+          );
+      
+          return redirect()->back()->with($notification);
+      
+            }
 
 
 
@@ -163,241 +159,297 @@ $year = Carbon::now()->format('y');
     public function MoneyTransfers()
     {
      
+      $amount_total = SchoolTransactions::select('date')->groupBy('date')->sum('bulk_amount');
         $allData = SchoolTransactions::select('date')->groupBy('date')->latest()->get();
-
         
-        
-  return view('Admin_section.transactions.view_transactions',compact('allData'));
+  return view('Admin_section.transactions.view_transactions',compact('allData','amount_total'));
 
     }
 
 
+    public function BulkMoneyTransfers(Request $request){
+       
+      $allData = apiTransfers::select('school_id')->groupBy('school_id')->get();
+        
+      return view('Admin_section.transactions.money_transfers',compact('allData'));
+  
+  
+    }
+  
 
     
       
   public function BulkMoneyTransferGet(Request $request){
 
+    $disbursement = new Disbursement();
+
+    $transactionId = rand(1,10000);
+
+    $school_codes = $request->input('school_id_no');
+
+    $phone1 = $request->input('phone1');
+		$amount = $request->input('amount');
+    $postData = $request->all();
+
+		$mobileNumber = implode('',$postData['phone1']);
+
+		$arr = str_split($mobileNumber,'13');
+		$partyId  = implode(",",$arr);
+
+
+   $merchant_no = $request->merchant_no;
+
+
+    $momoTransactionId = $disbursement->transfer($transactionId, $partyId, $amount);
+
+    $response = $disbursement->getTransactionStatus($momoTransactionId);
+
+
+
+    $token_obj = $response['status'];
+    $token_b = $response['payee'];
+    $token_c = $token_b['partyId'];
+    $amount = $response['amount'];
+    $currency = $response['currency'];
+
+
+    $date = Carbon::now()->format('d F y');
+
+$month = Carbon::now()->format('F y');
+
+
+$year = Carbon::now()->format('y');
 
   }
 
 
 
 
+  public function BulkMoneyTransfersDetails($date){
+    $data['details'] = SchoolTransactions::where('date',$date)->get();
+    return view('Admin_section.transactions.money_transfers_details',$data);
+
+  }
+
+
+
+
+  
+  public function ViewSchools(){
+
+    $data['allData'] = User::where('type',1)->get();
+  return view('Admin_section.schools_view.view_school',$data);
+}
+
+
+
+  
+
+public function AddSchools(){
+
+  return view('Admin_section.schools_view.add_school');
+}
+
+
+
+
+
+
+public function StoreSchools(Request $request){
+
+
+$name = $request->name;
+$email = $request->email;
+  $phone1 = $request->school_tel1;
+  $phone2 = $request->school_tel2;
+  $address = $request->school_address;
+
+
+
+$check = User::where('name',$name)->where('email', $email)->where('school_tel1', $phone1)->where('school_tel2', $phone2)->where('school_address', $address)->first();
+
+if($check == null){
+
+
+  DB::transaction(function() use($request){
     
-    
-    public function ViewSchools(){
 
-		  $data['allData'] = Schools::all();
-    	return view('Admin_section.schools_view.view_school',$data);
-    }
+    $students = User::orderBy('id','DESC')->first();
 
-
-
-        
-    
-    public function AddSchools(){
-
-      //$data['allData'] = User::all();
-        return view('Admin_section.schools_view.add_school');
-      }
-  
-
-
-
-
-      
-    public function StoreSchools(Request $request){
-
-	
-      $name = $request->name;
-      $email = $request->email;
-        $phone1 = $request->phone1;
-        $phone2 = $request->phone2;
-        $address = $request->address;
-
-  
-    
-    $check = Schools::where('name',$name)->where('email', $email)->where('phone1', $phone1)->where('phone2', $phone2)->where('address', $address)->first();
-  
-    if($check == null){
-  
-  
-        DB::transaction(function() use($request){
-          
-
-          $students = Schools::orderBy('id','DESC')->first();
-      
-              if ($students == null) {
-              $firstReg = 0;
-              $studentId = $firstReg+1;
-              if ($studentId < 10) {
-                $id_no = '0'.$studentId;
-              }elseif ($studentId < 100) {
-                $id_no = '00'.$studentId;
-              }elseif ($studentId < 1000) {
-                $id_no = '000'.$studentId;
-              }
-          
-        
-      
-            }else{
-           $students = Schools::orderBy('id','DESC')->first()->id;
-             $studentId = $students+1;
-             if ($studentId < 10) {
-                $id_no = '0'.$studentId;
-              }elseif ($studentId < 100) {
-                $id_no = '00'.$studentId;
-              }elseif ($studentId < 1000) {
-                $id_no = '000'.$studentId;
-              }
-
-      
-            } // end else 
-      
-            $final_id_no = $id_no;
-      
-            $user = new Schools();
-            $user->school_id_no = $final_id_no;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone1 = $request->phone1;
-        $user->phone2 = $request->phone2;
-        $user->address = $request->address;
-        $user->password = Hash::make($request->password);
-    
-  
-        if ($request->file('school_logo_path')) {
-          $file = $request->file('school_logo_path');
-          $filename = date('YmdHi').$file->getClientOriginalName();
-          $file->move(public_path('upload/logo'),$filename);
-          $user['school_logo_path'] = $filename;
+        if ($students == null) {
+        $firstReg = 0;
+        $studentId = $firstReg+1;
+        if ($studentId < 10) {
+          $id_no = '0'.$studentId;
+        }elseif ($studentId < 100) {
+          $id_no = '00'.$studentId;
+        }elseif ($studentId < 1000) {
+          $id_no = '000'.$studentId;
         }
-         $user->save();
+    
   
 
+      }else{
+     $students = User::orderBy('id','DESC')->first()->id;
+       $studentId = $students+1;
+       if ($studentId < 10) {
+          $id_no = '0'.$studentId;
+        }elseif ($studentId < 100) {
+          $id_no = '00'.$studentId;
+        }elseif ($studentId < 1000) {
+          $id_no = '000'.$studentId;
+        }
+
+
+      } // end else 
+
+      $final_id_no = $id_no;
+
+      $user = new User();
+      $user->school_id_no = $final_id_no;
+  $user->name = $request->name;
+  $user->email = $request->email;
+  $user->school_tel1 = $request->school_tel1;
+  $user->school_tel2 = $request->school_tel2;
+  $user->school_address = $request->school_address;
+  $user->password = Hash::make($request->password);
+  $user->type = 1;
+
+
+  if ($request->file('school_logo_path')) {
+    $file = $request->file('school_logo_path');
+    $filename = date('YmdHi').$file->getClientOriginalName();
+    $file->move(public_path('upload/logo'),$filename);
+    $user['school_logo_path'] = $filename;
+  }
+   $user->save();
+
+
+
+  });
+
+
+  $notification = array(
+    'message' => 'New School Info Inserted Successfully',
+    'alert-type' => 'success'
+  );
+
+  return redirect()->route('view.schools')->with($notification);
+
   
-        });
-  
-  
-        $notification = array(
-          'message' => 'New School Info Inserted Successfully',
-          'alert-type' => 'success'
-        );
-  
-        return redirect()->route('view.schools')->with($notification);
-  
-        
-    }
-  
-  
-    else{
-    
-      $notification = array(
-        'message' => 'SCHOOL`S RECORD ALREADY EXISTS!!!',
+}
+
+
+else{
+
+$notification = array(
+  'message' => 'SCHOOL`S RECORD ALREADY EXISTS!!!',
+  'alert-type' => 'error'
+);
+
+return redirect()->back()->with($notification);
+
+}
+
+
+
+} // End Method 
+
+
+
+
+
+
+
+
+public function EditSchools($id){
+$data['editData'] = User::findOrFail($id);
+
+
+  return view('Admin_section.schools_view.edit_school',$data);
+
+}
+
+
+
+
+
+
+
+public function UpdateSchools(Request $request, $id){
+
+  DB::transaction(function() use($request,$id){
+   
+  $user = User::where('id',$id)->first();   
+  $user->name = $request->name;
+  $user->email = $request->email;
+  $user->school_tel1 = $request->school_tel1;
+  $user->school_tel2 = $request->school_tel2;
+  $user->school_address = $request->school_address;
+
+  if ($request->file('school_logo_path')) {
+$file = $request->file('school_logo_path');
+@unlink(public_path('upload/logo/'.$user->school_logo_path));
+$filename = date('YmdHi').$file->getClientOriginalName();
+$file->move(public_path('upload/logo'),$filename);
+$user['school_logo_path'] = $filename;
+}
+
+   $user->save();
+
+
+
+  });
+   
+
+  $notification = array(
+      'message' => 'School Info Updated Successfully',
+      'alert-type' => 'success'
+  );
+
+  return redirect()->route('view.schools')->with($notification);
+
+
+}// END METHOD
+
+
+
+
+public function inactiveSchools($id)
+{ 
+User::findOrFail($id)->update(['status' => 0]);
+    $notification = array(
+        'message' => 'School Status Deactivated...',
         'alert-type' => 'error'
-      );
-      
-      return redirect()->back()->with($notification);
-      
-      }
-    
+    );
+    return redirect()->back()->with($notification);
+
+}
+
+
+public function activeSchools($id)
+{
+User::findOrFail($id)->update(['status' => 1]);
+$notification = array(
+    'message' => 'School Status Activated...',
+    'alert-type' => 'success'
+);
+return redirect()->back()->with($notification);
+
+}
+
+
+
+
   
-  
-      } // End Method 
-  
+public function ViewSchoolStudents(){
+
+  $data['allData'] = User::where('type',2)->get();
+
+  return view('Admin_section.schools_view.view_students',$data);
+}
 
 
-
-
-
-      
-    
-    public function EditSchools($id){
-      $data['editData'] = Schools::findOrFail($id);
-      
-  
-        return view('Admin_section.schools_view.edit_school',$data);
-  
-      }
-
-
-
-
-      
-
-    
-    public function UpdateSchools(Request $request, $id){
-    
-    	DB::transaction(function() use($request,$id){
-    	 
-        $user = Schools::where('id',$id)->first();   
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone1 = $request->phone1;
-        $user->phone2 = $request->phone2;
-        $user->address = $request->address;
-        $user->password = Hash::make($request->password);
-
-		if ($request->file('school_logo_path')) {
-      $file = $request->file('school_logo_path');
-      @unlink(public_path('upload/logo/'.$user->school_logo_path));
-      $filename = date('YmdHi').$file->getClientOriginalName();
-      $file->move(public_path('upload/logo'),$filename);
-      $user['school_logo_path'] = $filename;
-    }
-	
- 	    $user->save();
-
-
-
-    	});
-         
-
-    	$notification = array(
-    		'message' => 'School Info Updated Successfully',
-    		'alert-type' => 'success'
-    	);
-
-    	return redirect()->route('view.schools')->with($notification);
-
-
-    }// END METHOD
-
-
-
-    
-	public function inactiveSchools($id)
-  { 
-      Schools::findOrFail($id)->update(['status' => 0]);
-          $notification = array(
-              'message' => 'School Status Deactivated...',
-              'alert-type' => 'error'
-          );
-          return redirect()->back()->with($notification);
-
-  }
-
-
-  public function activeSchools($id)
-  {
-      Schools::findOrFail($id)->update(['status' => 1]);
-      $notification = array(
-          'message' => 'School Status Activated...',
-          'alert-type' => 'success'
-      );
-      return redirect()->back()->with($notification);
-
-  }
-
-
-
-
-        
-    public function ViewSchoolStudents(){
-
-		$data['allData'] = SchoolStudent::all();
-    	return view('Admin_section.schools_view.view_students',$data);
-    }
 
   
 

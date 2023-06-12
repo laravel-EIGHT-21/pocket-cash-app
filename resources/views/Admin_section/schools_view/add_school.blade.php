@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 @section('title')
 View Schools  
@@ -28,6 +28,7 @@ View Schools
 								<h5 class="mb-0">Add New School Infor</h5>
                                 <a href="{{ route('view.schools') }}" class="btn btn-success px-3 radius-0" style="float: right;"> Back</a>
 							</div>
+							@if (auth()->user()->type == 0)
 							<div class="card-body p-4">
 								<form  method="post" action="{{ route('school.store') }}"  enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
                                 @csrf
@@ -49,7 +50,7 @@ View Schools
 									</div>
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Telephone 1</label>
-										<input type="text" class="form-control" id="bsValidation3" name="phone1" maxlength="10" required>
+										<input type="text" class="form-control" id="bsValidation3" name="school_tel1" maxlength="13" required>
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>
@@ -57,7 +58,7 @@ View Schools
 
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Telephone 2</label>
-										<input type="text" class="form-control" id="bsValidation3" name="phone2" maxlength="10" required>
+										<input type="text" class="form-control" id="bsValidation3" name="school_tel2" maxlength="13" required>
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>
@@ -66,7 +67,7 @@ View Schools
                                   
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Address</label>
-										<input type="text" class="form-control" id="bsValidation3" name="address" required>
+										<input type="text" class="form-control" id="bsValidation3" name="school_address" required>
 										<div class="invalid-feedback">
 											Please Enter School Address.
 										  </div>
@@ -105,6 +106,7 @@ View Schools
 
 								</form>
 							</div>
+							@endif
 						</div>
 					</div>
 				</div>

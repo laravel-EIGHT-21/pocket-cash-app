@@ -1,6 +1,6 @@
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 <div class="page-content">
@@ -44,7 +44,7 @@
 <td>{{ $key+1 }}</td>
 
 <td> {{ $value->name }}</td>	
-<td> {{ $value->acct_id }}</td>
+<td> {{ $value->student_code }}</td>
 
 
 
@@ -63,7 +63,7 @@
 
 
 
-<a href="{{ route('view.student.account',$value->acct_id) }}" class="btn btn-success btn-sm radius-10 px-2" title="View Account Details" target="_blank"><i class="lni lni-eye"></i></a>
+<a href="{{ route('view.student.account',$value->student_code) }}" class="btn btn-success btn-sm radius-10 px-2" title="View Account Details" target="_blank"><i class="lni lni-eye"></i></a>
 
 
 

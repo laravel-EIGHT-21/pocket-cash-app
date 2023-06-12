@@ -43,10 +43,10 @@
 									</div> 
 									<br>
 									<div class="form-body">
-										<form class="row g-3" method="POST" action="{{ isset($guard) ? url($guard.'/login'): route('login') }}">
+										<form class="row g-3" method="POST" action="{{route('login') }}">
                                             @csrf
 											<div class="col-12">
-												<label for="auth" class="form-label">Email</label>
+												<label for="auth" class="form-label">Email / School Code / Student Code</label>
 												<input id="auth" type="text" name="auth" :value="old('auth')" class="form-control" placeholder="jhon@example.com">
 											</div>
 											<div class="col-12">

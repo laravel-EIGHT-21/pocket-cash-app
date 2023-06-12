@@ -1,5 +1,5 @@
 @extends('admin.admin_master')
-@section('user')
+@section('content')
 
 
 <div class="page-content">
@@ -20,12 +20,13 @@
 				<!--end breadcrumb-->
 				<h6 class="mb-0 text-uppercase">User Groups Information</h6>
 
+				@if (auth()->user()->type == 0)
 				@can('role-create')
 				<div class="col" style="float: right;">
 										<a href="{{ route('roles.create') }}" class="btn btn-primary px-2 radius-30">New User Group</a>
 									</div>
 @endcan
-
+@endif
 				<hr/>
                 <br><br>
 				<div class="card">
@@ -49,6 +50,7 @@
 {{$item->name}}
 
 </td>
+@if (auth()->user()->type == 0)
 <td width="25%">
 
 @can('role-list')
@@ -68,6 +70,7 @@
     @endcan
 
 </td>
+@endif
 </tr>
 @endforeach  
 

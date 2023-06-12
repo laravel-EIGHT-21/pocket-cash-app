@@ -13,12 +13,6 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use App\Actions\Fortify\AttemptToAuthenticate;
-use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
-use App\Actions\Fortify\AttemptToAuthenticate2;
-use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable2;
-use App\Http\Controllers\Schools\SchoolUsersController;
-use App\Http\Controllers\Schools\StudentUserController;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 
@@ -30,17 +24,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {    
-    
-        $this->app->when([SchoolUsersController::class, AttemptToAuthenticate::class, RedirectIfTwoFactorAuthenticatable::class])
-        ->needs(StatefulGuard::class)->give(function(){
-            return Auth::guard('school');
-        });
-
-        
-        $this->app->when([StudentUserController::class, AttemptToAuthenticate2::class, RedirectIfTwoFactorAuthenticatable2::class])
-        ->needs(StatefulGuard::class)->give(function(){
-            return Auth::guard('student');
-        });
 
 
     }

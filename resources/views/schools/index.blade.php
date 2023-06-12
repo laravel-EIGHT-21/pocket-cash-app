@@ -1,7 +1,7 @@
 
 
 @extends('schools.school_master')
-@section('school')
+@section('content')
 
 
 <div class="page-content">
@@ -10,37 +10,35 @@
 				
 @php 
 
-$id = Auth::id();
-      $school = App\Models\Schools::where('id',$id)->find($id);
-      $code =$school->school_id_no;
+$school_code = Auth::user()->school_id_no;
 
-$students= App\Models\SchoolStudent::with(['school'])->where('school_id',$code)->where('status',1)->get();
+$students= App\Models\User::where('type',2)->where('school_std_code',$school_code)->where('status',1)->get();
 
-$allData = App\Models\apiTransfers::with(['school'])->where('school_id',$code)->latest()->get();
+$allData = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->latest()->get();
 
 
 
 $day = date('d F y');
-$today_depo = App\Models\apiTransfers::with(['school'])->where('school_id',$code)->whereDate('created_at',Carbon\Carbon::today())->sum('amount');
+$today_depo = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->sum('amount');
 
 $months = date('F y');
-$month_depo = DB::table('api_transfers')->where('school_id',$code)->where('transfer_month',$months)->sum('amount');
+$month_depo = DB::table('api_transfers')->where('school_id',$school_code)->where('transfer_month',$months)->sum('amount');
 
 $years = date('y');
-$year_depo = DB::table('api_transfers')->where('school_id',$code)->where('transfer_year',$years)->sum('amount');
+$year_depo = DB::table('api_transfers')->where('school_id',$school_code)->where('transfer_year',$years)->sum('amount');
 
 
 
 
 
-$allData1 = App\Models\apiTransfers::with(['school'])->where('school_id',$code)->whereDate('created_at',Carbon\Carbon::today())->get();
+$allData1 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->get();
 
 
-$allData2 = App\Models\apiTransfers::with(['school'])->where('school_id',$code)->where('transfer_month',$months)->get();
+$allData2 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->where('transfer_month',$months)->get();
 
 
 
-$allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$code)->where('transfer_year',$years)->get();
+$allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->where('transfer_year',$years)->get();
 
 
 
@@ -194,7 +192,7 @@ $allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$code)-
 
 $year = Carbon\Carbon::parse()->format('y');
 	
-$fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfer_month'))->groupBy('transfer_month')->orderBY('created_at')->where('school_id',$code)->where('transfer_year',$year)->get();
+$fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfer_month'))->groupBy('transfer_month')->orderBY('created_at')->where('school_id',$school_code)->where('transfer_year',$year)->get();
              
              foreach($fees->toArray() as $row)
              {
@@ -349,7 +347,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels:<?php echo json_encode($month); ?>,
+            labels:<?php // echo json_encode($month); ?>,
             datasets: [{
                 label: 'Total Amount of Deposits',
 				backgroundColor     : 'rgba(100, 149, 237,0.8)',
@@ -359,7 +357,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(100, 149, 237,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(100, 149, 237,0.8)',
-                data: <?php echo json_encode($deposits_total);?>,
+                data: <?php /// echo json_encode($deposits_total);?>,
                 
             },
 
@@ -419,7 +417,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels:<?php echo json_encode($month); ?>,
+            labels:<?php // echo json_encode($month); ?>,
             datasets: [{
                 label: 'Total Amount of Deposits',
 				backgroundColor     : 'rgba(102, 205, 170,0.8)',
@@ -431,7 +429,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(102, 205, 170,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(102, 205, 170,0.8)',
-                data: <?php echo json_encode($deposits_total);?>,
+                data: <?php // echo json_encode($deposits_total);?>,
                 
             },
 

@@ -25,7 +25,12 @@ $editdata = App\Models\User::find($id);
 
 	
 <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+<a href="{{route('admin.logout') }}">
 					<img src="{{(!empty($admindata->profile_photo_path))? url('upload/admin_images/'.$admindata->profile_photo_path):url('upload/no_image.jpg') }}" class="user-img" alt="user avatar">
+
+</a>
+
 					<div class="user-info">
 						<p class="user-name mb-0">{{$editdata->name}}</p>
 
