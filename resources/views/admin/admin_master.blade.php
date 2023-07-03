@@ -6,6 +6,7 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<!--favicon-->
 	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png"/>
 
@@ -64,8 +65,8 @@
 	<!--wrapper-->
 	<div class="wrapper">
 		<!--sidebar wrapper -->
-		<div class="sidebar-wrapper" data-simplebar="true" >
-			<div class="sidebar-header">
+		<div class="sidebar-wrapper no-print" data-simplebar="true" >
+			<div class="sidebar-header no-print">
 				<div>
 					<img src="{{asset('upload/funzi_wallet.png')}}" width="400" class="logo-icon" alt="logo icon">
 				</div>
@@ -139,6 +140,19 @@
 				@endcan
 
 
+				@can('money-transfers')
+				<li>
+					<a href="{{ route('deposits.reports') }}" >
+						<div class="parent-icon"><i class="lni lni-money-protection bx-spin"></i>
+						</div>
+						<div class="menu-title">Generate Reports</div>
+					</a>
+					
+				</li>
+
+				@endcan
+
+
 
 				@can('role-list')
 				
@@ -199,7 +213,7 @@
 		<!--Start Back To Top Button-->
 		  <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
-		<footer class="page-footer">
+		<footer class="page-footer no-print">
 		<script>document.write(new Date().getFullYear())</script> &copy; <b>Funzi Wallet</b> theme by <a href="#"><b>Akilibit</b></a> 
 		</footer>
 	</div>

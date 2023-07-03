@@ -7,7 +7,7 @@ return [
      *
      * This could be indicated in the message sent to the payee.
      */
-    'app' => env('MOMO_APP', 'Laravel MTN Momo'),
+    'app' => env('MOMO_APP', 'Funzi Wallet App'),
 
     // Momo API transaction currency code.
     'currency' => env('MOMO_CURRENCY', 'EUR'),
@@ -26,7 +26,7 @@ return [
      *
      * @see https://momodeveloper.mtn.com/products
      */
-    'product' => env('MOMO_PRODUCT', 'collection'),
+    'product' => env('MOMO_PRODUCT'),
 
     /*
      * Provider Callback Host.

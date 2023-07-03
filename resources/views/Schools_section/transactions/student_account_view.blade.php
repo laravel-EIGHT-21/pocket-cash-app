@@ -34,7 +34,8 @@
 										<th>Student</th>
 										<th>Student Code</th>
                                         <th>Status</th>
-                                        <th width="25%">Action</th>
+										<th>Actual Amount</th>
+                                        <th width="18%">Action</th>
 										
 									</tr>
 								</thead>
@@ -58,12 +59,34 @@
 
 </td>	
 
+
+@php 
+
+$account = App\Models\User::where('type',2)->where('student_code',$value->student_code)->where('status',1)->get();
+
+    $acct = App\Models\apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('amount');
+
+
+    $withdrawal = App\Models\withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('withdrawal_amount');
+
+    
+    $loans = App\Models\loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('loan_amount');
+
+
+    $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
+
+
+	@endphp
+<td>
+<span class="badge rounded-pill text-primary bg-dark-info p-2 text-uppercase px-3"><b><i class='align-middle me-1'></i>ugx {{ ($acct_bal) }}</b></span>
+
+
+</td>
+
 			 
 <td>
 
-
-
-<a href="{{ route('view.student.account',$value->student_code) }}" class="btn btn-success btn-sm radius-10 px-2" title="View Account Details" target="_blank"><i class="lni lni-eye"></i></a>
+<a href="{{ route('view.student.account',$value->id) }}" class="btn btn-success btn-sm radius-10 px-2 " title="Account Details" target="_blank"><i class="lni lni-eye"></i></a>
 
 
 
@@ -91,6 +114,22 @@
 				
 			</div>
 <br><br>
+
+<script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                    return $('#primary-popover-content').html();
+                }
+            });
+        });
+
+    </script>
 
 @endsection
     

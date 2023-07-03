@@ -75,7 +75,7 @@ $response = $remittance->getTransactionStatus($momoTransactionId);
 //  dd($response);
 
 $token_obj = $response['status'];
-$token_b = $response['payee'];
+$token_b = $response['payer'];
 $token_c = $token_b['partyId'];
 $amount = $response['amount'];
 $currency = $response['currency'];
@@ -95,7 +95,8 @@ $year = Carbon::now()->format('y');
             apiTransfers::create([
 
             'student_acct_no' => $student_acct,
-            'school_id' => $singleStudent->school_id,
+            'student_id' => $singleStudent->id,
+            'school_id' => $singleStudent->school_std_code,
             'amount' => $amount,
             'currency' => $currency,
             'reference_id' => $momoTransactionId,
@@ -168,8 +169,10 @@ $year = Carbon::now()->format('y');
 
 
     public function BulkMoneyTransfers(Request $request){
+
+      $date = Carbon::now()->format('d F y');
        
-      $allData = apiTransfers::select('school_id')->groupBy('school_id')->get();
+      $allData = apiTransfers::with(['school'])->select('school_id')->groupBy('school_id')->where('transfer_date',$date)->get();
         
       return view('Admin_section.transactions.money_transfers',compact('allData'));
   
@@ -181,36 +184,42 @@ $year = Carbon::now()->format('y');
       
   public function BulkMoneyTransferGet(Request $request){
 
+    
+
+    $date_transfer = Carbon::now()->format('d F y');
+
     $disbursement = new Disbursement();
+    $responses = [];
 
     $transactionId = rand(1,10000);
+		$merchant_no = $request->merchant_no;
 
-    $school_codes = $request->input('school_id_no');
+    
+    $school_name = $request->input('name'); 
 
-    $phone1 = $request->input('phone1');
-		$amount = $request->input('amount');
-    $postData = $request->all();
+    $partyId = $request->input('school_tel1');
+		$amount =  $request->input('amount');
 
-		$mobileNumber = implode('',$postData['phone1']);
+    $recipients = [$school_name, $partyId, $amount];
+    
 
-		$arr = str_split($mobileNumber,'13');
-		$partyId  = implode(",",$arr);
+      
+    $singleStudent = SchoolTransactions::where('date',$date_transfer)->first();
 
-
-   $merchant_no = $request->merchant_no;
-
-
-    $momoTransactionId = $disbursement->transfer($transactionId, $partyId, $amount);
-
-    $response = $disbursement->getTransactionStatus($momoTransactionId);
+    if ($singleStudent == false) {
 
 
+    $momoTransactionId = $disbursement->transfer($transactionId, $recipients,$merchant_no);
 
-    $token_obj = $response['status'];
-    $token_b = $response['payee'];
+    $response_disb = $disbursement->getTransactionStatus($momoTransactionId);
+
+    $responses[] = $response_disb;
+
+    $token_obj = $responses['status'];
+    $token_b = $responses['payee'];
     $token_c = $token_b['partyId'];
-    $amount = $response['amount'];
-    $currency = $response['currency'];
+    $amount = $responses['amount'];
+    $currency = $responses['currency'];
 
 
     $date = Carbon::now()->format('d F y');
@@ -220,7 +229,51 @@ $month = Carbon::now()->format('F y');
 
 $year = Carbon::now()->format('y');
 
+
+SchoolTransactions::create([
+
+  'payer_number' => $merchant_no,
+  'name' => $school_name,
+  'school_mobile' =>$token_c,
+  'bulk_amount' => $amount,
+  'currency' => $currency,
+  'reference_id' => $momoTransactionId,
+  'externalId' => $transactionId,
+  'status' => $token_obj,
+  'date' => $date,
+  'month' => $month,
+  'year' => $year,
+
+
+ ]);
+
+ $notification1 = array(
+  'message' => 'BULK TRANSFER HAS BEEN SENT...',
+  'alert-type' => 'success'
+);
+
+return redirect()->back()->with($notification1);
+
+}
+else{ 
+
+  $notification = array(
+    'message' => 'BULK TRANSFER HAS ALREADY BEEN MADE FOR TODAY...',
+    'alert-type' => 'error'
+  );
+
+  return redirect()->back()->with($notification);
+
+    }
+
+
+
   }
+
+
+
+
+
 
 
 
@@ -451,7 +504,69 @@ public function ViewSchoolStudents(){
 
 
 
+
+
+
+
+
+
+public function ViewDepositsReports(){
+
+	return view('Admin_section.reports.view_reports');
+}
+
   
+
+
+public function ReportByWeek(Request $request){
+
+  $sdate = date('d-m-y',strtotime($request->start_date));
+  $edate = date('d-m-y',strtotime($request->end_date));
+  $total_depo = apiTransfers::whereBetween('transfer_date',[$sdate,$edate])->sum('amount');
+  $allData = apiTransfers::select('school_id','transfer_date')->groupBy('school_id','transfer_date')->whereBetween('transfer_date',[$sdate,$edate])->get();
+
+
+  $start_date = date('Y-m-d',strtotime($request->start_date));
+  $end_date = date('Y-m-d',strtotime($request->end_date));
+  return view('Admin_section.reports.weekly_reports',compact('allData','total_depo','start_date','end_date'));
+
+} // End 
+
+
+
+
+public function ReportByMonth(Request $request){
+
+	$month = Carbon::parse($request->month)->format('F y');	 
+
+	$depo_total = apiTransfers::where('transfer_month',$month)->sum('amount');
+	$allData = apiTransfers::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_month',$month)->get();
+  
+
+	
+	return view('Admin_section.reports.monthly_reports',compact('allData','month','depo_total'));
+
+} // end mehtod 
+
+
+
+
+public function ReportByYear(Request $request){
+
+
+	$year= Carbon::parse($request->year)->format('y');
+	$depo_total = apiTransfers::where('transfer_year',$year)->sum('amount');
+	$allData = apiTransfers::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_year',$year)->orderBy('created_at', 'asc')->groupBy('transfer_month')->get();
+
+
+	return view('Admin_section.reports.yearly_reports',compact('allData','year','depo_total'));
+
+
+} // end mehtod 
+
+
+
+
 
 
 

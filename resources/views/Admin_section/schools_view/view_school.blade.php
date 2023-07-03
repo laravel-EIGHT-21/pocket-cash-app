@@ -61,7 +61,7 @@ View Schools
 <td> {{ $value->school_address }}</td>
 <td> 
 
-<img src="{{ (!empty($value->school_logo_path))? url('upload/logo/'.$value->school_logo_path):url('upload/no_image.jpg') }}" style="width: 60px; width: 60px;"> 
+<img src="{{ (!empty($value->school_logo_path))? url('upload/logo/'.$value->school_logo_path):url('upload/no_image.jpg') }}" style="width: 60px; height: 70px;"> 
 </td>
 @if (auth()->user()->type == 0)
 	

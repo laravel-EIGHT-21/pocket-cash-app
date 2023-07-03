@@ -99,6 +99,7 @@
 					
 				</li>
 				
+				@if (auth()->user()->type == 1)
 				<li>
 					<a href="{{ route('view.students') }}" >
 						<div class="parent-icon"><i class="lni lni-network bx-spin"></i>
@@ -117,7 +118,7 @@
 					
 				</li>
 
-
+@endif
 
 
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Schools;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SchoolStudent;
 use App\Models\SchoolTransactions;
 use App\Models\loan;
 use App\Models\withdrawal;
@@ -33,30 +32,30 @@ class TransactionController extends Controller
       return view('Schools_section.transactions.student_account_view',$data);
   }
 
-
+ 
 
   
-  public function ViewStudentAccountDetails($acct_id){
+  public function ViewStudentAccountDetails($student_code){
 
-    $account = User::where('type',2)->where('student_code',$acct_id)->where('status',1)->get();
+    $account = User::where('type',2)->where('id',$student_code)->where('status',1)->get();
 
-    $acct = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('amount');
+    $acct = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('amount');
 
 
-    $withdrawal = withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('withdrawal_amount');
+    $withdrawal = withdrawal::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('withdrawal_amount');
 
     
-    $loans = loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->sum('loan_amount');
+    $loans = loan::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('loan_amount');
 
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
 
-    $details = apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_id)->get();
+    $details = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->get();
 
     
-   $student_deposite = apiTransfers::where('student_acct_no',$acct_id)->get();
-   $student_withdrawal = withdrawal::where('student_acct_no',$acct_id)->get();
-   $student_loans = loan::where('student_acct_no',$acct_id)->get();
+   $student_deposite = apiTransfers::where('student_id',$student_code)->latest()->get();
+   $student_withdrawal = withdrawal::where('student_id',$student_code)->latest()->get();
+   $student_loans = loan::where('student_id',$student_code)->latest()->get();
 
 
     return view('Schools_section.transactions.student_account_details', compact('account','acct','acct_bal','details','student_deposite','student_withdrawal','student_loans'));
@@ -160,6 +159,7 @@ public function StudentWithdrawalAmountStore(Request $request,$id){
 
   $feesData->withdrawal_amount = $request->withdrawal_amount;
   $feesData->withdrawal_date = Carbon::now()->format('d F Y');
+
   $feesData->withdrawal_month = Carbon::now()->format('F Y');
   $feesData->withdrawal_year = Carbon::now()->format('Y');
 

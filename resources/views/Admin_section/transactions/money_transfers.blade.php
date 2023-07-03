@@ -18,6 +18,7 @@
 					
 				</div>
 				<!--end breadcrumb-->
+				@if (auth()->user()->type == 0)
 				<div class="row">
 					<div class="col-xl-6 mx-auto">
 						<div class="card">
@@ -30,25 +31,16 @@
 							</div>
 							<div class="card-body p-4">
 							@can('money-transfers')
-								<form  action="/bulk/money/tranfer" class="row g-3 needs-validation" novalidate>
-                                {{csrf_field()}}
-									<div class="col-md-6">
+								<form  action="{{ route('send.bulk.money.transfers') }}" method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+								{{csrf_field()}}
+
+									<div class="col-md-9">
 										<label for="bsValidation1" class="form-label"> Merchant Number</label>
 										<input type="text" class="form-control" id="bsValidation1" name="merchant_no"  required>
 										<div class="invalid-feedback">
 											Please Enter The Merchant Number.
 										  </div>
 									</div>
-
-
-									<div class="col-md-6">
-										<label for="date" class="form-label">Date</label>
-										<input type="date" class="form-control" name="date" required>
-										<div class="invalid-feedback">
-											Please provide a Date.
-										  </div>
-									</div>
-									
 
                                   
 
@@ -59,17 +51,17 @@
                                     @foreach($allData as $school )
 									<div class="col-md-4">
 										<label for="bsValidation4" class="form-label">School</label>
-										<input type="text" class="form-control" id="bsValidation4"  name="school_id_no[]" value="{{$school['school']['name']}}">
+										<input type="text" class="form-control" id="bsValidation4"  name="name[]" value="{{$school['school']['name']}}">
 
 									</div>
 
 
                                     <div class="col-md-4">
 										<label for="bsValidation4" class="form-label">School Number</label>
-										<input type="text" class="form-control" id="bsValidation4"  name="phone1[]" value="{{$school['school']['phone1']}}">
+										<input type="text" class="form-control" id="bsValidation4"  name="school_tel1[]" value="{{$school['school']['school_tel1']}}">
 
 									</div>
-
+ 
 									
 		@php
 
@@ -97,7 +89,7 @@
 
 									<div class="col-md-12">
 										<div class="d-md-flex d-grid align-items-center gap-3">
-											<button type="submit" class="btn btn-primary px-4">Submit Bulk Transfer</button>
+											<button type="submit" class="btn btn-primary px-4">Disburse Transfer</button>
 											<button type="reset" class="btn btn-light px-4">Reset</button>
 										</div>
 									</div>
@@ -110,6 +102,7 @@
 					</div>
 				</div>
 				<!--end row-->
+				@endif
 
 
 

@@ -186,23 +186,24 @@ $allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$school
 
 
 
-
+<!--
 @php 
 
-
 $year = Carbon\Carbon::parse()->format('y');
-	
+
+$year_total = DB::table('api_transfers')->select(DB::raw('sum(amount) as deposits,transfer_month'))->groupBy('transfer_month')->where('school_id',$school_code)->where('transfer_year',$year)->orderBY('created_at')->get();
+
+
 $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfer_month'))->groupBy('transfer_month')->orderBY('created_at')->where('school_id',$school_code)->where('transfer_year',$year)->get();
-             
-             foreach($fees->toArray() as $row)
+
+
+			 foreach($fees->toArray() as $row)
              {
              
                 $month[] = $row['transfer_month'];
                 $deposits_total[] = $row['deposits'];
              
              }
-
-			
 
 
 
@@ -255,7 +256,9 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 
 
 				   
-				</div><!--end row-->
+				</div>
+				
+				 -->
 
 
 <br>
@@ -341,6 +344,8 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 <script src="{{asset('Backend/assets/plugins/chart.js/Chart.bundle.min.js')}}"></script>
 
 
+
+
 			<script type="text/javascript">
     // chart1
     var ctx = document.getElementById('chart100').getContext('2d');
@@ -357,7 +362,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(100, 149, 237,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(100, 149, 237,0.8)',
-                data: <?php /// echo json_encode($deposits_total);?>,
+                data: <?php //echo json_encode($deposits_total);?>,
                 
             },
 
@@ -417,7 +422,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels:<?php // echo json_encode($month); ?>,
+            labels:<?php //echo json_encode($month); ?>,
             datasets: [{
                 label: 'Total Amount of Deposits',
 				backgroundColor     : 'rgba(102, 205, 170,0.8)',
@@ -429,7 +434,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(102, 205, 170,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(102, 205, 170,0.8)',
-                data: <?php // echo json_encode($deposits_total);?>,
+                data: <?php //echo json_encode($deposits_total);?>,
                 
             },
 

@@ -51,7 +51,7 @@
 <td> {{ $value->name }}</td>	
 <td> {{ $value->student_code }}</td>
 
-
+@if (auth()->user()->type == 1)
 
 <td>
 @if($value->status == 1)
@@ -62,7 +62,7 @@
 
 
 </td>	
-
+@endif
 			 
 <td>
 

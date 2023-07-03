@@ -48,14 +48,22 @@ View Students
 @php 
 
 
-$school = App\Models\User::where('school_id_no','school_std_code')->where('type',1)->get();
+$school = App\Models\User::where('school_id_no',$value->school_std_code)->where('type',1)->get();
 
 
 
 @endphp
 
 
-<td> {{ $value->school_std_code}}</td>
+<td> 
+@foreach($school as $sch)
+
+	{{ ($sch->name)}}
+
+@endforeach
+
+
+</td>
 
 
 <td> {{ $value->name }}</td>	

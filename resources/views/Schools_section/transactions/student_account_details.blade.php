@@ -148,12 +148,13 @@
                                         
                                                 </div>
                                                 <div class="table-responsive">
-                                                    <table class="table mb-0">
+                                                    <table class="table mb-0 table-striped table-bordered display text-nowrap"  id="example" >
                                                         <thead class="table-light">
                                                             <tr>
                                         
-                                                                <th>Amount Withdrawn (UGX)</th>
+
                                                                 <th>Withdrawal Date</th>
+                                                                <th>Amount Withdrawn (UGX)</th>
                                                                 <th>Action</th>
                                         
                                                             </tr>
@@ -163,8 +164,9 @@
                                                             <tr>
                                                               
                                                                 
-                                                                <td>{{ $value->withdrawal_amount}}</td>
+
                                                                 <td>{{ $value->withdrawal_date}}</td>
+                                                                <td>{{ $value->withdrawal_amount}}</td>
                                                                 
                                                                 <td>
 
@@ -178,6 +180,17 @@
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
+                                                        <tfoot>
+                          <!-- start row -->
+                          <tr>
+                            <th colspan="1" style="text-align: right">
+                              Total (ugx):
+                            </th>
+                            <th></th>
+                          </tr>
+                          <!-- end row -->
+
+                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -185,52 +198,6 @@
 
 
 
-
-                                        										
-<!-- Edit withdrawal Modal -->
-<div class="modal fade" id="withdrawneditmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="myModalLabel">Update Withdrawn Amount</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-
-
-<form method="post" action="{{ route('student.withdrawal.amount.update',$value->id) }}">
- @csrf
-
-
-
-<div class="modal-body">
-
-<input type="hidden" name="id" id="id" >
-
-<div class="mb-3">
-<label for="withdrawal_amount">Update Withdrawn Amount </label>
-<input type="text" name="withdrawal_amount" id="withdrawal_amount" class="form-control" >
-</div>
-
-
-<div class="mb-3">
-<label for="withdrawal_date">Withdrawn Date</label>
-<input type="text" name="withdrawal_date" id="withdrawal_date" class="form-control" readonly>
-</div>
-
-
-
-</div>
-
-
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-<button type="submit" id="submit"  class="btn btn-success">Update Amount</button>
-</div>
-
-</form>
-</div>
-</div>
-</div>
 
 
 										
@@ -338,6 +305,52 @@
 
             
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" ></script>
+
+<script>
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 1 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 1, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+          
+
+            // Total filtered rows on the selected column (code part added)
+            var sumCol4Filtered = display.map(el => data[el][1]).reduce((a, b) => intVal(a) + intVal(b), 0 );
+          
+            // Update footer
+            $( api.column( 1 ).footer() ).html(
+                ''+pageTotal +' ( '+ total +' total) '
+            );
+        }
+    } );
+} );
+</script>
 
 
 

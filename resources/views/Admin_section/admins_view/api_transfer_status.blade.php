@@ -33,7 +33,7 @@ View Transactions
 									<tr>
                                     <th>SL</th> 
 									<th>Student Account </th>
-                                    <th>School Code</th>
+                                    <th>School </th>
                                         <th>Transfer Date</th>
 										<th>Deposits (UGX)</th>
 

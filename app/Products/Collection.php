@@ -81,7 +81,7 @@ class Collection extends Product
      */
     public function getTransactionStatusUri()
     {
-        return $this->transactionStatusUri;
+        return $this->transactionStatusUri; 
     }
 
     /**

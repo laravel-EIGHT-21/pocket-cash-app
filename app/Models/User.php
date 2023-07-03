@@ -11,8 +11,9 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
+use betterapp\LaravelDbEncrypter\Traits\EncryptableDbAttribute;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
     use HasApiTokens;
     use HasFactory;
@@ -20,6 +21,8 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use EncryptableDbAttribute;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -59,7 +62,13 @@ class User extends Authenticatable
     ];
 
 
-
+    /** @var array The attributes that should be encrypted/decrypted */
+    protected $encryptable = [
+        'name',
+        'school_id_no',
+        'student_code',
+        'school_std_code',
+    ];
 
 
 }

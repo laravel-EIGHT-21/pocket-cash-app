@@ -38,12 +38,13 @@ Route::get('/', function () {
     return view('auth.login');
 });   
 
+
 Route::group(['middleware' => 'auth'], function() {
     
  Route::get('/dashboard',[RedirectController::class,'index']);
 
  
-    Route::group(['prefix' => 'admin', 'middleware' =>'user-access-admin'],function(){
+    Route::group(['prefix' => 'admin', 'middleware' =>'user-access-admin','auth:sanctum'],function(){
  
 
 // Admin all Routes
@@ -108,22 +109,29 @@ Route::get('/view/api/tranfers', [SchoolsController::class, 'ViewTranfsers'])->n
 
 // All Money Transfers Informations
 Route::get('/view/money/tranfers/details', [SchoolsController::class, 'MoneyTransfers'])->name('money.transfers');
-
+ 
 
 Route::get('/money/tranfers', [SchoolsController::class, 'BulkMoneyTransfers'])->name('bulk.money.transfers');
 
 
-Route::get('/bulk/money/tranfer', [SchoolsController::class, 'BulkMoneyTransferGet']);
+Route::post('/bulk/money/tranfer', [SchoolsController::class, 'BulkMoneyTransferGet'])->name('send.bulk.money.transfers');
 
 
 Route::get('/money/tranfers/details/{date}', [SchoolsController::class, 'BulkMoneyTransfersDetails'])->name('bulk.money.transfers.details');
 
 
-Route::get('/get-school-daily-total-amount',[SchoolsController::class, 'GetTotalAmount'])->name('get-school-daily-total-amount'); 
+//Route::get('/get-school-daily-total-amount',[SchoolsController::class, 'GetTotalAmount'])->name('get-school-daily-total-amount'); 
 
 
 
 
+Route::get('/view/deposits/reports', [SchoolsController::class, 'ViewDepositsReports'])->name('deposits.reports');
+
+Route::post('deposits/report/search/by/week',[SchoolsController::class,'ReportByWeek'])->name('search-deposits-by-week');
+
+Route::post('deposits/report/search/by/month',[SchoolsController::class,'ReportByMonth'])->name('search-deposits-by-month');
+
+Route::post('deposits/report/search/by/year', [SchoolsController::class,'ReportByYear'])->name('search-deposits-by-year');
 
 
 
@@ -165,12 +173,12 @@ Route::get('/permissions/delete/{id}', [PermissionController::class, 'destroy'])
 
 
 
-Route::group(['prefix' => 'school', 'middleware' =>'user-access-school'],function(){
+Route::group(['prefix' => 'school', 'middleware' =>'user-access-school','auth:sanctum'],function(){
  
 
 // School Users all Routes
 Route::get('/board',[SchoolUsersController::class,'schoolindex'])->name('school.dashboard');
-Route::get('/school/logout',[SchoolUsersController::class,'destroy'])->name('school.logout');
+Route::get('/logout',[SchoolUsersController::class,'destroy'])->name('school.logout');
 Route::get('/school-user/profile',[SchoolUsersController::class,'SchoolUserprofile'])->name('school.user.profile.view');
 //Route::post('/school/profile/update',[AdminController::class,'profileUpdate'])->name('admin.profile.update');
 Route::post('/school/password/update',[SchoolUsersController::class,'schoolpassUpdate'])->name('school.password.update');
@@ -272,14 +280,35 @@ Route::post('loan/payment/amount/update/{id}',[TransactionController::class, 'St
 
 
 
-Route::group(['prefix' => 'student', 'middleware' =>'user-access-student'],function(){
+Route::group(['prefix' => 'student', 'middleware' =>'user-access-student','auth:sanctum'],function(){
  
 // Students Users all Routes
-Route::get('/student/logout',[StudentUserController::class,'destroy'])->name('student.logout');
+Route::get('/board',[StudentUserController::class,'studentindex'])->name('student.dashboard');
+Route::get('/logout',[StudentUserController::class,'destroy'])->name('student.logout');
 
-Route::get('/student-user/profile',[StudentUserController::class,'StudentUserprofile'])->name('student.user.profile.view');
-//Route::post('/school/profile/update',[AdminController::class,'profileUpdate'])->name('admin.profile.update');
-Route::post('/student/password/update',[StudentUserController::class,'studentpassUpdate'])->name('student.password.update');
+Route::get('/profile',[StudentUserController::class,'StudentUserprofile'])->name('student.user.profile.view');
+Route::post('/profile/update',[StudentUserController::class,'profilephotoUpdate'])->name('student.profile.photo.update');
+Route::post('/password/update',[StudentUserController::class,'studentpassUpdate'])->name('student.password.update');
+
+
+
+//Students Routes
+Route::get('/view/files', [StudentUserController::class, 'ViewFiles'])->name('view.files');
+Route::get('/add/files', [StudentUserController::class, 'AddFile'])->name('add.file');
+
+Route::post('/store/files', [StudentUserController::class, 'StoreFile'])->name('file.store');
+
+
+Route::get('/edit/file/{id}', [StudentUserController::class, 'EditFile'])->name('edit.file');
+Route::post('/update/file/{id}', [StudentUserController::class, 'UpdateFile'])->name('file.update');
+
+Route::get('/file/details/{id}', [StudentUserController::class, 'FileDetails'])->name('file.details');
+
+Route::get('/file/delete/{id}', [StudentUserController::class, 'DeleteFile'])->name('delete.file');
+
+
+
+Route::get('/view/account/information/{student_code}', [StudentUserController::class, 'ViewAccountDetails'])->name('view.account');
 
 
 

@@ -290,7 +290,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels:<?php // echo json_encode($month); ?>,
+            labels:<?php echo json_encode($month); ?>,
             datasets: [{
                 label: 'Total Amount of Deposits',
 				backgroundColor     : 'rgba(100, 149, 237,0.8)',
@@ -300,7 +300,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(100, 149, 237,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(100, 149, 237,0.8)',
-                data: <?php // echo json_encode($deposits_total);?>,
+                data: <?php echo json_encode($deposits_total);?>,
                 
             },
 
@@ -360,7 +360,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels:<?php // echo json_encode($month); ?>,
+            labels:<?php echo json_encode($month); ?>,
             datasets: [{
                 label: 'Total Amount of Deposits',
 				backgroundColor     : 'rgba(102, 205, 170,0.8)',
@@ -372,7 +372,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 				pointColor          : 'rgba(102, 205, 170,0.8)',
 				pointHighlightFill  : '#fff',
 				pointHighlightStroke: 'rgba(102, 205, 170,0.8)',
-                data: <?php // echo json_encode($deposits_total);?>,
+                data: <?php echo json_encode($deposits_total);?>,
                 
             },
 

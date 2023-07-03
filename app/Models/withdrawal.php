@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use betterapp\LaravelDbEncrypter\Traits\EncryptableDbAttribute;
 
 class withdrawal extends Model
 {
     use HasFactory;
+    use EncryptableDbAttribute;
 
 
     protected $guarded = [];
@@ -17,5 +19,21 @@ class withdrawal extends Model
     public function student(){
         return $this->belongsTo(User::class,'student_id','id');
     }
+
+
+        
+    
+    /** @var array The attributes that should be encrypted/decrypted */
+    protected $encryptable = [
+
+        'withdrawal_date',
+        'withdrawal_month',
+
+
+    ];
+
+
+
+
 
 }

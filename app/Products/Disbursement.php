@@ -135,7 +135,7 @@ class Disbursement extends Product
     /**
      * @param string $accountHolderInfoUri
      */
-    public function setAccountHolderInfoUri($accountHolderInfoUri)
+    public function setAccountHolderInfoUri($accountHolderInfoUri) 
     {
         $this->accountHolderInfoUri = $accountHolderInfoUri;
     }
@@ -241,6 +241,7 @@ class Disbursement extends Product
                     ],
                     'payerMessage' => alphanumeric($payerMessage),
                     'payeeNote' => alphanumeric($payeeNote),
+
                 ],
             ]);
 
