@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Ramsey\Uuid\Uuid;
 
 class TransactionController extends Controller
 {
@@ -24,7 +25,7 @@ class TransactionController extends Controller
     
     public function ViewStudentTransactions(){
 
-      $id = Auth::user()->id;
+     // $id = Auth::user()->id;
       $school_code = Auth::user()->school_id_no;
      
 
@@ -35,30 +36,48 @@ class TransactionController extends Controller
  
 
   
-  public function ViewStudentAccountDetails($student_code){
+  public function ViewStudentAccountDetails($id){
 
-    $account = User::where('type',2)->where('id',$student_code)->where('status',1)->get();
-
-    $acct = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('amount');
+    $school_code = Auth::user()->school_id_no;
 
 
-    $withdrawal = withdrawal::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('withdrawal_amount');
+      
+    $check = User::where('type',2)->where('uuid',$id)->where('school_std_code',$school_code)->where('status',1)->first();
+  
+    if($check == true){
+
+    $account = User::where('type',2)->where('uuid',$id)->where('school_std_code',$school_code)->where('status',1)->get();
+
+    $acct = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->where('school_id',$school_code)->sum('amount');
+
+
+    $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
 
     
-    $loans = loan::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('loan_amount');
+    $loans = loan::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('loan_amount');
 
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
 
-    $details = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->get();
+    $details = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->where('school_id',$school_code)->get();
 
     
-   $student_deposite = apiTransfers::where('student_id',$student_code)->latest()->get();
-   $student_withdrawal = withdrawal::where('student_id',$student_code)->latest()->get();
-   $student_loans = loan::where('student_id',$student_code)->latest()->get();
+   $student_deposite = apiTransfers::where('uuid',$id)->latest()->get();
+   $student_withdrawal = withdrawal::where('uuid',$id)->latest()->get();
+   $student_loans = loan::where('uuid',$id)->latest()->get();
 
 
     return view('Schools_section.transactions.student_account_details', compact('account','acct','acct_bal','details','student_deposite','student_withdrawal','student_loans'));
+
+  }
+  
+  else{
+
+    return view('auth.403');
+    
+    }	
+
+
 
 }
 

@@ -62,15 +62,15 @@
 
 @php 
 
-$account = App\Models\User::where('type',2)->where('student_code',$value->student_code)->where('status',1)->get();
+$account = App\Models\User::where('type',2)->where('uuid',$value->uuid)->where('status',1)->get();
 
-    $acct = App\Models\apiTransfers::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('amount');
+    $acct = App\Models\apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$value->uuid)->sum('amount');
 
 
-    $withdrawal = App\Models\withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('withdrawal_amount');
+    $withdrawal = App\Models\withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$value->uuid)->sum('withdrawal_amount');
 
     
-    $loans = App\Models\loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$value->student_code)->sum('loan_amount');
+    $loans = App\Models\loan::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$value->uuid)->sum('loan_amount');
 
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
@@ -86,14 +86,14 @@ $account = App\Models\User::where('type',2)->where('student_code',$value->studen
 			 
 <td>
 
-<a href="{{ route('view.student.account',$value->id) }}" class="btn btn-success btn-sm radius-10 px-2 " title="Account Details" target="_blank"><i class="lni lni-eye"></i></a>
+<a href="{{ route('view.student.account',$value->uuid) }}" class="btn btn-success btn-sm radius-10 px-2 " title="Account Details" target="_blank"><i class="lni lni-eye"></i></a>
 
 
 
-<a href="{{ route('student.withdrawal.form',$value->id) }}" class="btn btn-warning btn-sm radius-10 px-2" title="Withdrawal Money" ><i class="lni lni-money-protection"></i></a>
+<a href="{{ route('student.withdrawal.form',$value->uuid) }}" class="btn btn-warning btn-sm radius-10 px-2" title="Withdrawal Money" ><i class="lni lni-money-protection"></i></a>
 
 
-<a href="{{ route('student.loan.form',$value->id) }}" class="btn btn-danger btn-sm radius-10 px-2" title="Give Loan" ><i class="lni lni-money-protection"></i></a>
+<a href="{{ route('student.loan.form',$value->uuid) }}" class="btn btn-danger btn-sm radius-10 px-2" title="Give Loan" ><i class="lni lni-money-protection"></i></a>
 
 
 

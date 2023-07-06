@@ -49,7 +49,7 @@
 <td>{{ $key+1 }}</td>
 
 <td> {{ $value->name }}</td>	
-<td> {{ $value->student_code }}</td>
+<td> {{ $value->student_code }} </td>
 
 @if (auth()->user()->type == 1)
 

@@ -16,7 +16,13 @@ use App\Products\Remittance;
 use App\Products\Disbursement;
 use App\Products\Collection;
 use App\Models\User;
+use App\Models\wallets;
 use DateTime;
+use Ramsey\Uuid\Uuid;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Crypt;
+use betterapp\LaravelDbEncrypter\Traits\EncryptableDbAttribute;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 
 class SchoolsController extends Controller
@@ -57,18 +63,32 @@ class SchoolsController extends Controller
 
   $transactionId = rand(1,10000);
 
+
   $amount = $request->amount;
   $partyId = $request->mobile;
   $student_acct = $request->acct_id;
 
+$data = User::where('status',1)->where('type',2)->get();
+foreach($data as $value) {
+  $value->student_code;
+}
+
+try {
+  $decrypted = Crypt::decrypt($value->student_code);
+} catch (DecryptException $e) {
+$e->getMessage();
+info("Error....!!");
+}
+
+return $decrypted;
   
-      $singleStudent = User::where('student_code',$student_acct)->where('status',1)->where('type',2)->first();
+  $singleStudent = User::where('student_code',$decrypted)->where('status',1)->where('type',2)->first();
 
-      if ($singleStudent == true) {
+  if ($singleStudent == true) {
 
 
 
-  $momoTransactionId = $remittance->requestToPay($transactionId, $partyId, $amount,$student_acct);
+$momoTransactionId = $remittance->requestToPay($transactionId, $partyId, $amount,$student_acct);
 
 $response = $remittance->getTransactionStatus($momoTransactionId);
 
@@ -92,42 +112,44 @@ $year = Carbon::now()->format('y');
 
 
 
-            apiTransfers::create([
+        apiTransfers::create([
 
-            'student_acct_no' => $student_acct,
-            'student_id' => $singleStudent->id,
-            'school_id' => $singleStudent->school_std_code,
-            'amount' => $amount,
-            'currency' => $currency,
-            'reference_id' => $momoTransactionId,
-            'externalId' => $transactionId,
-            'payee_number' =>$token_c,
-            'status' => $token_obj,
-            'transfer_date' => $date,
-            'transfer_month' => $month,
-            'transfer_year' => $year,
+        'student_acct_no' => $student_acct,
+        'uuid' => $singleStudent->uuid,
+        'school_id' => $singleStudent->school_std_code,
+        'amount' => $amount,
+        'currency' => $currency,
+        'reference_id' => $momoTransactionId,
+        'externalId' => $transactionId,
+        'payee_number' =>$token_c,
+        'status' => $token_obj,
+        'transfer_date' => $date,
+        'transfer_month' => $month,
+        'transfer_year' => $year,
 
 
-           ]);
+       ]);
 
-           $notification1 = array(
-            'message' => 'TRANSFER HAS BEEN SENT...',
-            'alert-type' => 'success'
-          );
-          
-          return redirect()->back()->with($notification1);
+       $notification1 = array(
+        'message' => 'TRANSFER HAS BEEN SENT...',
+        'alert-type' => 'success'
+      );
+      
+      return redirect()->back()->with($notification1);
+    }
+    else{ 
+  
+      $notification = array(
+        'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+  
         }
-        else{ 
-      
-          $notification = array(
-            'message' => 'NO MATCH FOR STUDENT ACCOUNT...',
-            'alert-type' => 'error'
-          );
-      
-          return redirect()->back()->with($notification);
-      
-            }
 
+
+     
 
 
 
@@ -325,6 +347,9 @@ if($check == null){
 
 
   DB::transaction(function() use($request){
+
+    $uuid = Uuid::uuid4()->toString();
+
     
 
     $students = User::orderBy('id','DESC')->first();
@@ -359,6 +384,7 @@ if($check == null){
       $final_id_no = $id_no;
 
       $user = new User();
+      $user->uuid = $uuid;
       $user->school_id_no = $final_id_no;
   $user->name = $request->name;
   $user->email = $request->email;
@@ -369,12 +395,11 @@ if($check == null){
   $user->type = 1;
 
 
-  if ($request->file('school_logo_path')) {
-    $file = $request->file('school_logo_path');
-    $filename = date('YmdHi').$file->getClientOriginalName();
-    $file->move(public_path('upload/logo'),$filename);
-    $user['school_logo_path'] = $filename;
-  }
+  $image = $request->file('school_logo_path');
+  $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+  Image::make($image)->resize(102,102)->save('upload/logo/'.$name_gen);
+  $save_url = 'upload/logo/'.$name_gen;
+$user->school_logo_path = $save_url;
    $user->save();
 
 
@@ -432,6 +457,8 @@ $data['editData'] = User::findOrFail($id);
 public function UpdateSchools(Request $request, $id){
 
   DB::transaction(function() use($request,$id){
+
+    $old_img = $request->old_image;
    
   $user = User::where('id',$id)->first();   
   $user->name = $request->name;
@@ -439,13 +466,17 @@ public function UpdateSchools(Request $request, $id){
   $user->school_tel1 = $request->school_tel1;
   $user->school_tel2 = $request->school_tel2;
   $user->school_address = $request->school_address;
-
+  
+  
   if ($request->file('school_logo_path')) {
-$file = $request->file('school_logo_path');
-@unlink(public_path('upload/logo/'.$user->school_logo_path));
-$filename = date('YmdHi').$file->getClientOriginalName();
-$file->move(public_path('upload/logo'),$filename);
-$user['school_logo_path'] = $filename;
+  $image = $request->file('school_logo_path');
+  @unlink(public_path('upload/logo/'.$old_img));
+  $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+  Image::make($image)->resize(102,102)->save('upload/logo/'.$name_gen);
+  $save_url = 'upload/logo/'.$name_gen;
+  $user['school_logo_path'] = $save_url;
+  
+
 }
 
    $user->save();

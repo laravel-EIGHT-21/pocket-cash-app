@@ -44,7 +44,12 @@ Route::group(['middleware' => 'auth'], function() {
  Route::get('/dashboard',[RedirectController::class,'index']);
 
  
-    Route::group(['prefix' => 'admin', 'middleware' =>'user-access-admin','auth:sanctum'],function(){
+
+
+ 
+Route::middleware(['throttle:admins'])->group(function () {
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'user-access-admin','auth:sanctum'],function(){
  
 
 // Admin all Routes
@@ -172,8 +177,18 @@ Route::get('/permissions/delete/{id}', [PermissionController::class, 'destroy'])
 }); // End Middleware  Admin Auth Route
 
 
+}); // End of rate limiting  for Admin 
 
-Route::group(['prefix' => 'school', 'middleware' =>'user-access-school','auth:sanctum'],function(){
+
+
+
+
+
+
+Route::middleware(['throttle:schools'])->group(function () {
+
+
+Route::group(['prefix' => 'school', 'middleware' => 'user-access-school','auth:sanctum'],function(){
  
 
 // School Users all Routes
@@ -219,15 +234,15 @@ Route::get('/view/students/accounts', [TransactionController::class, 'ViewStuden
 
 
 
-Route::get('/view/student/account/details/{student_code}', [TransactionController::class, 'ViewStudentAccountDetails'])->name('view.student.account');
+Route::get('/view/student/account/details/{uuid}', [TransactionController::class, 'ViewStudentAccountDetails'])->name('view.student.account');
 
 
 
-Route::get('/student/withdrawal/form/{id}', [TransactionController::class, 'StudentWithdrawalForm'])->name('student.withdrawal.form');
+Route::get('/student/withdrawal/form/{uuid}', [TransactionController::class, 'StudentWithdrawalForm'])->name('student.withdrawal.form');
 
 
 
-Route::get('/student/loan/form/{id}', [TransactionController::class, 'StudentLoanForm'])->name('student.loan.form');
+Route::get('/student/loan/form/{uuid}', [TransactionController::class, 'StudentLoanForm'])->name('student.loan.form');
 
 
 
@@ -275,12 +290,15 @@ Route::post('loan/payment/amount/update/{id}',[TransactionController::class, 'St
 
 }); // End Middleare  School Auth Route
 
+}); // End of rate limiter for schools
 
 
 
 
 
-Route::group(['prefix' => 'student', 'middleware' =>'user-access-student','auth:sanctum'],function(){
+Route::middleware(['throttle:students'])->group(function () {
+
+Route::group(['prefix' => 'student', 'middleware' => 'user-access-student','auth:sanctum'],function(){
  
 // Students Users all Routes
 Route::get('/board',[StudentUserController::class,'studentindex'])->name('student.dashboard');
@@ -308,13 +326,14 @@ Route::get('/file/delete/{id}', [StudentUserController::class, 'DeleteFile'])->n
 
 
 
-Route::get('/view/account/information/{student_code}', [StudentUserController::class, 'ViewAccountDetails'])->name('view.account');
+Route::get('/view/account/information/{uuid}', [StudentUserController::class, 'ViewAccountDetails'])->name('view.account');
 
 
 
     
 
 }); // End Middleare  Students login Auth Route
+});// end of rate limiting for students
 
 
 

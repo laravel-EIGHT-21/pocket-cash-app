@@ -41,6 +41,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        
     ];
 
     /**
@@ -62,12 +63,18 @@ class User extends Authenticatable
     ];
 
 
+
+
     /** @var array The attributes that should be encrypted/decrypted */
     protected $encryptable = [
+
         'name',
-        'school_id_no',
+        'admin_tel',
+        'school_tel1',
+        'school_tel2',
+        'school_address',
         'student_code',
-        'school_std_code',
+
     ];
 
 

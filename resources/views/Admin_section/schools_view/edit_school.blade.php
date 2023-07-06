@@ -32,6 +32,7 @@ View Schools
 							<div class="card-body p-4">
 								<form  method="post" action="{{ route('school.update',$editData->id) }}" enctype="multipart/form-data"  class="row g-3 needs-validation" novalidate>
                                 @csrf
+								<input type="hidden" name="old_image" value="{{$editData->school_logo_path}}">
 									<div class="col-md-12">
 										<label for="bsValidation1" class="form-label">School Name</label>
 										<input type="text" class="form-control" id="bsValidation1" name="name"  value="{{$editData->name}}">

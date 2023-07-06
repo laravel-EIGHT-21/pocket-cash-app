@@ -45,6 +45,9 @@
 	<h3><b>{{$adminData->name}}</b></h3>
 	
 	<h5><b>Wallet Code : {{$adminData->student_code}}</b></h5>
+
+	<h5><b>Wallet Code : {{$adminData->student_pincode}}</b></h5>
+
 	</div>
 	
 

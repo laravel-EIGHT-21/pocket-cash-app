@@ -148,7 +148,7 @@
                                         
                                                 </div>
                                                 <div class="table-responsive">
-                                                    <table class="table mb-0 table-striped table-bordered display text-nowrap"  id="example" >
+                                                    <table class="table mb-0 table-striped table-bordered" >
                                                         <thead class="table-light">
                                                             <tr>
                                         
@@ -180,17 +180,7 @@
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
-                                                        <tfoot>
-                          <!-- start row -->
-                          <tr>
-                            <th colspan="1" style="text-align: right">
-                              Total (ugx):
-                            </th>
-                            <th></th>
-                          </tr>
-                          <!-- end row -->
 
-                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -308,49 +298,6 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" ></script>
-
-<script>
-$(document).ready(function() {
-    $('#example').DataTable( {
-        "footerCallback": function ( row, data, start, end, display ) {
-            var api = this.api(), data;
- 
-            // Remove the formatting to get integer data for summation
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
- 
-            // Total over all pages
-            total = api
-                .column( 1 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
- 
-            // Total over this page
-            pageTotal = api
-                .column( 1, { page: 'current'} )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-          
-
-            // Total filtered rows on the selected column (code part added)
-            var sumCol4Filtered = display.map(el => data[el][1]).reduce((a, b) => intVal(a) + intVal(b), 0 );
-          
-            // Update footer
-            $( api.column( 1 ).footer() ).html(
-                ''+pageTotal +' ( '+ total +' total) '
-            );
-        }
-    } );
-} );
-</script>
 
 
 

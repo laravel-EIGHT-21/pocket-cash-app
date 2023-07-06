@@ -16,6 +16,7 @@ use Intervention\Image\Facades\Image;
 use App\Models\loan;
 use App\Models\withdrawal;
 use App\Models\apiTransfers;
+use Ramsey\Uuid\Uuid;
 
 class StudentUserController extends Controller
 {
@@ -109,7 +110,7 @@ class StudentUserController extends Controller
             return redirect()->route('student.logout'); 
 
         }else{
-            return redirect()->back();
+            return redirect()->back(); 
         }
 
     }
@@ -119,9 +120,9 @@ class StudentUserController extends Controller
 
     public function ViewFiles(){
 
-        $id = Auth::user()->id;
+        $id = Auth::user()->uuid;
 
-        $data['allData'] = student_files::where('student_id',$id)->latest()->get();
+        $data['allData'] = student_files::where('uuid',$id)->latest()->get();
 
         return view('students.student_dash.view_student_file',$data);
     }
@@ -141,7 +142,7 @@ class StudentUserController extends Controller
             
   DB::transaction(function() use($request){
 
-    $id = Auth::user()->id;
+    $id = Auth::user()->uuid;
     $code= Auth::user()->student_code;
 
 
@@ -152,15 +153,16 @@ class StudentUserController extends Controller
        ]);
 
 
-    $fileName = time().'.'.$request->docs->extension();  
-    $request->docs->move(public_path('upload/student_files'), $fileName);
-    $save_file =  'upload/student_files/'.$fileName;
+       $file = $request->file('docs');
+ 
+    $fileName = $file->hashName().'.'.$file->extension();  
+    $file->move(public_path('upload/student_files'), $fileName);
+    $save_file = $fileName;
 
 
 
     $user = new student_files();
-$user->student_id = $id;
-$user->student_acct_no = $code;
+$user->uuid = $id;
 $user->title = $request->title;
 $user->file_type = $request->file_type;
 $user->date = Carbon::now()->format('d F y');
@@ -194,19 +196,55 @@ $user->save();
     
     public function EditFile($id){
 
-        $data['editData'] = student_files::findOrFail($id);
 
-        return view('students.student_dash.edit_student_file', $data);
+
+        $uuid = Auth::user()->uuid;
+
+        $student = student_files::with(['student'])->where('uuid',$uuid)->where('id',$id)->first();
+
+        if($student == true){
+
+            $data['editData'] = student_files::where('uuid',$uuid)->findOrFail($id);
+
+            return view('students.student_dash.edit_student_file', $data);
+            
+
+        }
+
+        else{
+            return view('auth.403');
+        }
+
     }
 
+
+    
 
 
 
             // Student Admissions Details 
 	public function FileDetails($id){ 
 
-        $student_docs = student_files::with(['student'])->where('id',$id)->first();
-          return view('students.student_dash.file_details',compact('student_docs'));
+        $uuid = Auth::user()->uuid;
+
+        $student = student_files::with(['student'])->where('uuid',$uuid)->where('id',$id)->first();
+
+        if($student == true){
+
+            
+            $student_docs = student_files::with(['student'])->where('uuid',$uuid)->where('id',$id)->findOrFail($id);
+
+            return view('students.student_dash.file_details',compact('student_docs'));
+
+            
+
+        }
+
+        else{
+            return view('auth.403');
+        }
+
+
 
  } // end method 
 
@@ -219,14 +257,15 @@ $user->save();
             $user1->title = $request->title;
             $user1->file_type = $request->file_type;
              $oldfile = $user1->docs;
-            //unlink($oldfile);
+
+             $old_doc = $request->old_doc;
 
             if($request->file('docs')){  
-            unlink($oldfile);        
+             @unlink(public_path('upload/student_files/'.$oldfile));      
             $file = $request->file('docs'); 
-            $fileName = time().'.'.$file->extension();  
+            $fileName = $file->hashName().'.'.$file->extension();  
             $file->move(public_path('upload/student_files'), $fileName);
-            $user1['docs'] = 'upload/student_files/'.$fileName;
+            $user1['docs'] = $fileName;
             }
            
              $user1->save();         
@@ -271,30 +310,49 @@ $user->save();
 
 
     
-  public function ViewAccountDetails($student_code){
+  public function ViewAccountDetails($student_id){
 
-    $account = User::where('type',2)->where('id',$student_code)->where('status',1)->get();
+    $auth = Auth::user()->uuid;
 
-    $acct = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('amount');
+      
+    $check = User::where('type',2)->where('uuid',$student_id)->where('uuid',$auth)->where('status',1)->first();
+  
+    if($check == true){
 
 
-    $withdrawal = withdrawal::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('withdrawal_amount');
+    $account = User::where('type',2)->where('uuid',$student_id)->where('uuid',$auth)->where('status',1)->get();
+
+    $acct = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$student_id)->where('uuid',$auth)->sum('amount');
+
+
+    $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$student_id)->where('uuid',$auth)->sum('withdrawal_amount');
 
     
-    $loans = loan::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->sum('loan_amount');
+    $loans = loan::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$student_id)->where('uuid',$auth)->sum('loan_amount');
 
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
 
-    $details = apiTransfers::with(['student'])->select('student_id')->groupBY('student_id')->where('student_id',$student_code)->get();
+    $details = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$student_id)->where('uuid',$auth)->get();
 
-    
-   $student_deposite = apiTransfers::where('student_id',$student_code)->latest()->get();
-   $student_withdrawal = withdrawal::where('student_id',$student_code)->latest()->get();
-   $student_loans = loan::where('student_id',$student_code)->latest()->get();
+     
+   $student_deposite = apiTransfers::where('uuid',$student_id)->where('uuid',$auth)->latest()->get();
+   $student_withdrawal = withdrawal::where('uuid',$student_id)->where('uuid',$auth)->latest()->get();
+   $student_loans = loan::where('uuid',$student_id)->where('uuid',$auth)->latest()->get();
 
 
     return view('students.student_dash.student_account_details', compact('account','acct','acct_bal','details','student_deposite','student_withdrawal','student_loans'));
+
+}
+  
+else{
+
+    return view('auth.403');
+  
+  }	
+
+
+
 
 }
 

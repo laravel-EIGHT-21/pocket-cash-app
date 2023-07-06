@@ -15,22 +15,10 @@ class loan extends Model
 
          
     public function student(){
-        return $this->belongsTo(User::class,'student_id','id');
+        return $this->belongsTo(User::class,'uuid','uuid');
     }
 
 
-    
-    /** @var array The attributes that should be encrypted/decrypted */
-    protected $encryptable = [
-
-        'student_acct_no',
-        'loan_date',
-        'loan_month',
-        'loan_payment_date',
-        'loan_payment_month',
-
-
-    ];
 
 
 }

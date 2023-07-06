@@ -43,29 +43,29 @@
 </thead>
 
 <tbody>
-@foreach($roles as $key => $item)
+@foreach($roles as $key => $value)
 <tr>
 <td>{{ $key+1 }}</td>
 <td>
-{{$item->name}}
+{{$value->name}}
 
 </td>
 @if (auth()->user()->type == 0)
 <td width="25%">
 
 @can('role-list')
-<a href="{{route('role.show',$item->id)}}" class="btn btn-success btn-sm" title="Permissions ">
+<a href="{{route('role.show',$value->id)}}" class="btn btn-success btn-sm" title="Permissions ">
         <i class="lni lni-eye"></i></a>
 		@endcan
 
 		@can('role-edit')
-    <a href="{{route('role.edit',$item->id)}}" class="btn btn-info btn-sm" title="Edit ">
+    <a href="{{route('role.edit',$value->id)}}" class="btn btn-info btn-sm" title="Edit ">
         <i class="fa fa-edit"></i></a>
        @endcan
 
         
         @can('role-delete')
-    <a href="{{route('role.delete',$item->id)}}"class="btn btn-danger btn-sm" title="Delete" id="delete">
+    <a href="{{route('role.delete',$value->id)}}"class="btn btn-danger btn-sm" title="Delete" id="delete">
     <i class="lni lni-trash"></i></a>
     @endcan
 

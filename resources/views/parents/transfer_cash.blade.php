@@ -61,7 +61,7 @@
 									</div>
 									<div class="form-body">
 										<form class="row g-3"  action="/transfer/pocket/cash" enctype="multipart/form-data" >
-									{{csrf_field()}}
+										@csrf
 
                                         <div class="my-4">
 										<label class="form-label">Student Account Number</label>

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Schools;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\wallets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class StudentController extends Controller
 {
@@ -61,24 +63,31 @@ class StudentController extends Controller
         DB::transaction(function() use($request){
             $id = Auth::user()->id;
             $type = Auth::user()->type;
+
+            $uuid = Uuid::uuid4()->toString();
+
            
            $school = User::where('id',$id)->where('type',$type)->find($id);
          
       
-          $student_acct = mt_rand(100000,999999);
+          $student_acct = mt_rand(1000000,9999999);
   
+          $student_pin = mt_rand(10000,99999);
+
             $final_id_no = $student_acct;
+            $pin = $student_pin;
   
       
             $user = new User();
+            $user->uuid = $uuid;
             $user->student_code = $final_id_no;
+            $user->student_pincode = $pin;
         $user->name = $request->name;
         $user->school_std_code = $school->school_id_no;
         $user->password = Hash::make($request->password);
         $user->type = 2;
          $user->save();
-  
-        
+
   
         });
   
@@ -109,22 +118,25 @@ class StudentController extends Controller
   
           $check = User::where('student_code',$acct_id)->where('status',0)->where('type',2)->first();
   
-  
-                   
+
           if($check == true){
     
     
           DB::transaction(function() use($request){
             $id = Auth::user()->id;
             $type = Auth::user()->type;
+
+            $acct_id = $request->acct_id;
+            $pin =  User::where('student_code',$acct_id)->where('status',0)->where('type',2)->first();
            
-           $students = User::where('id',$id)->where('type',$type)->find($id);
+           $school = User::where('id',$id)->where('type',$type)->find($id);
            
         
               $user = new User();
               $user->student_code = $request->acct_id;
           $user->name = $request->name;
-          $user->school_std_code  = $students->school_id_no;
+          $user->student_pincode = $pin->student_pincode;
+          $user->school_std_code  = $school->school_id_no;
           $user->password = Hash::make($request->password);
           $user->type = 2;
            $user->save();
@@ -170,10 +182,28 @@ class StudentController extends Controller
       
     
     public function EditStudents($id){
-      $data['editData'] = User::findOrFail($id);
+
+      $school_code = Auth::user()->school_id_no;
+
+      $student = User::where('school_std_code',$school_code)->where('id',$id)->first();
+
+      if($student == true){
+
+      $data['editData'] = User::where('school_std_code',$school_code)->findOrFail($id);
       
   
         return view('Schools_section.students_view.edit_student',$data);
+
+        }
+
+        else{
+            return view('auth.403');
+        }
+
+
+
+
+
   
       }
   
@@ -189,7 +219,8 @@ class StudentController extends Controller
          
         $user = User::where('id',$id)->first();   
         $user->name = $request->name;
-       
+       // $user->student_pincode = $request->student_pincode;
+
          $user->save();
   
   

@@ -44,7 +44,7 @@ User Profile
 												<p class="text-secondary mb-1"><b>{{$adminData->email}}</b></p>
 
 
-												<p class="text-secondary mb-1"><b>Tel. {{$adminData->mobile}}</b></p>
+												<p class="text-secondary mb-1"><b>Tel. {{$adminData->admin_tel}}</b></p>
 												
 
 											</div>

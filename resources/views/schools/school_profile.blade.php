@@ -36,7 +36,7 @@
 										
 
 										<div class="d-flex flex-column align-items-center text-center">
-											<img src="{{(!empty($adminData->school_logo_path))? url('upload/logo/'.$adminData->school_logo_path):url('upload/no_image.jpg') }}"  class="rounded-circle p-1 bg-primary" width="130">
+											<img src="{{(asset($adminData->school_logo_path)) }}"  class="rounded-circle p-1 bg-primary" width="80">
 											<div class="mt-4">
 												<h4><b>{{$adminData->name}}</b></h4>
 												<p class="text-secondary mb-1"><b>{{$adminData->email}}</b></p>

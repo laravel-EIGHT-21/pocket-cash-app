@@ -110,7 +110,7 @@
 
 @php
 		$id = Auth::user()->id;
-        $student_code = Auth::user()->student_code;
+		$student_id = Auth::user()->uuid;
 		$adminData = App\Models\User::find($id);
 		@endphp
 
@@ -167,9 +167,8 @@
 
 </li>
 
-
 <li class="active pcoded-trigger">
-<a href="{{ route('view.account',$id) }}">
+<a href="{{ route('view.account',$student_id)}}">
 <span class="pcoded-micon"><i class="fa fa-money"></i></span>
 <span class="pcoded-mtext">Account Transactions</span>
 </a>

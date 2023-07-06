@@ -20,7 +20,18 @@ class UserAccess
 
         if( Auth::check() && Auth::user()->type == 0){
             return $next($request);
-        }else{
+        }
+         
+        elseif(!Auth::user()->id || Auth::user()->type == 0){
+            abort(code:403);
+        } 
+
+
+        elseif( !Auth::check() || !Auth::user()->id || !Auth::user()->type == 0){
+            abort(code:403);
+        } 
+        
+        else{
             return redirect()->route('login');
         }
 

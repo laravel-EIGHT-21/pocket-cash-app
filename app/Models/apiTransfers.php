@@ -18,7 +18,7 @@ class apiTransfers extends Model
     
          
     public function student(){
-        return $this->belongsTo(User::class,'student_acct_no','student_code');
+        return $this->belongsTo(User::class,'uuid','uuid');
     }
 
 
@@ -35,7 +35,7 @@ class apiTransfers extends Model
         'student_acct_no',
         'reference_id',
         'externalId',
-
+        
 
     ];
 

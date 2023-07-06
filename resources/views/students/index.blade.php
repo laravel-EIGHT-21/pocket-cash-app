@@ -4,18 +4,18 @@
 
 
 @php 
-$id = Auth::user()->id;
+$id = Auth::user()->uuid;
 
-$all = App\Models\student_files::with(['student'])->where('student_id',$id)->get();
-
-
-$academic = App\Models\student_files::with(['student'])->where('student_id',$id)->where('file_type','Academic')->get();
+$all = App\Models\student_files::with(['student'])->where('uuid',$id)->get();
 
 
-$health = App\Models\student_files::with(['student'])->where('student_id',$id)->where('file_type','Health')->get();
+$academic = App\Models\student_files::with(['student'])->where('uuid',$id)->where('file_type','Academic')->get();
 
 
-$others = App\Models\student_files::with(['student'])->where('student_id',$id)->where('file_type','Other')->get();
+$health = App\Models\student_files::with(['student'])->where('uuid',$id)->where('file_type','Health')->get();
+
+
+$others = App\Models\student_files::with(['student'])->where('uuid',$id)->where('file_type','Other')->get();
 
 
 

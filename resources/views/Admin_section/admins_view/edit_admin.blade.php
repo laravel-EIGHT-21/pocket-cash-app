@@ -29,7 +29,7 @@ View Admins
                                 <a href="{{ route('view.admin.user') }}" class="btn btn-success px-3 radius-0" style="float: right;"> Back</a>
 							</div>
 							<div class="card-body p-4">
-								<form  method="post" action="{{ route('admin.user.update',$editData->id) }}"  class="row g-3 needs-validation" novalidate>
+								<form  method="post" action="{{ route('admin.user.update',$editData->uuid) }}"  class="row g-3 needs-validation" novalidate>
                                 @csrf
 									<div class="col-md-12">
 										<label for="bsValidation1" class="form-label"> Name</label>
@@ -57,7 +57,7 @@ View Admins
 
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Phone</label>
-										<input type="text" class="form-control" id="bsValidation3" name="mobile" value="{{ $editData->mobile }}">
+										<input type="text" class="form-control" id="bsValidation3" name="admin_tel" value="{{ $editData->admin_tel }}">
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>

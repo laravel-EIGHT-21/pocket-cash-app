@@ -19,18 +19,20 @@
 				</div>
 				<!--end breadcrumb-->
 				@if (auth()->user()->type == 0)
+
+				@can('money-transfers')
 				<div class="row">
 					<div class="col-xl-6 mx-auto">
 						<div class="card">
 							<div class="card-header px-4 py-6">
 								<h5 class="mb-0"> Bulk Money Transfes to Schools</h5>
-								@can('money-transfers')
+
                                 <a href="{{ route('money.transfers') }}" class="btn btn-success px-3 radius-0" style="float: right;"> Back</a>
-@endcan
+
 
 							</div>
 							<div class="card-body p-4">
-							@can('money-transfers')
+							
 								<form  action="{{ route('send.bulk.money.transfers') }}" method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
 								{{csrf_field()}}
 
@@ -96,12 +98,13 @@
 
 
 								</form>
-								@endcan
+
 							</div>
 						</div>
 					</div>
 				</div>
 				<!--end row-->
+				@endcan
 				@endif
 
 
@@ -113,48 +116,6 @@
 
             <br><br>
    
-			
-<!--
-   
-			<script type="text/javascript">
-         $(function(){
-             $(document).on('change',['#date'],function(){
-                 var date = $('#date').val();
-                 $.ajax({
-                     url:"{{ route('get-school-daily-total-amount') }}",
-                     type: "GET",
-                     data:{'date':date},
-                     success:function(data){                   
-                         $('#amount').val(data);
-                     }
-                 });
-             });
-         });
-     </script>
-
-	  
-
-
-      
-            <script type="text/javascript"> 
-         $(function(){
-             $(document).on('change','#date',function(){
-                 var date = $(this).val();
-                 $.ajax({
-                     url:"{{ route('get-school-daily-total-amount') }}",
-                     type: "GET",
-                     data:{date:date},
-                     success:function(data){                   
-                         $('#amount').val(data);
-                     }
-                 });
-             });
-         });
-     </script>
-     
-
-           
-	 
-		-->
+	
 
 @endsection

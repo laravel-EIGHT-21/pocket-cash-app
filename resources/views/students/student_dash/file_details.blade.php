@@ -70,7 +70,7 @@
 </div>
 </div>
 </div>
-
+ 
 </div>
 <br>
 
@@ -80,7 +80,8 @@
 <div class="col-lg-12 m-b-20">
 <div id="big_banner">
 
-<iframe height="600" width="250" src="{{asset($student_docs->docs) }}">
+<iframe height="600" width="250" src="{{ (!empty($student_docs->docs))? url('upload/student_files/'.$student_docs->docs):url('upload/no_image.jpg') }}">
+
 
 
 </iframe>

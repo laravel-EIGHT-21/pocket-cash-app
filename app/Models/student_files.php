@@ -17,16 +17,17 @@ class student_files extends Model
 
              
     public function student(){
-        return $this->belongsTo(User::class,'student_id','id');
+        return $this->belongsTo(User::class,'uuid','uuid');
     }
-
+ 
 
         
     /** @var array The attributes that should be encrypted/decrypted */
     protected $encryptable = [
 
-        'student_acct_no',
+        'title',
         'docs',
+        'file_type',
 
 
     ];

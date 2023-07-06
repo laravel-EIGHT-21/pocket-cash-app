@@ -40,7 +40,7 @@ View Admins
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>
-									<th width="5%">SL</th> 
+									
 										<th>Name</th>
 										<th>Email</th>
 										<th>Mobile</th>
@@ -51,11 +51,10 @@ View Admins
 								<tbody>
 								@foreach($allData as $key => $value )
 								<tr>
-<td>{{ $key+1 }}</td>
 
 <td> {{ $value->name }}</td>
 <td> {{ $value->email }}</td>	
-<td> {{ $value->mobile }}</td>	
+<td> {{ $value->admin_tel }}</td>	
 
 
 <td>

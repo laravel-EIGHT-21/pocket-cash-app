@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
+use Ramsey\Uuid\Uuid;
 
 class AdminController extends Controller
 {
@@ -60,7 +61,7 @@ class AdminController extends Controller
     
     public function profileAdmin()
     {
-        $id = Auth::user()->id;
+        $id = Auth::user()->uuid;
 		$adminData = User::find($id);
         return view('admin.admin_profile',compact('adminData'));
    
@@ -68,7 +69,7 @@ class AdminController extends Controller
 
     public function profileEdit()
     {
-        $id = Auth::user()->id;
+        $id = Auth::user()->uuid;
 		$editData = User::find($id);
         return view('admin.admin_profile_edit',compact('editData'));
 
@@ -76,7 +77,7 @@ class AdminController extends Controller
 
     public function profileUpdate(Request $request)
     {
-        $id = Auth::user()->id;
+        $id = Auth::user()->uuid;
 		$updateData = User::find($id);
         $updateData->name = $request->name;
         $updateData->email = $request->email;
@@ -102,7 +103,7 @@ class AdminController extends Controller
     public function changePass()
     {
 
-        $id = Auth::user()->id;
+        $id = Auth::user()->uuid;
 		$passData = User::find($id);
         return view('admin.admin_password_edit',compact('passData'));
 
@@ -133,12 +134,11 @@ class AdminController extends Controller
 
 
 
-
-
     
     public function ViewAdminUsers(){
 
 		$data['allData'] = User::where('type',0)->get();
+     
     	return view('Admin_section.admins_view.view_admin',$data);
     }
 
@@ -165,11 +165,16 @@ class AdminController extends Controller
 
 
     	DB::transaction(function() use($request){
+
+            
+        $uuid = Uuid::uuid4()->toString();
+
     	
 			$adminuser = new User(); 
+            $adminuser->uuid = $uuid;
 			$adminuser->name = $request->name;
 			$adminuser->email = $request->email;
-			$adminuser->mobile = $request->mobile;
+			$adminuser->admin_tel = $request->admin_tel;
 			$adminuser->password = Hash::make($request->password);
             $adminuser->type = 0;
 			$adminuser->created_at = Carbon::now(); 
@@ -223,6 +228,8 @@ class AdminController extends Controller
 
     
     public function EditAdminUser($id){
+
+
 		$data['editData'] = User::findOrFail($id);
 
         $data['editRole'] = DB::table('model_has_roles')->where('model_id',$id)->orderBy('role_id','asc')->get();
@@ -244,7 +251,7 @@ class AdminController extends Controller
     	$adminuser = User::where('id',$id)->first();    	 
 		$adminuser->name = $request->name;
 		$adminuser->email = $request->email;
-		$adminuser->mobile = $request->mobile;
+		$adminuser->admin_tel = $request->admin_tel;
 		$adminuser->password = Hash::make($request->password);
 	
  	    $adminuser->save();

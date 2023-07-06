@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
+use Ramsey\Uuid\Uuid;
 
 class SchoolUsersController extends Controller
 {

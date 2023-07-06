@@ -57,7 +57,7 @@ View Admins
 
                                     <div class="col-md-12">
 										<label for="bsValidation3" class="form-label">Phone</label>
-										<input type="text" class="form-control" id="bsValidation3" name="mobile" required>
+										<input type="text" class="form-control" id="bsValidation3" name="admin_tel" required>
 										<div class="invalid-feedback">
 											Please Enter Mobile.
 										  </div>

@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
-            $table->integer('userId')->nullable();
-            $table->string('title')->nullable();
-            $table->longText('body')->nullable();
+            $table->string('ui')->nullable();
+            $table->string('wallet')->nullable();
+            $table->integer('status')->default(1); 
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('wallets');
     }
 };

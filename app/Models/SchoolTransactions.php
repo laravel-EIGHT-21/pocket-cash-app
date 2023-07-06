@@ -29,7 +29,6 @@ class SchoolTransactions extends Model
 
         'name',
         'school_mobile',
-        'bulk_amount',
         'reference_id',
         'externalId',
 
