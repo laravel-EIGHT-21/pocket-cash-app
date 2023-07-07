@@ -307,6 +307,7 @@ Route::get('/logout',[StudentUserController::class,'destroy'])->name('student.lo
 Route::get('/profile',[StudentUserController::class,'StudentUserprofile'])->name('student.user.profile.view');
 Route::post('/profile/update',[StudentUserController::class,'profilephotoUpdate'])->name('student.profile.photo.update');
 Route::post('/password/update',[StudentUserController::class,'studentpassUpdate'])->name('student.password.update');
+Route::post('/pincode/update',[StudentUserController::class,'Updatestudentpincode'])->name('student.pincode.update');
 
 
 

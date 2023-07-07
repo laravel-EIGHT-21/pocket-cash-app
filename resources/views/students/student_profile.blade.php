@@ -42,11 +42,11 @@
 	<div class="card user-card">
 	<div class="card-header-img">
 	<img class="img-fluid img-radius" src="{{ (!empty($adminData->student_profile_path))? url('upload/student_images/'.$adminData->student_profile_path):url('upload/user.png') }}" width="90" height="90" alt="user-img">
-	<h3><b>{{$adminData->name}}</b></h3>
+	<h3><b>Name : {{$adminData->name}}</b></h3>
 	
-	<h5><b>Wallet Code : {{$adminData->student_code}}</b></h5>
+	<h5><b>Wallet Account : {{$adminData->student_code}}</b></h5>
 
-	<h5><b>Wallet Code : {{$adminData->student_pincode}}</b></h5>
+	<h5><b>PinCode : {{$adminData->student_pincode}}</b></h5>
 
 	</div>
 	
@@ -76,6 +76,11 @@
 </li>
 <li class="nav-item">
 <a class="nav-link" data-toggle="tab" href="#password" role="tab">Password Change</a>
+<div class="slide"></div>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="#pincode" role="tab">PinCode Change</a>
 <div class="slide"></div>
 </li>
 
@@ -225,6 +230,63 @@
 </div>
 
 
+
+
+
+<div class="tab-pane" id="pincode" role="tabpanel">
+
+<div class="card">
+<div class="card-header">
+<h5 class="card-header-text">Update PinCode</h5>
+
+</div>
+
+<div class="card-block">
+<div class="view-info">
+
+<div class="col-lg-12">
+<div class="general-info">
+<div class="row">
+<form method="POST" action="{{route('student.pincode.update') }}" enctype="multipart/form-data">
+            @csrf
+<div class="col-lg-12 col-xl-12">
+
+<div class="form-group row">
+<label class="col-sm-4 col-form-label">PinCode</label>
+<div class="col-10">
+<input type="text" name="student_pincode" class="form-control" value="{{$editData->student_pincode}}" required >
+</div>
+</div>
+
+
+</div>
+
+           
+<div class="text-center">
+           <button type="submit"  class="btn btn-primary waves-effect waves-light m-r-20">Update PinCode </button>
+           
+           </div>
+
+		   </form>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</div>
 
 
 

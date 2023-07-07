@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 use betterapp\LaravelDbEncrypter\Traits\EncryptableDbAttribute;
 
+
 class User extends Authenticatable 
 {
     use HasApiTokens;
@@ -60,6 +61,8 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'school_logo_path',
+        'student_profile_path',
     ];
 
 
@@ -73,7 +76,9 @@ class User extends Authenticatable
         'school_tel1',
         'school_tel2',
         'school_address',
-        'student_code',
+        'profile_photo_url',
+        'school_logo_path',
+        'student_profile_path',
 
     ];
 

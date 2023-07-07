@@ -118,6 +118,33 @@ class StudentUserController extends Controller
 
 
 
+    
+    
+
+    public function Updatestudentpincode(Request $request)
+    {
+        $id = Auth::user()->id;
+
+		$updateData = User::find($id);
+        $updateData->student_pincode = $request->student_pincode;
+
+        $updateData->save();
+
+        $notification = array(
+            'message' => 'User PinCode Has Changed Successfully...',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+
+
+
+
+    }
+
+
+
+
     public function ViewFiles(){
 
         $id = Auth::user()->uuid;

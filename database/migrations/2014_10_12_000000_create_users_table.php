@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('school_id_no')->nullable();
             $table->string('school_logo_path', 2048)->nullable();
             $table->string('student_code')->nullable();
+            $table->string('student_pincode')->nullable();
             $table->string('school_std_code')->nullable();
             $table->tinyInteger('type')->default(0);
             /* Users: 0=>Admin, 1=>School, 2=>Student */
