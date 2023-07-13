@@ -55,13 +55,13 @@ View Schools
 
 								<td> {{ $value->school_id_no }}</td>
 <td> {{ $value->name }}</td>
-<td> {{ $value->email }}</td>	
+<td> {{ $value->email }}</td>	 
 <td> {{ $value->school_tel1 }}</td>	
 <td> {{ $value->school_tel2 }}</td>
 <td> {{ $value->school_address }}</td>
 <td> 
 
-<img src="{{ asset($value->school_logo_path)}}" style="width: 20px; height: 30px;"> 
+<img src="{{ (!empty($value->school_logo_path))? url('upload/logo/'.$value->school_logo_path):url('upload/no_image.jpg') }}" style="width: 20px; height: 30px;"> 
 </td>
 @if (auth()->user()->type == 0)
 	

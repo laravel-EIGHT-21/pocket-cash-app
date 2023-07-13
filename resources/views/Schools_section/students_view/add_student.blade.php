@@ -13,7 +13,7 @@
 								<li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="bx bx-home-alt"></i></a>
 								</li>
 								<li class="breadcrumb-item active" aria-current="page">Add New Students</li>
-							</ol>
+							</ol> 
 						</nav>
 					</div>
 
@@ -37,6 +37,15 @@
 										<input type="text" class="form-control" id="bsValidation1" name="name"  required>
 										<div class="invalid-feedback">
 											Please Enter Student name.
+										  </div>
+									</div>
+
+
+									<div class="col-md-12">
+										<label for="bsValidation4" class="form-label">Email</label>
+										<input type="email" class="form-control" id="bsValidation4" name="email" required>
+										<div class="invalid-feedback">
+											Please provide a valid email.
 										  </div>
 									</div>
 

@@ -90,17 +90,15 @@ class TransactionController extends Controller
   
 public function StudentWithdrawalForm($id){
 
-  $allData = User::where('id',$id)->first();
-  $acct_no = $allData->student_code;
+  $allData = User::where('uuid',$id)->first();  
 
-        
-  $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
+                
+  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
-  $withdrawal = withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('withdrawal_amount');
+  $withdrawal = withdrawal::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
     
-  $loans = loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('loan_amount');
-
+  $loans = loan::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('loan_amount');
 
   $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
  
@@ -115,17 +113,15 @@ public function StudentWithdrawalForm($id){
   
 public function StudentLoanForm($id){
    
-  $allData = User::where('id',$id)->first();
-  $acct_no = $allData->student_code;
+  $allData = User::where('uuid',$id)->first();
 
         
-  $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
+  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
-  $withdrawal = withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('withdrawal_amount');
-
+  $withdrawal = withdrawal::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
     
-  $loans = loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('loan_amount');
+  $loans = loan::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('loan_amount');
 
 
   $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
@@ -154,16 +150,15 @@ public function StudentLoanForm($id){
 				
 public function StudentWithdrawalAmountStore(Request $request,$id){
 
-  $account = User::where('id',$id)->first();
-  $acct_no = $account->student_code;
-    
-  $acct = apiTransfers::select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('amount');
+  $account = User::where('uuid',$id)->first();
+  $uuid = $account->uuid;
+
+  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
-  $withdrawal = withdrawal::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('withdrawal_amount');
-
+  $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
     
-  $loans = loan::with(['student'])->select('student_acct_no')->groupBY('student_acct_no')->where('student_acct_no',$acct_no)->sum('loan_amount');
+  $loans = loan::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('loan_amount');
 
 
   $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
@@ -173,12 +168,9 @@ public function StudentWithdrawalAmountStore(Request $request,$id){
 
 
   $feesData = new withdrawal();
-  $feesData->student_id = $id;
-  $feesData->student_acct_no  = $acct_no;
-
+  $feesData->uuid = $id;
   $feesData->withdrawal_amount = $request->withdrawal_amount;
   $feesData->withdrawal_date = Carbon::now()->format('d F Y');
-
   $feesData->withdrawal_month = Carbon::now()->format('F Y');
   $feesData->withdrawal_year = Carbon::now()->format('Y');
 
@@ -189,7 +181,7 @@ public function StudentWithdrawalAmountStore(Request $request,$id){
     'alert-type' => 'success'
 );
 
-return redirect()->route('view.student.account',$feesData->student_acct_no)->with($notification);
+return redirect()->route('view.student.account',$uuid)->with($notification);
 
 
 
@@ -198,7 +190,7 @@ return redirect()->route('view.student.account',$feesData->student_acct_no)->wit
 		else{
 
 		$notification = array(
-		'message' => 'Withdrawal Amount Entered is Greater than Account Balance...!',
+		'message' => 'Amount Entered is Greater than Account Balance...!',
 		'alert-type' => 'error'
 		);
 
@@ -218,7 +210,7 @@ return redirect()->route('view.student.account',$feesData->student_acct_no)->wit
 
 public function StudentWithdrawnEdit($id){
 
-  $withdrawals2 = withdrawal::with(['student'])->findOrFail($id);
+  $withdrawals2 = withdrawal::findOrFail($id);
 
 
   return view('Schools_section.transactions.withdrawal.withdrawal_amount_edit',compact('withdrawals2'));
@@ -249,7 +241,7 @@ public function StudentWithdrawnAmountUpdate(Request $request,$id){
       'alert-type' => 'success'
     );
 
-    return redirect()->route('view.student.account',$feesData->student_acct_no)->with($notification);
+    return redirect()->route('view.student.account',$feesData->uuid)->with($notification);
 
 
   
@@ -260,43 +252,6 @@ public function StudentWithdrawnAmountUpdate(Request $request,$id){
 
 
 
-
-
-
-
-
-/*
-  public function StudentWithdrawalAmountDelete($id)
-  {
-  
-    $fees = withdrawal::find($id);
-    $withdrawal = $fees->withdrawal_amount;
-    $invoice = $fees->student_id;
-    
-    $acct_amount = SchoolStudent::where('id',$invoice)->first();
-    $amount = $acct_amount->actual_amount;
-    $new_amount = (float)$amount+(float)$withdrawal;
-
-    SchoolStudent::where('id',$invoice)->where('actual_amount',$amount )->update([
-
-      'actual_amount' => $new_amount,
-
-    ]);
-
-
-    withdrawal::find($id)->delete();
-   
-    $notification = array(
-      'message' => 'Withdrawal Amount has been DELETED Successfully...',
-      'alert-type' => 'error'
-    );
-    return redirect()->back()->with($notification);
-
-  
-  }
-
-
-*/
 
 
 
@@ -312,14 +267,12 @@ public function StudentWithdrawnAmountUpdate(Request $request,$id){
       
 public function StudentLoanAmountStore(Request $request,$id){
 
-  $allData = User::where('id',$id)->first();
-  $acct_no = $allData->student_code;
-    
+  
+  $account = User::where('uuid',$id)->first();
+  $uuid = $account->uuid;
 
   $feesData = new loan();
-  $feesData->student_id = $id;
-  $feesData->student_acct_no  = $acct_no;
- 
+  $feesData->uuid = $id;
   $feesData->loan_amount = $request->loan_amount; 
   $feesData->loan_date = Carbon::now()->format('d F Y');
 $feesData->loan_month = Carbon::now()->format('F Y');
@@ -332,44 +285,10 @@ $feesData->loan_year = Carbon::now()->format('Y');
       'alert-type' => 'success'
   );
 
-  return redirect()->route('view.student.account',$feesData->student_acct_no)->with($notification);
+  return redirect()->route('view.student.account',$uuid)->with($notification);
 
 }
 
-
-
-/*
-  public function StudentLoanAmountDelete($id)
-  {
-  
-    $fees = loan::find($id);
-    $loans = $fees->loan_amount;
-    $invoice = $fees->account_id;
-    
-    $acct_amount = SchoolTransactions::where('id',$invoice)->first();
-    $amount = $acct_amount->acct_amount;
-    $new_amount = (float)$amount-(float)$loans;
-    
-
-    SchoolTransactions::where('id',$invoice)->where('acct_amount',$amount )->update([
-
-      'acct_amount' => $new_amount,
-
-    ]);
-
-
-    loan::find($id)->delete();
-   
-    $notification = array(
-      'message' => 'Loan Amount has been DELETED Successfully...',
-      'alert-type' => 'error'
-    );
-    return redirect()->back()->with($notification);
-
-  
-  }
-
-*/
 
 
 
@@ -377,7 +296,7 @@ $feesData->loan_year = Carbon::now()->format('Y');
 
 public function StudentLoanEdit($id){
 
-  $loan2 = loan::with(['student'])->findOrFail($id);
+  $loan2 = loan::findOrFail($id);
 
 
   return view('Schools_section.transactions.loans.loan_amount_edit',compact('loan2'));
@@ -408,7 +327,7 @@ public function StudentLoanAmountUpdate(Request $request,$id){
       'alert-type' => 'success'
     );
 
-    return redirect()->route('view.student.account',$feesData->student_acct_no)->with($notification);
+    return redirect()->route('view.student.account',$feesData->uuid)->with($notification);
 
 
   
@@ -424,7 +343,7 @@ public function StudentLoanAmountUpdate(Request $request,$id){
 
   public function StudentLoanPaymentUpdate($id){
 
-    $loan2 = loan::with(['student'])->findOrFail($id);
+    $loan2 = loan::findOrFail($id);
   
   
     return view('Schools_section.transactions.loans.student_account_loan_payment',compact('loan2'));
@@ -465,7 +384,7 @@ public function StudentLoanAmountUpdate(Request $request,$id){
 				'alert-type' => 'success'
 			);
 
-      return redirect()->route('view.student.account',$feesData->student_acct_no)->with($notification);
+      return redirect()->route('view.student.account',$feesData->uuid)->with($notification);
 
 
 		}

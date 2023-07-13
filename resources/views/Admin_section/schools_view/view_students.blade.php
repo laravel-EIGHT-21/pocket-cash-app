@@ -33,7 +33,7 @@ View Students
 
 									<th width="5%">SL</th> 
 									
-										<th>School Code</th>
+										<th>School</th>
 										<th>Student</th>
 										<th>Student Code</th>
 										<th>Status</th>

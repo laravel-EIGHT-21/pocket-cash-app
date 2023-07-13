@@ -82,6 +82,13 @@ class AdminController extends Controller
         $updateData->name = $request->name;
         $updateData->email = $request->email;
 
+        
+        $validatedData = $request->validate([
+
+            'profile_photo_path' => 'required|mimes:jpg,png|max:4096',
+    
+           ]);
+
         if($request->file('profile_photo_path')){
             $file = $request->file('profile_photo_path');
             @unlink(public_path('upload/admin_images/'.$updateData->profile_photo_path));

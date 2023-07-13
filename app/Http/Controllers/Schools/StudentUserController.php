@@ -72,14 +72,29 @@ class StudentUserController extends Controller
     {
         $id = Auth::user()->id;
 		$updateData = User::find($id);
+        $updateData->name = $request->name;
+        $updateData->email = $request->email;
 
-        if($request->file('student_profile_path')){
-            $file = $request->file('student_profile_path');
-            @unlink(public_path('upload/student_images/'.$updateData->student_profile_path));
-            $filename = date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('upload/student_images'),$filename);
-            $updateData['student_profile_path'] = $filename;
-        }
+
+        $validatedData = $request->validate([
+
+            'student_profile_path' => 'required|mimes:jpg,png|max:4096',
+    
+           ]);
+
+
+           
+  if ($request->file('school_logo_path')) {
+
+    @unlink(public_path('upload/student_images/'.$updateData->student_profile_path));
+    $image = $request->file('student_profile_path');
+    $name_gen = $image->hashName().'.'.$image->extension();
+    Image::make($image)->resize(102,102)->save('upload/student_images/'.$name_gen);
+    $save_url = $name_gen;
+    $updateData['student_profile_path'] = $save_url;
+    
+  
+  }
         $updateData->save();
 
         $notification = array(
@@ -123,11 +138,18 @@ class StudentUserController extends Controller
 
     public function Updatestudentpincode(Request $request)
     {
-        $id = Auth::user()->id;
 
-		$updateData = User::find($id);
-        $updateData->student_pincode = $request->student_pincode;
+        $validateData = $request->validate([
+            'oldpincode' => 'required',
+            'student_pincode' => 'required|confirmed',
+        ]);
 
+
+        $hashedPassword = Auth::user()->student_pincode;
+        if(Hash::check($request->oldpincode,$hashedPassword)){
+
+        $updateData = User::find(Auth::id());
+        $updateData->student_pincode = Hash::make($request->student_pincode);
         $updateData->save();
 
         $notification = array(
@@ -136,6 +158,16 @@ class StudentUserController extends Controller
         );
 
         return redirect()->back()->with($notification);
+
+        }
+        else{
+            $notification1 = array(
+                'message' => 'Pin Code Credentials Don`t Match !',
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->back()->with($notification1);
+        }		
 
 
 
@@ -186,7 +218,7 @@ class StudentUserController extends Controller
     $file->move(public_path('upload/student_files'), $fileName);
     $save_file = $fileName;
 
-
+ 
 
     $user = new student_files();
 $user->uuid = $id;
@@ -285,7 +317,7 @@ $user->save();
             $user1->file_type = $request->file_type;
              $oldfile = $user1->docs;
 
-             $old_doc = $request->old_doc;
+            // $old_doc = $request->old_doc;
 
             if($request->file('docs')){  
              @unlink(public_path('upload/student_files/'.$oldfile));      

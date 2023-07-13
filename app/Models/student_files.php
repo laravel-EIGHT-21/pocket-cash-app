@@ -27,7 +27,7 @@ class student_files extends Model
 
         'title',
         'docs',
-        'file_type',
+
 
 
     ];

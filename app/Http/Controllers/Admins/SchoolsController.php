@@ -341,7 +341,7 @@ $email = $request->email;
 
 
 
-$check = User::where('name',$name)->where('email', $email)->where('school_tel1', $phone1)->where('school_tel2', $phone2)->where('school_address', $address)->first();
+$check = User::where('name',$name)->where('email', $email)->where('type', 1)->first();
 
 if($check == null){
 
@@ -350,6 +350,13 @@ if($check == null){
 
     $uuid = Uuid::uuid4()->toString();
 
+
+            
+    $validatedData = $request->validate([
+
+      'school_logo_path' => 'required|mimes:jpg,png|max:4096',
+
+     ]);
     
 
     $students = User::orderBy('id','DESC')->first();
@@ -396,9 +403,9 @@ if($check == null){
 
 
   $image = $request->file('school_logo_path');
-  $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+  $name_gen = $image->hashName().'.'.$image->extension();
   Image::make($image)->resize(102,102)->save('upload/logo/'.$name_gen);
-  $save_url = 'upload/logo/'.$name_gen;
+  $save_url = $name_gen;
 $user->school_logo_path = $save_url;
    $user->save();
 
@@ -458,7 +465,7 @@ public function UpdateSchools(Request $request, $id){
 
   DB::transaction(function() use($request,$id){
 
-    $old_img = $request->old_image;
+    //$old_img = $request->old_image;
    
   $user = User::where('id',$id)->first();   
   $user->name = $request->name;
@@ -466,14 +473,17 @@ public function UpdateSchools(Request $request, $id){
   $user->school_tel1 = $request->school_tel1;
   $user->school_tel2 = $request->school_tel2;
   $user->school_address = $request->school_address;
+  $old_img = $user->school_logo_path;
   
+
   
   if ($request->file('school_logo_path')) {
-  $image = $request->file('school_logo_path');
+
   @unlink(public_path('upload/logo/'.$old_img));
-  $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+  $image = $request->file('school_logo_path');
+  $name_gen = $image->hashName().'.'.$image->extension();
   Image::make($image)->resize(102,102)->save('upload/logo/'.$name_gen);
-  $save_url = 'upload/logo/'.$name_gen;
+  $save_url = $name_gen;
   $user['school_logo_path'] = $save_url;
   
 

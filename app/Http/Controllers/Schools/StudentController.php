@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 class StudentController extends Controller
 {
-    
+     
 
 
 
@@ -58,6 +58,12 @@ class StudentController extends Controller
       
     public function StoreStudents(Request $request){
   
+      $email = $request->email;
+      
+$check = User::where('email', $email)->where('type', 2)->first();
+
+if($check == null){
+
   
   
         DB::transaction(function() use($request){
@@ -72,21 +78,19 @@ class StudentController extends Controller
       
           $student_acct = mt_rand(1000000,9999999);
   
-          $student_pin = mt_rand(10000,99999);
-
             $final_id_no = $student_acct;
-            $pin = $student_pin;
-  
-      
-            $user = new User();
-            $user->uuid = $uuid;
-            $user->student_code = $final_id_no;
-            $user->student_pincode = $pin;
-        $user->name = $request->name;
-        $user->school_std_code = $school->school_id_no;
-        $user->password = Hash::make($request->password);
-        $user->type = 2;
-         $user->save();
+            $pin = 10000;
+   
+          $user = new User();
+          $user->uuid = $uuid;
+          $user->email = $request->email;
+          $user->student_code = $final_id_no; 
+          $user->student_pincode = Hash::make($pin);
+          $user->name = $request->name;
+          $user->school_std_code = $school->school_id_no;
+          $user->password = Hash::make($request->password);
+          $user->type = 2;
+          $user->save();
 
   
         });
@@ -99,6 +103,20 @@ class StudentController extends Controller
   
         return redirect()->route('view.students')->with($notification);
   
+          
+}
+
+
+else{
+
+$notification = array(
+  'message' => 'USER EMAIL ALREADY EXISTS!!!',
+  'alert-type' => 'error'
+);
+
+return redirect()->back()->with($notification);
+
+}
   
   
   
@@ -133,6 +151,8 @@ class StudentController extends Controller
            
         
               $user = new User();
+              $user->uuid = $pin->uuid;
+              $user->email = $pin->email;
               $user->student_code = $request->acct_id;
           $user->name = $request->name;
           $user->student_pincode = $pin->student_pincode;
@@ -142,7 +162,7 @@ class StudentController extends Controller
            $user->save();
     
           
-           User::where('student_code',$user->student_code)->where('status',0)->where('type',2)->delete();
+           User::where('student_code',$user->student_code)->where('uuid',$user->uuid)->where('status',0)->where('type',2)->delete();
            
     
           });

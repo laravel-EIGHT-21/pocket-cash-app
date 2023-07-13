@@ -29,10 +29,10 @@
 								<div class="ms-auto" style="float: right;"><a href="{{ route('view.students.transactions') }}" class="btn btn-success radius-30 mt-2 mt-lg-0">Back</a></div>
 							</div>
 							<div class="card-body p-4">
-								<form  method="post" action="{{ route('student.withdrawal.amount.store',$allData->id) }}"  class="row g-3 needs-validation" novalidate>
+								<form  method="post" action="{{ route('student.withdrawal.amount.store',$allData->uuid) }}"  class="row g-3 needs-validation" novalidate>
                                 @csrf
 
-								<input type="hidden" name="id" value="{{ $allData->id }}">
+								<input type="hidden" name="uuid" value="{{ $allData->uuid }}">
 
                                 <div class="col-md-4">
 										<label for="bsValidation1" class="form-label"><strong>Name : {{ $allData->name }}</strong></label>

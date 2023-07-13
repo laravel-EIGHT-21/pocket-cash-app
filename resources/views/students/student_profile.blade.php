@@ -46,8 +46,6 @@
 	
 	<h5><b>Wallet Account : {{$adminData->student_code}}</b></h5>
 
-	<h5><b>PinCode : {{$adminData->student_pincode}}</b></h5>
-
 	</div>
 	
 
@@ -71,7 +69,7 @@
 <div class="tab-header card">
 <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
 <li class="nav-item">
-<a class="nav-link active" data-toggle="tab" href="#photo" role="tab">Profile Photo</a>
+<a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Profile </a>
 <div class="slide"></div>
 </li>
 <li class="nav-item">
@@ -90,11 +88,11 @@
 
 <div class="tab-content">
 
-<div class="tab-pane active" id="photo" role="tabpanel">
+<div class="tab-pane active" id="profile" role="tabpanel">
 
 <div class="card">
 <div class="card-header">
-<h5 class="card-header-text">Update Profile Photo</h5>
+<h5 class="card-header-text">Update Profile </h5>
 
 </div>
 <div class="card-block">
@@ -102,25 +100,27 @@
 <div class="col-lg-12">
 <div class="general-info">
 <div class="row">
-<div class="col-lg-12 col-xl-6">
-<div class="col-lg-6 col-xl-6 col-md-6">
-<div class="card rounded-card user-card">
-<div class="card-block">
-<div class="img-hover">
-<img class="img-fluid img-radius" id="showImage" src="{{(!empty($editData->student_profile_path))? url('upload/student_images/'.$editData->student_profile_path):url('upload/user.png') }}" alt="">
 
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
 
 <div class="col-md-6">
 <form method="post" action="{{route('student.profile.photo.update') }}" enctype="multipart/form-data">
 @csrf
 
+
+<div class="form-group row">
+<label class="col-sm-3 col-form-label">Name</label>
+<div class="col-sm-10">
+<input type="text" name="name" class="form-control" value="{{$editData->name}}" >
+</div>
+</div>
+
+
+<div class="form-group row">
+<label class="col-sm-3 col-form-label">Email</label>
+<div class="col-sm-10">
+<input type="email" name="email" class="form-control" value="{{$editData->email}}" >
+</div>
+</div>
 
 		<div class="card-block">
 <div class="sub-title">Update Photo</div>
@@ -254,9 +254,30 @@
 <div class="form-group row">
 <label class="col-sm-4 col-form-label">PinCode</label>
 <div class="col-10">
-<input type="text" name="student_pincode" class="form-control" value="{{$editData->student_pincode}}" required >
+<input type="text" name="oldpincode" id="current_student_pincode" class="form-control"  required >
 </div>
 </div>
+
+
+
+
+<div class="form-group row">
+<label class="col-sm-3 col-form-label">New PinCode</label>
+<div class="col-sm-10">
+<input type="text" name="student_pincode" id="student_pincode" class="form-control" maxlength="5" required>
+</div>
+</div>
+
+<div class="form-group row">
+<label class="col-sm-3 col-form-label">Confirm PinCode</label>
+<div class="col-sm-10">
+<input type="text" name="student_pincode_confirmation" id="student_pincode_confirmation" maxlength="5" class="form-control" required>
+</div>
+</div>
+
+
+
+
 
 
 </div>

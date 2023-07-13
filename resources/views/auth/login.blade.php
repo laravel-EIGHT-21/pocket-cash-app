@@ -46,12 +46,14 @@
 										<form class="row g-3" method="POST" action="{{route('login') }}">
                                             @csrf
 											<div class="col-12">
-												<label for="auth" class="form-label">Email / School Code / Student Pin code</label>
-												<input id="auth" type="text" name="auth" :value="old('auth')" class="form-control">
+												<label for="email" class="form-label">User Email</label>
+												<input id="email" type="email" name="email" class="form-control" placeholder=" Enter Email">
 											</div>
+
+
 											<div class="col-12">
 												<label for="inputChoosePassword" class="form-label">Password</label>
-												<div class="input-group" id="show_hide_password">
+												<div class="input-group" >
 													<input id="inputChoosePassword" type="password" name="password" class="form-control border-end-0"  placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>

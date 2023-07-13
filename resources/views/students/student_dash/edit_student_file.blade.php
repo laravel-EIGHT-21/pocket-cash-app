@@ -42,8 +42,6 @@
 <form  method="post" action="{{ route('file.update',$editData->id)}}" enctype="multipart/form-data" novalidate>
 	@csrf
 
-    <input type="hidden" name="old_doc" value="{{$editData->docs}}">
-
 <div class="form-group row">
 <label class="col-sm-2 col-form-label">File Title</label>
 <div class="col-sm-10">

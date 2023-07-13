@@ -249,13 +249,13 @@ Route::get('/student/loan/form/{uuid}', [TransactionController::class, 'StudentL
 
 ///Withdrawal routes ///
 
-Route::post('/student/withdrawal/store/{id}',[TransactionController::class, 'StudentWithdrawalAmountStore'])->name('student.withdrawal.amount.store');
+Route::post('/student/withdrawal/store/{uuid}',[TransactionController::class, 'StudentWithdrawalAmountStore'])->name('student.withdrawal.amount.store');
 
 
 Route::get('/student/withdrawal/delete/{id}',[TransactionController::class, 'StudentWithdrawalAmountDelete'])->name('student.withdrawal.amount.delete'); 
 
 
-
+ 
 Route::get('/student/withdrawal/edit/{id}', [TransactionController::class, 'StudentWithdrawnEdit'])->name('withdrawal.update');
 
 
@@ -268,7 +268,7 @@ Route::post('/student/withdrawn/amount/update/{id}',[TransactionController::clas
 
 ///Loans routes ///
 
-Route::post('student/loan/store/{id}',[TransactionController::class, 'StudentLoanAmountStore'])->name('student.loan.amount.store');
+Route::post('student/loan/store/{uuid}',[TransactionController::class, 'StudentLoanAmountStore'])->name('student.loan.amount.store');
 
 
 Route::get('/student/loan/edit/{id}', [TransactionController::class, 'StudentLoanEdit'])->name('loan.update');
