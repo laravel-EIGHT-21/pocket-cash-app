@@ -48,7 +48,7 @@ class TransactionController extends Controller
 
     $account = User::where('type',2)->where('uuid',$id)->where('school_std_code',$school_code)->where('status',1)->get();
 
-    $acct = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->where('school_id',$school_code)->sum('amount');
+    $acct = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
 
     $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');

@@ -47,7 +47,7 @@ class StudentController extends Controller
     
     public function AddOldStudents(){
   
-      $data['students'] = User::where('type',2)->get();
+      $data['students'] = User::where('type',2)->where('status',0)->get();
         return view('Schools_section.students_view.add_old_student',$data);
       }
   
@@ -141,29 +141,28 @@ return redirect()->back()->with($notification);
     
     
           DB::transaction(function() use($request){
-            $id = Auth::user()->id;
-            $type = Auth::user()->type;
 
             $acct_id = $request->acct_id;
             $pin =  User::where('student_code',$acct_id)->where('status',0)->where('type',2)->first();
            
-           $school = User::where('id',$id)->where('type',$type)->find($id);
+           $school =Auth::user()->school_id_no;
            
-        
-              $user = new User();
-              $user->uuid = $pin->uuid;
-              $user->email = $pin->email;
-              $user->student_code = $request->acct_id;
-          $user->name = $request->name;
-          $user->student_pincode = $pin->student_pincode;
-          $user->school_std_code  = $school->school_id_no;
-          $user->password = Hash::make($request->password);
-          $user->type = 2;
-           $user->save();
+
+            $user = new User();
+            $user->uuid = $pin->uuid;
+            $user->student_code = $request->acct_id;
+            $user->name = $request->name;
+            $user->email = $pin->email;
+            $user->student_pincode = $pin->student_pincode;
+            $user->school_std_code  = $school;
+            $user->password = Hash::make($request->password);
+            $user->type = 2;
+
+            User::where('student_code',$user->student_code)->where('uuid',$user->uuid)->where('status',0)->where('type',2)->delete();
+           
+
+            $user->save();
     
-          
-           User::where('student_code',$user->student_code)->where('uuid',$user->uuid)->where('status',0)->where('type',2)->delete();
-           
     
           });
     

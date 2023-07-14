@@ -284,7 +284,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
 									<th width=5%>SL</th> 
 
 									<th>Student Account </th>
-									<th>School Code </th>
+									<th>School </th>
                                         <th>Deposits (UGX)</th>
 
                                         <th>Transfer Date</th>
@@ -315,7 +315,7 @@ $fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfe
                           <tr>
 						  <th>SL</th> 
 						  <th>Student Account </th>
-									<th>School Code </th>
+									<th>School </th>
                                         <th>Deposits (UGX)</th>
 
                                         <th>Transfer Date</th>

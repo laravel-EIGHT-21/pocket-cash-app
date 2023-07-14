@@ -62,26 +62,29 @@
 
 <br>
 
-                <div class="col-md-6">
-										<label for="name" class="form-label">Enter Student Name</label>
-										<input type="text" class="form-control" name="name" id="name" required>
+<div class="col-md-12">
+<label for="name" class="form-label">Enter Student Name</label>
+<input type="text" class="form-control" name="name" id="name" required>
 
-									</div>
-
-								<div class="col-md-6">
-										<label for="acct_id" class="form-label">Enter Student Code</label>
-										<input type="text" class="form-control" name="acct_id" id="acct_id" required>
-
-									</div>
+</div>
 
 
-									<div class="col-md-12">
-										<label for="bsValidation1" class="form-label">Student Password</label>
-										<input type="password" class="form-control" id="bsValidation1" name="password"  required>
-										<div class="invalid-feedback">
-											Please Enter Student Password.
-										  </div>
-									</div>
+
+
+<div class="col-md-12">
+<label for="acct_id" class="form-label">Enter Student Code</label>
+<input type="text" class="form-control" name="acct_id" id="acct_id" required>
+
+</div>
+
+
+<div class="col-md-12">
+<label for="bsValidation1" class="form-label">Student Password</label>
+<input type="password" class="form-control" id="bsValidation1" name="password"  required>
+<div class="invalid-feedback">
+Please Enter Student Password.
+</div>
+</div>
 		
 
 
