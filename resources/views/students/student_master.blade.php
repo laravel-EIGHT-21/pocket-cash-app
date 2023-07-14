@@ -327,7 +327,7 @@
 
 
 
-<script>
+<script type="text/javascript">
 
 @if(Session::has('message'))
 

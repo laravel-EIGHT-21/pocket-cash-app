@@ -68,21 +68,9 @@ class SchoolsController extends Controller
   $partyId = $request->mobile;
   $student_acct = $request->acct_id;
 
-$data = User::where('status',1)->where('type',2)->get();
-foreach($data as $value) {
-  $value->student_code;
-}
 
-try {
-  $decrypted = Crypt::decrypt($value->student_code);
-} catch (DecryptException $e) {
-$e->getMessage();
-info("Error....!!");
-}
-
-return $decrypted;
   
-  $singleStudent = User::where('student_code',$decrypted)->where('status',1)->where('type',2)->first();
+  $singleStudent = User::where('student_code',$student_acct)->where('status',1)->where('type',2)->first();
 
   if ($singleStudent == true) {
 

@@ -48,16 +48,16 @@ class RouteServiceProvider extends ServiceProvider
 
         RateLimiter::for('students', function (Request $request) {
             return $request->user()
-                        ? Limit::perMinute(500)->by($request->user()->id)
-                        : Limit::perMinute(50)->by($request->ip());
+                        ? Limit::perMinute(150)->by($request->user()->id)
+                        : Limit::perMinute(10)->by($request->ip());
         });
 
 
 
         RateLimiter::for('schools', function (Request $request) {
             return $request->user()
-                        ? Limit::perMinute(500)->by($request->user()->id)
-                        : Limit::perMinute(50)->by($request->ip());
+                        ? Limit::perMinute(150)->by($request->user()->id)
+                        : Limit::perMinute(10)->by($request->ip());
         });
 
 
@@ -65,8 +65,8 @@ class RouteServiceProvider extends ServiceProvider
         
         RateLimiter::for('admins', function (Request $request) {
             return $request->user()
-                        ? Limit::perMinute(200)->by($request->user()->id)
-                        : Limit::perMinute(20)->by($request->ip());
+                        ? Limit::perMinute(150)->by($request->user()->id)
+                        : Limit::perMinute(10)->by($request->ip());
         });
 
 
