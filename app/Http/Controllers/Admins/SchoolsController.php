@@ -26,7 +26,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 
 class SchoolsController extends Controller
-{
+{ 
  	
 
 
@@ -46,6 +46,302 @@ class SchoolsController extends Controller
 
 
 
+
+
+
+        
+  public function UssdCodeView(){
+		
+    return view('parents.ussd_code');
+
+  }
+
+
+
+  
+        
+  public function MtnMenuGet(Request $request){
+
+    $mtn_ussd_code = $request->mtn_ussd_code;
+    
+    $mtn_code = '*165#';
+
+    if($mtn_ussd_code == $mtn_code){
+
+      		
+    return view('parents.ussd_codes');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG MTN USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+          
+  public function AirtelMenuGet(Request $request){
+
+    $airtel_ussd_code = $request->airtel_ussd_code;
+    
+    $airtel_code = '*185#';
+
+    if($airtel_ussd_code == $airtel_code){
+		
+    return view('parents.ussd_codes3');
+
+  }
+
+  else{
+
+    $notification = array(
+      'message' => 'WRONG AIRTEL USSD CODE...',
+      'alert-type' => 'error'
+    );
+
+    return redirect()->back()->with($notification);
+
+
+
+  }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+          
+  public function MtnGet(Request $request){
+
+    $mtn_ussd_code = $request->mtn_ussd_code;
+    
+    $mtn_code = '4';
+
+    if($mtn_ussd_code == $mtn_code){
+
+      		
+    return view('parents.mtn_ussd');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG MTN USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+  
+          
+  public function AirtelGet(Request $request){
+
+    $airtel_ussd_code = $request->airtel_ussd_code;
+    
+    $airtel_code = '5';
+
+    if($airtel_ussd_code == $airtel_code){
+
+      		
+    return view('parents.airtel_ussd2');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG AIRTEL USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+  
+          
+  public function MtnSchoolFeesGet(Request $request){
+
+    $mtn_ussd_code = $request->mtn_ussd_code;
+    
+    $mtn_code = '3';
+
+    if($mtn_ussd_code == $mtn_code){
+
+      		
+    return view('parents.mtn_ussd2');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG MTN USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+  public function AirtelSchoolFeesGet(Request $request){
+
+    $airtel_ussd_code = $request->airtel_ussd_code;
+    
+    $airtel_code = '4';
+
+    if($airtel_ussd_code == $airtel_code){
+
+      		
+      return view('parents.transfer_cash');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG AIRTEL USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+  
+          
+  public function MtnStudentpocket(Request $request){
+
+    $mtn_ussd_code = $request->mtn_ussd_code;
+    
+    $mtn_code = '4';
+
+    if($mtn_ussd_code == $mtn_code){
+
+      		
+      return view('parents.transfer_cash');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG MTN USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+  
+  public function AirtelStudentpocket(Request $request){
+
+    $airtel_ussd_code = $request->airtel_ussd_code;
+    
+    $airtel_code = '4';
+
+    if($airtel_ussd_code == $airtel_code){
+
+      		
+      return view('parents.transfer_cash');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG AIRTEL USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
   
     
   public function TransferPocketCashView(){
@@ -61,7 +357,7 @@ class SchoolsController extends Controller
 		
     $remittance = new Collection();
 
-  $transactionId = rand(1,10000);
+  $transactionId = rand(1,1000000);
 
 
   $amount = $request->amount;

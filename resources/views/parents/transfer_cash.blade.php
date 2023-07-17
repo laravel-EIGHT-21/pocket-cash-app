@@ -1,143 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--favicon-->
-	<link rel="icon" href="{{asset('upload/funzi_wallet_logo.png')}}" type="image/png" />
-	<!--plugins-->
-	<link href="{{asset('Backend/assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
-	<link href="{{asset('Backend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
-	<link href="{{asset('Backend/assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
-	<!-- loader-->
-	<link href="{{asset('Backend/assets/css/pace.min.css')}}" rel="stylesheet" />
-	<script src="{{asset('Backend/assets/js/pace.min.js')}}"></script>
-	<!-- Bootstrap CSS -->
-	<link href="{{asset('Backend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
-	<link href="{{asset('Backend/assets/css/bootstrap-extended.css')}}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
-	<link href="{{asset('Backend/assets/css/app.css')}}" rel="stylesheet">
-	<link href="{{asset('Backend/assets/css/icons.css')}}" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Funzi Wallet</title>
 
-<!-- Toastr -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+
+<link rel="stylesheet" href="{{asset('Backend/plugins/fontawesome-free/css/all.min.css')}}">
+
+<link rel="stylesheet" href="{{asset('Backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+
+
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
-	<title>Funzi Wallet App</title>
-</head>
+<link rel="stylesheet" href="{{asset('Backend/dist/css/adminlte.min2167.css?v=3.2.0')}}">
+<script nonce="617296f0-b0ad-4a49-8c36-1832de404220">(function(w,d){!function(a,e,t,r,z){a.zarazData=a.zarazData||{},a.zarazData.executed=[],a.zarazData.tracks=[],a.zaraz={deferred:[]};var s=e.getElementsByTagName("title")[0];s&&(a.zarazData.t=e.getElementsByTagName("title")[0].text),a.zarazData.w=a.screen.width,a.zarazData.h=a.screen.height,a.zarazData.j=a.innerHeight,a.zarazData.e=a.innerWidth,a.zarazData.l=a.location.href,a.zarazData.r=e.referrer,a.zarazData.k=a.screen.colorDepth,a.zarazData.n=e.characterSet,a.zarazData.o=(new Date).getTimezoneOffset(),a.dataLayer=a.dataLayer||[],a.zaraz.track=(e,t)=>{for(key in a.zarazData.tracks.push(e),t)a.zarazData["z_"+key]=t[key]},a.zaraz._preSet=[],a.zaraz.set=(e,t,r)=>{a.zarazData["z_"+e]=t,a.zaraz._preSet.push([e,t,r])},a.dataLayer.push({"zaraz.start":(new Date).getTime()}),a.addEventListener("DOMContentLoaded",(()=>{var t=e.getElementsByTagName(r)[0],z=e.createElement(r);z.defer=!0,z.src="../../../../cdn-cgi/zaraz/sd0d9.js?z="+btoa(encodeURIComponent(JSON.stringify(a.zarazData))),t.parentNode.insertBefore(z,t)}))}(w,d,0,"script");})(window,document);</script></head>
+<body class="hold-transition login-page">
+<div class="login-box">
+<div class="login-logo">
+<img src="{{asset('upload/funzi_wallet.png')}}" width="250" alt="" />
+</div>
 
-<body class="">
-	<!--wrapper-->
-	<div class="wrapper">
-		<div class="section-authentication-cover"> 
-			<div class="">
-				<div class="row g-0">
+<div class="card">
+<div class="card-body login-card-body">
+<p class="login-box-msg"> Enter Student Wallet Code To Transfer Money</p>
 
-					<div class="col-8 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex">
 
-                        <div class="card shadow-none bg-transparent shadow-none rounded-0 mb-0">
-							<div class="card-body">
-                                 <img src="{{asset('upload/login-cover.png')}}" width="700" alt=""/>
-							</div>
-						</div>
-						
-					</div>
-
-					<div class="col-4 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center">
-						<div class="card rounded-0 m-3 shadow-none bg-transparent mb-0">
-							<div class="card-body p-sm-5">
-								<div class="">
-									<div class="mb-3 text-center">
-                                    <img src="{{asset('upload/funzi_wallet.png')}}" width="390" alt="" />
-									</div>
-									<div class="text-center mb-4">
-                                    <h5 class=""><b>Funzi Wallet App</b></h5>
-										<p class="mb-0">Please Enter Student Account Number To Transfer Money</p>
-									</div>
-									<div class="form-body">
-										<form class="row g-3"  action="/transfer/pocket/cash" enctype="multipart/form-data" >
+<form class="row g-3"  action="/transfer/pocket/cash" enctype="multipart/form-data" >
 										@csrf
 
-                                        <div class="my-4">
-										<label class="form-label">Student Account Number</label>
-										<input type="text" class="form-control" name="acct_id" placeholder="example = 02000000" />
-									</div>
 
 
-
-									<div class="my-4">
-										<label class="form-label">Enter Mobile  Number</label>
-										<input type="text" class="form-control" name="mobile" maxlength="10"  />
-									</div>
-
-
-									<div class="my-4">
-										<label class="form-label">Enter Transfer Amount</label>
-										<input type="text" class="form-control" name="amount" maxlength="6" />
-									</div>
-
-
-											</div>
-											<div class="col-12">
-												<div class="d-grid">
-													<button type="submit" class="btn btn-primary">Submit Transfer</button>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="text-center ">
-													
-													</p>
-												</div>
-											</div>
-										</form>
-									</div>
-									<div class="login-separater text-center mb-5"> 
-										<hr>
-									</div>
-
-
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<!--end row-->
-			</div>
-		</div>
+	<label class="form-label">Student Wallet Code</label>
+	<div class="input-group mb-3">
+	<input type="text" class="form-control" name="acct_id" placeholder="example = 02000000" />
+	<div class="input-group-append">
+	<div class="input-group-text">
+	<span class="fas fa-fa-lock"></span>
 	</div>
-	<!--end wrapper-->
-	<!-- Bootstrap JS -->
-	<script src="{{asset('Backend/assets/js/bootstrap.bundle.min.js')}}"></script>
-	<!--plugins-->
-	<script src="{{asset('Backend/assets/js/jquery.min.js')}}"></script>
-	<script src="{{asset('Backend/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
-	<script src="{{asset('Backend/assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
-	<script src="{{asset('Backend/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
-	<!--Password show & hide js -->
-	<script>
-		$(document).ready(function () {
-			$("#show_hide_password a").on('click', function (event) {
-				event.preventDefault();
-				if ($('#show_hide_password input').attr("type") == "text") {
-					$('#show_hide_password input').attr('type', 'password');
-					$('#show_hide_password i').addClass("bx-hide");
-					$('#show_hide_password i').removeClass("bx-show");
-				} else if ($('#show_hide_password input').attr("type") == "password") {
-					$('#show_hide_password input').attr('type', 'text');
-					$('#show_hide_password i').removeClass("bx-hide");
-					$('#show_hide_password i').addClass("bx-show");
-				}
-			});
-		});
-	</script>
-	<!--app JS-->
-	<script src="{{asset('Backend/assets/js/app.js')}}"></script>
+	</div>
+	</div>
+
+
+
+	
+	<label class="form-label">Enter Amount</label>
+	<div class="input-group mb-3">
+	<input type="text" class="form-control" name="amount" maxlength="6" />
+	<div class="input-group-append">
+	<div class="input-group-text">
+	<span class="fas fa-fa-lock"></span>
+	</div>
+	</div>
+	</div>
+
+
+
+
+	
+	<label class="form-label">Send To</label>
+	<div class="input-group mb-3">
+	<input type="text" class="form-control" name="mobile" maxlength="10" placeholder="Enter Receiver Number"  />
+	<div class="input-group-append">
+	<div class="input-group-text">
+	<span class="fas fa-fa-lock"></span>
+	</div>
+	</div>
+	</div>
+
+
+
+	<div class="row">
+
+<div class="col-4">
+<div class="d-grid">
+<button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+
+</div>
+</form>
+
+
+</div>
+
+</div>
+</div>
+
+
+<script src="{{asset('Backend/plugins/jquery/jquery.min.js')}}"></script>
+
+<script src="{{asset('Backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+<script src="{{asset('Backend/dist/js/adminlte.min2167.js?v=3.2.0')}}"></script>
+
+
 
 <!--Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -174,9 +138,7 @@ switch(type){
 
 
 
-
 </body>
-
 
 
 </html>

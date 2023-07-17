@@ -361,6 +361,40 @@ Route::get('/student/account/get', [ParentController::class, 'StudentAccountGet'
 
 
 
+
+
+Route::get('/enter/ussd/code', [SchoolsController::class, 'UssdCodeView']);
+
+
+Route::get('/MtnMenu', [SchoolsController::class, 'MtnMenuGet'])->name('mtn.wise.get');
+
+
+Route::get('/AirtelMenu', [SchoolsController::class, 'AirtelMenuGet'])->name('airtel.wise.get');
+
+
+
+Route::get('/Mtnget', [SchoolsController::class, 'MtnGet'])->name('mtn.get');
+
+
+Route::get('/Airtelget', [SchoolsController::class, 'AirtelGet'])->name('airtel.get');
+
+
+
+
+
+Route::get('/MtnSchoolFeesget', [SchoolsController::class, 'MtnSchoolFeesGet'])->name('mtn.school.get');
+
+
+
+Route::get('/Mtn/student/pocket', [SchoolsController::class, 'MtnStudentpocket'])->name('mtn.student.pocket.get');
+
+
+Route::get('/Airtel/student/pocket', [SchoolsController::class, 'AirtelStudentpocket'])->name('airtel.student.pocket.get');
+
+
+
+
+
 Route::get('/transfer/pocket/cash/form', [SchoolsController::class, 'TransferPocketCashView']);
 
 Route::get('/transfer/pocket/cash', [SchoolsController::class, 'TransferPocketCashGet']);
