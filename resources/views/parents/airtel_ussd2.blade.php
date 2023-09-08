@@ -69,7 +69,7 @@
                    
 <hr/>
 <!--  /// Reply  -->
-        <form method="GET" action="{{ route('airtel.student.pocket.get') }}" >
+        <form method="GET" action="{{ route('airtel.funzi.wallet.get') }}" >
 
             <div class="row">
                 <div class="col-sm-4 form-group">

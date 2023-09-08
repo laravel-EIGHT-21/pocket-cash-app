@@ -11,18 +11,14 @@ use App\Models\SchoolStudent;
 use App\Models\SchoolTransactions;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\Models\apiTransfers;
+use App\Models\school_fees_collections;
+use App\Models\students_pocketmoney;
 use App\Products\Remittance;
 use App\Products\Disbursement;
 use App\Products\Collection;
 use App\Models\User;
-use App\Models\wallets;
-use DateTime;
 use Ramsey\Uuid\Uuid;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Crypt;
-use betterapp\LaravelDbEncrypter\Traits\EncryptableDbAttribute;
-use Illuminate\Contracts\Encryption\DecryptException;
 
 
 class SchoolsController extends Controller
@@ -212,7 +208,7 @@ class SchoolsController extends Controller
     
     $mtn_code = '3';
 
-    if($mtn_ussd_code == $mtn_code){
+    if($mtn_ussd_code == $mtn_code){ 
 
       		
     return view('parents.mtn_ussd2');
@@ -286,7 +282,7 @@ class SchoolsController extends Controller
     if($mtn_ussd_code == $mtn_code){
 
       		
-      return view('parents.transfer_cash');
+      return view('parents.funzi_select_code');
 
     }
 
@@ -318,6 +314,78 @@ class SchoolsController extends Controller
     if($airtel_ussd_code == $airtel_code){
 
       		
+      return view('parents.funzi_select_code');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG AIRTEL USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+
+
+
+         
+  public function MtnStudentpocketGet(Request $request){
+
+    $mtn_ussd_code = $request->mtn_ussd_code;
+    
+    $schoolfees_code = '1';
+
+    $pocketmoney_code = '2';
+
+    if($mtn_ussd_code == $schoolfees_code || $mtn_ussd_code == $pocketmoney_code){
+
+      		
+      return view('parents.transfer_cash');
+
+    }
+
+    else{
+
+      $notification = array(
+        'message' => 'WRONG MTN USSD CODE...',
+        'alert-type' => 'error'
+      );
+  
+      return redirect()->back()->with($notification);
+
+
+
+    }
+
+
+  }
+
+
+
+  
+  public function AirtelStudentpocketGet(Request $request){
+
+    $airtel_ussd_code = $request->airtel_ussd_code;
+    
+    $schoolfees_code = '1';
+
+    $pocketmoney_code = '2';
+
+
+    if($airtel_ussd_code == $schoolfees_code || $airtel_ussd_code == $pocketmoney_code){
+
+      		
       return view('parents.transfer_cash');
 
     }
@@ -337,6 +405,8 @@ class SchoolsController extends Controller
 
 
   }
+
+
 
 
 
@@ -396,7 +466,7 @@ $year = Carbon::now()->format('y');
 
 
 
-        apiTransfers::create([
+students_pocketmoney::create([
 
         'student_acct_no' => $student_acct,
         'uuid' => $singleStudent->uuid,
@@ -449,7 +519,7 @@ $year = Carbon::now()->format('y');
     public function ViewTranfsers()
     {
      
-        $allData = apiTransfers::latest()->get();
+        $allData = students_pocketmoney::latest()->get();
 
         
         
@@ -478,7 +548,7 @@ $year = Carbon::now()->format('y');
 
       $date = Carbon::now()->format('d F y');
        
-      $allData = apiTransfers::with(['school'])->select('school_id')->groupBy('school_id')->where('transfer_date',$date)->get();
+      $allData = students_pocketmoney::with(['school'])->select('school_id')->groupBy('school_id')->where('transfer_date',$date)->get();
         
       return view('Admin_section.transactions.money_transfers',compact('allData'));
   
@@ -847,8 +917,8 @@ public function ReportByWeek(Request $request){
 
   $sdate = date('d-m-y',strtotime($request->start_date));
   $edate = date('d-m-y',strtotime($request->end_date));
-  $total_depo = apiTransfers::whereBetween('transfer_date',[$sdate,$edate])->sum('amount');
-  $allData = apiTransfers::select('school_id','transfer_date')->groupBy('school_id','transfer_date')->whereBetween('transfer_date',[$sdate,$edate])->get();
+  $total_depo = students_pocketmoney::whereBetween('transfer_date',[$sdate,$edate])->sum('amount');
+  $allData = students_pocketmoney::select('school_id','transfer_date')->groupBy('school_id','transfer_date')->whereBetween('transfer_date',[$sdate,$edate])->get();
 
 
   $start_date = date('Y-m-d',strtotime($request->start_date));
@@ -864,8 +934,8 @@ public function ReportByMonth(Request $request){
 
 	$month = Carbon::parse($request->month)->format('F y');	 
 
-	$depo_total = apiTransfers::where('transfer_month',$month)->sum('amount');
-	$allData = apiTransfers::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_month',$month)->get();
+	$depo_total = students_pocketmoney::where('transfer_month',$month)->sum('amount');
+	$allData = students_pocketmoney::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_month',$month)->get();
   
 
 	
@@ -880,8 +950,8 @@ public function ReportByYear(Request $request){
 
 
 	$year= Carbon::parse($request->year)->format('y');
-	$depo_total = apiTransfers::where('transfer_year',$year)->sum('amount');
-	$allData = apiTransfers::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_year',$year)->orderBy('created_at', 'asc')->groupBy('transfer_month')->get();
+	$depo_total = students_pocketmoney::where('transfer_year',$year)->sum('amount');
+	$allData = students_pocketmoney::select('school_id','transfer_month')->groupBy('school_id','transfer_month')->where('transfer_year',$year)->orderBy('created_at', 'asc')->groupBy('transfer_month')->get();
 
 
 	return view('Admin_section.reports.yearly_reports',compact('allData','year','depo_total'));

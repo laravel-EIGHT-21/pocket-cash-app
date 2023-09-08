@@ -12,7 +12,7 @@ class RedirectController extends Controller
     public function index(){
 
         $type = Auth::user()->type;
-
+ 
         if($type == 0)
         {
 
@@ -28,7 +28,8 @@ class RedirectController extends Controller
 
         if($type == 2)
         {
-            return view('students.index');
+            //return view('students.index'); 
+            return redirect('http://localhost:3000/'); 
         }
         
         

@@ -8,6 +8,8 @@ use App\Models\SchoolTransactions;
 use App\Models\loan;
 use App\Models\withdrawal;
 use App\Models\apiTransfers;
+use App\Models\school_fees_collections;
+use App\Models\students_pocketmoney;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -48,7 +50,7 @@ class TransactionController extends Controller
 
     $account = User::where('type',2)->where('uuid',$id)->where('school_std_code',$school_code)->where('status',1)->get();
 
-    $acct = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
+    $acct = students_pocketmoney::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
 
     $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
@@ -59,10 +61,10 @@ class TransactionController extends Controller
 
     $acct_bal = ((float)$acct-(float)$withdrawal)+(float)$loans; 
 
-    $details = apiTransfers::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->where('school_id',$school_code)->get();
+    $details = students_pocketmoney::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->where('school_id',$school_code)->get();
 
     
-   $student_deposite = apiTransfers::where('uuid',$id)->latest()->get();
+   $student_deposite = students_pocketmoney::where('uuid',$id)->latest()->get();
    $student_withdrawal = withdrawal::where('uuid',$id)->latest()->get();
    $student_loans = loan::where('uuid',$id)->latest()->get();
 
@@ -93,7 +95,7 @@ public function StudentWithdrawalForm($id){
   $allData = User::where('uuid',$id)->first();  
 
                 
-  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
+  $acct = students_pocketmoney::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
   $withdrawal = withdrawal::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
@@ -116,7 +118,7 @@ public function StudentLoanForm($id){
   $allData = User::where('uuid',$id)->first();
 
         
-  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
+  $acct = students_pocketmoney::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
   $withdrawal = withdrawal::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');
@@ -153,7 +155,7 @@ public function StudentWithdrawalAmountStore(Request $request,$id){
   $account = User::where('uuid',$id)->first();
   $uuid = $account->uuid;
 
-  $acct = apiTransfers::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
+  $acct = students_pocketmoney::select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('amount');
 
   
   $withdrawal = withdrawal::with(['student'])->select('uuid')->groupBY('uuid')->where('uuid',$id)->sum('withdrawal_amount');

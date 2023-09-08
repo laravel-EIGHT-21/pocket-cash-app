@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
 {
@@ -120,8 +121,16 @@ class AdminController extends Controller
     {
         $validateData = $request->validate([
             'oldpassword' => 'required',
-            'password' => 'required|confirmed',
+            'password' => [
+                'required|confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(3)
+            ],
         ]);
+
 
         $hashedPassword = Auth::user()->password;
         if(Hash::check($request->oldpassword,$hashedPassword)){
@@ -251,7 +260,7 @@ class AdminController extends Controller
 
 
     
-    public function UpdateAdminUser(Request $request, $id){
+    public function UpdateAdminUser(Request $request, $id){ 
     
     	DB::transaction(function() use($request,$id){
     	 
@@ -300,7 +309,7 @@ class AdminController extends Controller
             );
             return redirect()->back()->with($notification);
 
-    }
+    } 
 
 
     public function activeAdminUser($id)

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Validation\Rules\Password;
 
 class SchoolUsersController extends Controller
 {

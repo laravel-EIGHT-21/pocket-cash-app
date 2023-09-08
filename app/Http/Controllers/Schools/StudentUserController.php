@@ -84,7 +84,7 @@ class StudentUserController extends Controller
 
 
            
-  if ($request->file('school_logo_path')) {
+  if ($request->file('student_profile_path')) {
 
     @unlink(public_path('upload/student_images/'.$updateData->student_profile_path));
     $image = $request->file('student_profile_path');

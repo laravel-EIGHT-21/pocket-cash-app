@@ -10,7 +10,7 @@ User Profile
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 					<div class="breadcrumb-title pe-3">User Profile</div>
-					<div class="ps-3">
+					<div class="ps-3"> 
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="{{ url('dashboard') }}"><i class="bx bx-home-alt"></i></a>
@@ -130,9 +130,10 @@ User Profile
 
 										
 									</div>
+
+
 									<div class="tab-pane fade" id="success-pills-contact" role="tabpanel">
 
-									
 
 											<div class="card">
 

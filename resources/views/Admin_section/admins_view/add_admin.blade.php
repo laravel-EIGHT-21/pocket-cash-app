@@ -82,7 +82,7 @@ View Admins
 								<br>
 
 								<hr>
-
+ 
 								@can('create-admin-user')
 									<div class="col-md-12">
 										<div class="d-md-flex d-grid align-items-center gap-3">

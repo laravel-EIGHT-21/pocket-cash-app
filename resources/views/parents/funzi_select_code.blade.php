@@ -41,7 +41,7 @@
 <div class="col-6 mx-auto">
 <div class="card">
 <div class="card-body login-card-body">
-<p class="login-box-msg"><b> School Fees </b></p>
+<p class="login-box-msg"><b> Funzi Wallet </b></p>
 
 <div class="card-body">
 <div class="row">
@@ -50,17 +50,12 @@
 
 
 <li >
-<p>(1) Primary - University</p>
+<p>(1) School Fees</p>
 </li>
 <li >
-<p>(2) School Pay</p>
+<p>(2) Pocket Money</p>
 </li>
-<li >
-<p>(3) PegPay</p>
-</li>
-<li >
-<p>(4) Funzi Wallet (Choose This One)</p>
-</li>
+
 
 </ul>
 
@@ -69,7 +64,7 @@
                    
 <hr/>
 <!--  /// Reply  -->
-        <form method="GET" action="{{ route('mtn.funzi.wallet.get') }}" >
+        <form method="GET" action="{{ route('mtn.student.pocket.get') }}" >
 
             <div class="row">
                 <div class="col-sm-4 form-group">
