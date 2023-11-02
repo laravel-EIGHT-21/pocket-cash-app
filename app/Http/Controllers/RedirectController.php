@@ -13,7 +13,7 @@ class RedirectController extends Controller
 
         $type = Auth::user()->type;
  
-        if($type == 0)
+        if($type == 0) 
         {
 
             return view('admin.index');

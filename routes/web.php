@@ -268,6 +268,7 @@ Route::post('/school/password/update',[SchoolUsersController::class,'schoolpassU
 
 
 //Students Routes
+
 Route::get('/view/students', [StudentController::class, 'ViewStudents'])->name('view.students');
 Route::get('/add/students', [StudentController::class, 'AddStudents'])->name('add.students');
 

@@ -58,7 +58,7 @@
 
     @foreach($permissions as $permission)
         <tr>
-            <td>
+            <td> 
                 <input type="checkbox" name="permission[{{ $permission->name }}]" value="{{ $permission->name }}" class='permission'{{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
             </td>
             <td>{{ $permission->name }}</td>

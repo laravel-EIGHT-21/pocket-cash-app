@@ -14,31 +14,31 @@ $school_code = Auth::user()->school_id_no;
 
 $students= App\Models\User::where('type',2)->where('school_std_code',$school_code)->where('status',1)->get();
 
-$allData = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->latest()->get();
+$allData = App\Models\students_pocketmoney::with(['school'])->where('school_id',$school_code)->latest()->get();
 
 
 
 $day = date('d F y');
-$today_depo = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->sum('amount');
+$today_depo = App\Models\students_pocketmoney::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->sum('amount');
 
 $months = date('F y');
-$month_depo = DB::table('api_transfers')->where('school_id',$school_code)->where('transfer_month',$months)->sum('amount');
+$month_depo = DB::table('students_pocketmoney')->where('school_id',$school_code)->where('transfer_month',$months)->sum('amount');
 
 $years = date('y');
-$year_depo = DB::table('api_transfers')->where('school_id',$school_code)->where('transfer_year',$years)->sum('amount');
+$year_depo = DB::table('students_pocketmoney')->where('school_id',$school_code)->where('transfer_year',$years)->sum('amount');
 
 
 
 
 
-$allData1 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->get();
+$allData1 = App\Models\students_pocketmoney::with(['school'])->where('school_id',$school_code)->whereDate('created_at',Carbon\Carbon::today())->get();
 
 
-$allData2 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->where('transfer_month',$months)->get();
+$allData2 = App\Models\students_pocketmoney::with(['school'])->where('school_id',$school_code)->where('transfer_month',$months)->get();
 
 
 
-$allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$school_code)->where('transfer_year',$years)->get();
+$allData3 = App\Models\students_pocketmoney::with(['school'])->where('school_id',$school_code)->where('transfer_year',$years)->get();
 
 
 
@@ -191,10 +191,10 @@ $allData3 = App\Models\apiTransfers::with(['school'])->where('school_id',$school
 
 $year = Carbon\Carbon::parse()->format('y');
 
-$year_total = DB::table('api_transfers')->select(DB::raw('sum(amount) as deposits,transfer_month'))->groupBy('transfer_month')->where('school_id',$school_code)->where('transfer_year',$year)->orderBY('created_at')->get();
+$year_total = DB::table('students_pocketmoney')->select(DB::raw('sum(amount) as deposits,transfer_month'))->groupBy('transfer_month')->where('school_id',$school_code)->where('transfer_year',$year)->orderBY('created_at')->get();
 
 
-$fees = App\Models\apiTransfers::select(DB::raw('SUM(amount) AS deposits,transfer_month'))->groupBy('transfer_month')->orderBY('created_at')->where('school_id',$school_code)->where('transfer_year',$year)->get();
+$fees = App\Models\students_pocketmoney::select(DB::raw('SUM(amount) AS deposits,transfer_month'))->groupBy('transfer_month')->orderBY('created_at')->where('school_id',$school_code)->where('transfer_year',$year)->get();
 
 
 			 foreach($fees->toArray() as $row)

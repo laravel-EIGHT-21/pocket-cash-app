@@ -3,7 +3,7 @@
 
 @section('title')
 View Transactions
-@endsection
+@endsection 
 
 <div class="page-content">
 				<!--breadcrumb-->
